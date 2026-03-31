@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "notebooks/analysis.html",
+    "href": "notebooks/analysis.html",
+    "title": "Analysis notebook",
+    "section": "",
+    "text": "This page embeds a Jupyter notebook. Quarto renders .ipynb files natively — code cells, outputs, and Markdown all appear in the site.\nTo add your own notebook:"
+  },
+  {
+    "objectID": "notebooks/analysis.html#example-inline-analysis",
+    "href": "notebooks/analysis.html#example-inline-analysis",
+    "title": "Analysis notebook",
+    "section": "Example inline analysis",
+    "text": "Example inline analysis\n\n\nCode\nimport numpy as np\n\ndata = np.random.normal(loc=5.0, scale=1.5, size=200)\nprint(f\"Mean:  {data.mean():.3f}\")\nprint(f\"Std:   {data.std():.3f}\")\nprint(f\"N:     {len(data)}\")\n\n\nMean:  4.867\nStd:   1.413\nN:     200\n\n\n\n\n\n\n\n\nTip\n\n\n\nYou can also link directly to a .ipynb file by adding it to _quarto.yml as a page entry."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome to the Group Wiki",
+    "section": "",
+    "text": "This is our shared knowledge base for research notes, methods, and analysis."
+  },
+  {
+    "objectID": "index.html#quick-links",
+    "href": "index.html#quick-links",
+    "title": "Welcome to the Group Wiki",
+    "section": "Quick links",
+    "text": "Quick links\n\n\n\nSection\nDescription\n\n\n\n\nMethods\nProtocols and experimental procedures\n\n\nReferences\nKey papers and resources\n\n\nAnalysis\nJupyter notebooks with results"
+  },
+  {
+    "objectID": "index.html#how-to-contribute",
+    "href": "index.html#how-to-contribute",
+    "title": "Welcome to the Group Wiki",
+    "section": "How to contribute",
+    "text": "How to contribute\n\nClone the repo: git clone https://github.com/YOUR_ORG/wiki.git\nAdd or edit a .qmd or .ipynb file in the right folder\nPush to main — the site rebuilds automatically\n\n\nTip: Notion users can export pages as Markdown and drop them into docs/."
+  },
+  {
+    "objectID": "docs/methods.html",
+    "href": "docs/methods.html",
+    "title": "Methods",
+    "section": "",
+    "text": "Describe your experimental approach here. This page supports full Markdown, LaTeX equations, and code blocks."
+  },
+  {
+    "objectID": "docs/methods.html#overview",
+    "href": "docs/methods.html#overview",
+    "title": "Methods",
+    "section": "",
+    "text": "Describe your experimental approach here. This page supports full Markdown, LaTeX equations, and code blocks."
+  },
+  {
+    "objectID": "docs/methods.html#statistical-model",
+    "href": "docs/methods.html#statistical-model",
+    "title": "Methods",
+    "section": "Statistical model",
+    "text": "Statistical model\nWe fit a linear mixed-effects model of the form:\n\\[\ny_{ij} = \\beta_0 + \\beta_1 x_{ij} + u_i + \\varepsilon_{ij}\n\\]\nwhere \\(u_i \\sim \\mathcal{N}(0, \\sigma^2_u)\\) and \\(\\varepsilon_{ij} \\sim \\mathcal{N}(0, \\sigma^2)\\)."
+  },
+  {
+    "objectID": "docs/methods.html#sample-code",
+    "href": "docs/methods.html#sample-code",
+    "title": "Methods",
+    "section": "Sample code",
+    "text": "Sample code\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nx = np.linspace(0, 2 * np.pi, 100)\ny = np.sin(x)\n\nplt.plot(x, y)\nplt.title(\"Sample sine wave\")\nplt.xlabel(\"x\")\nplt.ylabel(\"sin(x)\")\nplt.show()"
+  },
+  {
+    "objectID": "docs/methods.html#protocol",
+    "href": "docs/methods.html#protocol",
+    "title": "Methods",
+    "section": "Protocol",
+    "text": "Protocol\n\nPrepare samples according to standard procedure\nRun baseline measurement\nApply treatment\nRecord observations at \\(t = 0, 24, 48\\) hours\n\n\n\n\n\n\n\nNote\n\n\n\nUpdate this page after each experimental session."
+  },
+  {
+    "objectID": "docs/references.html",
+    "href": "docs/references.html",
+    "title": "References",
+    "section": "",
+    "text": "Add your most important references here. You can use plain Markdown or a .bib file with Quarto’s citation support.\n\n\nTo use BibTeX citations, add a references.bib file and reference it in the YAML front matter:\nbibliography: references.bib\nThen cite inline like this: [@smith2023]."
+  },
+  {
+    "objectID": "docs/references.html#key-papers",
+    "href": "docs/references.html#key-papers",
+    "title": "References",
+    "section": "",
+    "text": "Add your most important references here. You can use plain Markdown or a .bib file with Quarto’s citation support.\n\n\nTo use BibTeX citations, add a references.bib file and reference it in the YAML front matter:\nbibliography: references.bib\nThen cite inline like this: [@smith2023]."
+  },
+  {
+    "objectID": "docs/references.html#useful-links",
+    "href": "docs/references.html#useful-links",
+    "title": "References",
+    "section": "Useful links",
+    "text": "Useful links\n\nQuarto documentation\nMathJax for LaTeX\nGitHub Actions for Quarto"
+  },
+  {
+    "objectID": "docs/references.html#reading-list",
+    "href": "docs/references.html#reading-list",
+    "title": "References",
+    "section": "Reading list",
+    "text": "Reading list\n\n\n\nPaper\nYear\nNotes\n\n\n\n\nSmith et al.\n2023\nKey background\n\n\nJones & Lee\n2022\nMethods reference"
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html",
+    "href": "docs/wiki-tutorial.html",
+    "title": "",
+    "section": "",
+    "text": "Code"
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-1-github-accounts-do-you-need-a-group-account",
+    "href": "docs/wiki-tutorial.html#part-1-github-accounts-do-you-need-a-group-account",
+    "title": "",
+    "section": "Part 1 — GitHub accounts: do you need a group account?",
+    "text": "Part 1 — GitHub accounts: do you need a group account?\nShort answer: No. Everyone uses their own personal GitHub account.\nHere is how it works:\n\nOne person creates the repository (the repo owner — probably you)\nThe owner invites other members as collaborators via Settings → Collaborators\nEach collaborator uses their own GitHub account to push changes\nGitHub tracks who made which change by their account\n\nA shared “group” account is only useful if you want the repo URL to show an organization name (e.g. github.com/mylab/wiki instead of github.com/yourname/wiki). To do this, create a free GitHub Organization at github.com/organizations/new and transfer the repo there. This is optional — you can always do it later.\nSummary:\n\n\n\nScenario\nRecommendation\n\n\n\n\nSmall group, informal\nPersonal account, add collaborators\n\n\nLab or research group\nGitHub Organization (free)\n\n\nNeed private repo\nGitHub Free supports private repos"
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-2-what-is-a-branch",
+    "href": "docs/wiki-tutorial.html#part-2-what-is-a-branch",
+    "title": "",
+    "section": "Part 2 — What is a branch?",
+    "text": "Part 2 — What is a branch?\nThink of the repo as a shared Google Doc. The main branch is the live published version of the wiki. A branch is your own private copy where you can make edits without affecting the live site.\nmain (live site)\n │\n ├── alice/update-methods    ← Alice editing methods.qmd\n └── bob/add-results         ← Bob adding a new page\nWhen Alice is done, she opens a Pull Request — a request to merge her branch into main. Once merged, GitHub Actions rebuilds the site and the changes go live.\nWhy branches matter:\n\nTwo people editing main at the same time causes a merge conflict\nBranches let everyone work in parallel safely\nYou can review changes before they go live\n\nFor a small group just starting out, you can skip branches and push directly to main. Add the branch workflow once 3 or more people are contributing regularly."
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-3-one-time-setup-do-this-once-per-computer",
+    "href": "docs/wiki-tutorial.html#part-3-one-time-setup-do-this-once-per-computer",
+    "title": "",
+    "section": "Part 3 — One-time setup (do this once per computer)",
+    "text": "Part 3 — One-time setup (do this once per computer)\n\nStep 1 — Install the tools\nInstall these in order:\nGit\nwinget install --id Git.Git -e --source winget\nRestart PowerShell after this finishes.\nQuarto Download the installer from https://quarto.org/docs/get-started/ and run it.\nVS Code Download from https://code.visualstudio.com and install.\nPython (needed to render notebooks)\nwinget install Python.Python.3.11\nJupyter\npip install jupyter numpy matplotlib pandas\n\n\nStep 2 — Install VS Code extensions\nOpen VS Code, press Ctrl+Shift+X to open Extensions, and search for and install:\n\nQuarto — live preview, syntax highlighting, LaTeX rendering\nPython — Jupyter notebook support\nGitHub Pull Requests — manage branches and PRs without leaving VS Code (optional but useful)\n\n\n\nStep 3 — Configure Git with your identity\nOpen a terminal in VS Code (Ctrl+``) and run:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"\nThis is how your name appears next to each commit in the repo history.\n\n\nStep 4 — Clone the repo\ngit clone https://github.com/YOUR_ORG/wiki.git\ncd wiki\nThis downloads the repo to your computer. You only do this once."
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-4-setting-up-the-repo-owner-only-also-once",
+    "href": "docs/wiki-tutorial.html#part-4-setting-up-the-repo-owner-only-also-once",
+    "title": "",
+    "section": "Part 4 — Setting up the repo (owner only, also once)",
+    "text": "Part 4 — Setting up the repo (owner only, also once)\nIf you are the person creating the wiki for the first time:\n# In the quarto-wiki folder you downloaded earlier\ncd quarto-wiki\ngit init\ngit add .\ngit commit -m \"initial wiki setup\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR_ORG/wiki.git\ngit push -u origin main\nThen enable GitHub Pages:\n\nGo to your repo on GitHub\nClick Settings → Pages\nUnder Source, select GitHub Actions\nSave\n\nThe first deployment starts automatically. Your site will be live at https://YOUR_ORG.github.io/wiki within a couple of minutes.\nTo invite collaborators:\n\nGo to Settings → Collaborators\nClick Add people\nEnter each person’s GitHub username"
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-5-day-to-day-editing-workflow",
+    "href": "docs/wiki-tutorial.html#part-5-day-to-day-editing-workflow",
+    "title": "",
+    "section": "Part 5 — Day-to-day editing workflow",
+    "text": "Part 5 — Day-to-day editing workflow\n\nOpen the project in VS Code\ncd wiki\ncode .\nOr open VS Code and use File → Open Folder to select the wiki folder.\n\n\nStart the live preview\nIn the VS Code terminal:\nquarto preview\nA browser window opens at http://localhost:4444. Every time you save a file, the browser refreshes automatically. This is your local preview — it does not affect the live site until you push.\n\n\nEdit a page\nOpen any .qmd file in VS Code and start editing. The preview updates on save (Ctrl+S).\nExample — adding a new section to docs/methods.qmd:\n## New experiment\n\nWe tested three conditions at $t = 0, 24, 48$ hours.\n\n$$\n\\Delta C = C_t - C_0\n$$\nSave the file and the preview updates instantly.\n\n\nAdd a new page\n\nCreate a new file, e.g. docs/results.qmd\nAdd a YAML header at the top:\n\n---\ntitle: \"Results\"\ndate: last-modified\nauthor: \"Your Name\"\n---\n\nYour content here.\n\nAdd it to the navbar in _quarto.yml:\n\nnavbar:\n  left:\n    - href: docs/results.qmd\n      text: Results\n\n\nCommit and push your changes\nWhen you are happy with your edits:\n# See what files you changed\ngit status\n\n# Stage all changes\ngit add .\n\n# Commit with a short description\ngit commit -m \"add results section to methods page\"\n\n# Push to GitHub\ngit push\nGitHub Actions picks up the push, rebuilds the site, and deploys it. The live site updates in about 1–2 minutes."
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-6-branch-workflow-recommended-for-3-contributors",
+    "href": "docs/wiki-tutorial.html#part-6-branch-workflow-recommended-for-3-contributors",
+    "title": "",
+    "section": "Part 6 — Branch workflow (recommended for 3+ contributors)",
+    "text": "Part 6 — Branch workflow (recommended for 3+ contributors)\n\nCreate a branch before editing\n# Make sure you have the latest version of main first\ngit pull\n\n# Create and switch to a new branch\ngit checkout -b your-name/describe-your-change\nExample:\ngit checkout -b alice/update-methods\nEdit your files, then commit as usual:\ngit add .\ngit commit -m \"update sample sizes in methods\"\ngit push -u origin alice/update-methods\n\n\nOpen a Pull Request\n\nGo to the repo on GitHub — you will see a banner saying your branch has recent pushes\nClick Compare & pull request\nWrite a short description of what you changed\nClick Create pull request\nThe repo owner (or anyone with access) reviews it and clicks Merge\n\nOnce merged, the branch can be deleted and main rebuilds and deploys automatically.\n\n\nSwitch back to main after merging\ngit checkout main\ngit pull"
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-7-notion-to-wiki-workflow",
+    "href": "docs/wiki-tutorial.html#part-7-notion-to-wiki-workflow",
+    "title": "",
+    "section": "Part 7 — Notion to wiki workflow",
+    "text": "Part 7 — Notion to wiki workflow\nFor group members who prefer drafting in Notion:\n\nWrite your content in Notion as usual\nWhen ready, click Export → Markdown & CSV\nRename the exported file to something like your-page.qmd\nOpen the file and add a YAML header at the top:\n\n---\ntitle: \"Your Page Title\"\ndate: last-modified\nauthor: \"Your Name\"\n---\n\nClean up any Notion-specific formatting if needed (tables and callouts usually export cleanly; images need to be re-uploaded manually)\nPlace the file in the docs/ folder\nCommit and push as described in Part 5"
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-8-quick-reference",
+    "href": "docs/wiki-tutorial.html#part-8-quick-reference",
+    "title": "",
+    "section": "Part 8 — Quick reference",
+    "text": "Part 8 — Quick reference\n\nCommands you will use every day\n\n\n\nWhat\nCommand\n\n\n\n\nGet latest changes from GitHub\ngit pull\n\n\nSee what you changed\ngit status\n\n\nStage all changes\ngit add .\n\n\nCommit staged changes\ngit commit -m \"your message\"\n\n\nPush to GitHub\ngit push\n\n\nStart live preview\nquarto preview\n\n\nBuild site locally\nquarto render\n\n\n\n\n\nBranch commands\n\n\n\nWhat\nCommand\n\n\n\n\nCreate and switch to new branch\ngit checkout -b name/description\n\n\nSwitch to an existing branch\ngit checkout branch-name\n\n\nSwitch back to main\ngit checkout main\n\n\nSee all branches\ngit branch\n\n\nPush a new branch\ngit push -u origin branch-name\n\n\n\n\n\nIf something goes wrong\nYou pushed something you didn’t mean to:\ngit revert HEAD\ngit push\nThis creates a new commit that undoes the last one — safer than deleting history.\nYou have a merge conflict: VS Code highlights conflicting lines in red/green. Edit the file to keep the version you want, remove the conflict markers (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;), then:\ngit add .\ngit commit -m \"resolve merge conflict\"\ngit push\nYou want to discard local changes and start fresh:\ngit checkout -- ."
+  },
+  {
+    "objectID": "docs/wiki-tutorial.html#part-9-file-structure-reference",
+    "href": "docs/wiki-tutorial.html#part-9-file-structure-reference",
+    "title": "",
+    "section": "Part 9 — File structure reference",
+    "text": "Part 9 — File structure reference\nwiki/\n├── _quarto.yml              ← site config, navbar, theme\n├── index.qmd                ← home page\n├── docs/\n│   ├── methods.qmd          ← add pages here\n│   ├── references.qmd\n│   └── results.qmd\n├── notebooks/\n│   └── analysis.ipynb       ← Jupyter notebooks go here\n└── .github/\n    └── workflows/\n        └── publish.yml      ← do not edit this unless adding Python packages\nTo add a Python package to the build (so notebooks that import it render correctly on GitHub):\nOpen .github/workflows/publish.yml and find this line:\nrun: pip install jupyter numpy matplotlib pandas\nAdd your package to the list:\nrun: pip install jupyter numpy matplotlib pandas scipy scikit-learn\n\nThis guide can live in your wiki at docs/contributing.qmd so new group members always have it handy."
+  }
+]
