@@ -1,0 +1,31 @@
+---
+title: "References"
+date: last-modified
+---
+
+## Key papers
+
+Add your most important references here. You can use plain Markdown or a `.bib` file with Quarto's citation support.
+
+### Citation example (with .bib)
+
+To use BibTeX citations, add a `references.bib` file and reference it in the YAML front matter:
+
+```yaml
+bibliography: references.bib
+```
+
+Then cite inline like this: [@smith2023].
+
+## Useful links
+
+- [Quarto documentation](https://quarto.org/docs/guide/)
+- [MathJax for LaTeX](https://www.mathjax.org/)
+- [GitHub Actions for Quarto](https://quarto.org/docs/publishing/github-pages.html)
+
+## Reading list
+
+| Paper | Year | Notes |
+|---|---|---|
+| Smith et al. | 2023 | Key background |
+| Jones & Lee | 2022 | Methods reference |

@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Group Wiki"
+  description: "Our shared research knowledge base"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: docs/methods.qmd
+        text: Methods
+      - href: docs/references.qmd
+        text: References
+      - href: notebooks/analysis.qmd
+        text: Analysis
+  sidebar: false
+  page-footer:
+    center: "Group Wiki · Built with [Quarto](https://quarto.org)"
+
+format:
+  html:
+    theme: cosmo
+    highlight-style: github
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-fold: true
+    code-tools: true
+    math: mathjax

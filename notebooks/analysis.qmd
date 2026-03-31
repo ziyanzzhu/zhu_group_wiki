@@ -1,0 +1,31 @@
+---
+title: "Analysis notebook"
+date: last-modified
+---
+
+This page embeds a Jupyter notebook. Quarto renders `.ipynb` files natively —
+code cells, outputs, and Markdown all appear in the site.
+
+To add your own notebook:
+
+1. Place the `.ipynb` file in the `notebooks/` folder
+2. Add a reference in `_quarto.yml` navbar
+3. Push — the site rebuilds automatically
+
+## Example inline analysis
+
+```{python}
+#| echo: true
+#| output: true
+
+import numpy as np
+
+data = np.random.normal(loc=5.0, scale=1.5, size=200)
+print(f"Mean:  {data.mean():.3f}")
+print(f"Std:   {data.std():.3f}")
+print(f"N:     {len(data)}")
+```
+
+::: {.callout-tip}
+You can also link directly to a `.ipynb` file by adding it to `_quarto.yml` as a page entry.
+:::

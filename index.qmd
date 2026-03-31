@@ -1,0 +1,21 @@
+---
+title: "Welcome to the Group Wiki"
+---
+
+This is our shared knowledge base for research notes, methods, and analysis.
+
+## Quick links
+
+| Section | Description |
+|---|---|
+| [Methods](docs/methods.qmd) | Protocols and experimental procedures |
+| [References](docs/references.qmd) | Key papers and resources |
+| [Analysis](notebooks/analysis.qmd) | Jupyter notebooks with results |
+
+## How to contribute
+
+1. Clone the repo: `git clone https://github.com/YOUR_ORG/wiki.git`
+2. Add or edit a `.qmd` or `.ipynb` file in the right folder
+3. Push to `main` — the site rebuilds automatically
+
+> **Tip:** Notion users can export pages as Markdown and drop them into `docs/`.
