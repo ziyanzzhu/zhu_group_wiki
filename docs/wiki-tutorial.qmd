@@ -4,15 +4,15 @@ date: last-modified
 author: "Keyu, Claude Code"
 ---
 
-This tutorial includes daily wiki page editing and group repo management.
+This tutorial includes daily wiki page editing and group wiki repo management.
 
 ---
 
 ## Part 0 — Zero friction start with wiki
 
-For group members who prefer drafting in Notion/Obsidian:
+For group members who prefer drafting in note taking apps:
 
-1. Write your content in Notion as usual
+1. Write your content as usual (Notion/Obsidian/Google Docs/etc)
 2. When ready, click **Export → Markdown & CSV**
 3. Rename the exported file to something like `your-page.qmd`
 4. Open the file and add a YAML header at the top:

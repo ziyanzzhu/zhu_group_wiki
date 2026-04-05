@@ -1,6 +1,11 @@
 project:
   type: website
   output-dir: _site
+  render:
+    - "*.qmd"
+    - "docs/*.qmd"
+    - "notebooks/*.qmd"
+    - "notebooks/*.ipynb"
 
 bibliography: docs/References.bib
 

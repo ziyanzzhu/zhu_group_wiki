@@ -102,7 +102,7 @@
     "href": "docs/wiki-tutorial.html",
     "title": "Group Wiki — Setup & Contribution Guide",
     "section": "",
-    "text": "This tutorial includes daily wiki page editing and group repo management."
+    "text": "This tutorial includes daily wiki page editing and group wiki repo management."
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-1-github-accounts-do-you-need-a-group-account",
@@ -403,7 +403,7 @@
     "href": "docs/wiki-tutorial.html#part-0-zero-friction-start-with-wiki",
     "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 0 — Zero friction start with wiki",
-    "text": "Part 0 — Zero friction start with wiki\nFor group members who prefer drafting in Notion/Obsidian:\n\nWrite your content in Notion as usual\nWhen ready, click Export → Markdown & CSV\nRename the exported file to something like your-page.qmd\nOpen the file and add a YAML header at the top:\n\n---\ntitle: \"Your Page Title\"\ndate: last-modified\nauthor: \"Your Name\"\n---\n\nClean up any Notion-specific formatting if needed (tables and callouts usually export cleanly; images need to be re-uploaded manually)\nSend me the qmd files or push to Github yourself."
+    "text": "Part 0 — Zero friction start with wiki\nFor group members who prefer drafting in Notion/Obsidian:\n\nWrite your content in Notion/Obsidian as usual\nWhen ready, click Export → Markdown & CSV\nRename the exported file to something like your-page.qmd\nOpen the file and add a YAML header at the top:\n\n---\ntitle: \"Your Page Title\"\ndate: last-modified\nauthor: \"Your Name\"\n---\n\nClean up any Notion-specific formatting if needed (tables and callouts usually export cleanly; images need to be re-uploaded manually)\nSend me the qmd files or push to Github yourself."
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-2-day-to-day-editing-workflow",
