@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          pip install jupyter numpy matplotlib pandas
+          pip install jupyter numpy matplotlib pandas scipy 
 
       - name: Render Quarto site
         run: quarto render

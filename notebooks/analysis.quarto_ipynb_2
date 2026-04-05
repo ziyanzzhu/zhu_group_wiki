@@ -1,0 +1,63 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Analysis notebook\"\n",
+        "date: last-modified\n",
+        "---\n",
+        "\n",
+        "This page embeds a Jupyter notebook. Quarto renders `.ipynb` files natively —\n",
+        "code cells, outputs, and Markdown all appear in the site.\n",
+        "\n",
+        "To add your own notebook:\n",
+        "\n",
+        "1. Place the `.ipynb` file in the `notebooks/` folder\n",
+        "2. Add a reference in `_quarto.yml` navbar\n",
+        "3. Push — the site rebuilds automatically\n",
+        "\n",
+        "## Example inline analysis"
+      ],
+      "id": "0c9c5934"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: true\n",
+        "#| output: true\n",
+        "\n",
+        "import numpy as np\n",
+        "\n",
+        "data = np.random.normal(loc=5.0, scale=1.5, size=200)\n",
+        "print(f\"Mean:  {data.mean():.3f}\")\n",
+        "print(f\"Std:   {data.std():.3f}\")\n",
+        "print(f\"N:     {len(data)}\")"
+      ],
+      "id": "e5e997fb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "You can also link directly to a `.ipynb` file by adding it to `_quarto.yml` as a page entry.\n",
+        ":::"
+      ],
+      "id": "5045797b"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

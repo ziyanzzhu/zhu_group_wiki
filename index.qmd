@@ -2,20 +2,26 @@
 title: "Welcome to the Group Wiki"
 ---
 
-This is our shared knowledge base for research notes, methods, and analysis.
+This is our shared knowledge base covering DFT/ML workflows, continuum models, and wiki contribution guides.
 
-## Quick links
+## Tutorials
+
+| Section | Team | Description |
+|---|---|---|
+| [Wiki Tutorial](docs/wiki-tutorial.qmd) | All | Git, Quarto, and day-to-day contribution workflow |
+| [DFT/ML Tutorial](docs/dft-tutorial.qmd) | DFT/ML | DFT setup for 2D materials, VASP scripts, MACE ML potentials |
+| [Continuum Model Tutorial](docs/continuum-tutorial.qmd) | Continuum | TBG and TMD moiré continuum models |
+
+## Reference
 
 | Section | Description |
 |---|---|
-| [Methods](docs/methods.qmd) | Protocols and experimental procedures |
 | [References](docs/references.qmd) | Key papers and resources |
-| [Analysis](notebooks/analysis.qmd) | Jupyter notebooks with results |
 
 ## How to contribute
 
 1. Clone the repo: `git clone https://github.com/YOUR_ORG/wiki.git`
-2. Add or edit a `.qmd` or `.ipynb` file in the right folder
+2. Edit or add a `.qmd` file in `docs/` following the section template (Introduction → Physics → Usage → Code → Example → Bug Reports → Resources)
 3. Push to `main` — the site rebuilds automatically
 
-> **Tip:** Notion users can export pages as Markdown and drop them into `docs/`.
+> **Tip:** Notion users can export pages as Markdown, add a YAML header, and drop them into `docs/`.

@@ -1,0 +1,408 @@
+---
+title: "DFT/ML Team Tutorial — 2D Materials, VASP, and ML Workflows"
+date: last-modified
+author: "DFT/ML Team"
+---
+
+This tutorial documents the DFT setup, step-by-step workflows, example inputs for 2D materials, VASP bash scripts, and ML running procedures used by the DFT/ML team.
+
+---
+
+## Section 1 — DFT Setup for 2D Materials
+
+### Introduction
+
+Density Functional Theory (DFT) is the workhorse of first-principles electronic structure calculations. For 2D materials (graphene, TMDs, h-BN, etc.) there are specific choices of pseudopotentials, k-point sampling, vacuum spacing, and van der Waals corrections that differ from bulk calculations. This section documents the group's standard setup so that new members can get a calculation running quickly and consistently.
+
+### Physics
+
+2D materials are modeled using a **slab geometry**: the material sits in the $xy$-plane and a vacuum region of at least 15–20 Å is added along $z$ to prevent spurious interactions between periodic images.
+
+Key considerations:
+
+- **Exchange-correlation functional**: PBE (GGA) is the standard starting point. For band gaps and optical properties, HSE06 or $GW$ corrections are needed.
+- **van der Waals corrections**: DFT-D3 (Grimme) or optB88-vdW are used for layered structures and heterostructures.
+- **Spin-orbit coupling (SOC)**: Required for TMDs (MoS₂, WSe₂, etc.) to capture the valley-spin locking and large SOC-induced band splittings.
+- **k-point mesh**: For 2D hexagonal lattices a $\Gamma$-centered $12\times12\times1$ mesh is a safe starting point. Convergence should always be checked.
+
+The total energy per atom converges as:
+
+$$
+E_\text{tot}(N_k) \approx E_\infty + \frac{A}{N_k^2}
+$$
+
+where $N_k$ is the k-point density. Always verify convergence of both $E_\text{cut}$ and $N_k$ before production runs.
+
+### Usage
+
+1. Prepare the structure file (`POSCAR`) — see the example below.
+2. Choose pseudopotentials from the group's shared POTCAR library.
+3. Set INCAR tags appropriate for a 2D calculation (see code section).
+4. Set KPOINTS to a $\Gamma$-centered mesh with a single $k_z$ point.
+5. Run the ionic relaxation, then a static SCF calculation, then post-processing.
+
+**Typical calculation sequence:**
+
+| Step | INCAR setting | Purpose |
+|---|---|---|
+| Relaxation | `IBRION=2, NSW=100` | Relax atomic positions |
+| Static SCF | `IBRION=-1, NSW=0` | Converged charge density |
+| DOS/band | `ICHARG=11` | Non-self-consistent band structure |
+| SOC | `LSORBIT=.TRUE.` | Include spin-orbit coupling |
+
+### Code
+
+**INCAR template for 2D relaxation (PBE + D3):**
+
+```
+# General
+SYSTEM = MoS2_monolayer
+ISTART = 0
+ICHARG = 2
+PREC   = Accurate
+ENCUT  = 500
+
+# Electronic minimization
+EDIFF  = 1E-6
+NELM   = 200
+ALGO   = Fast
+ISMEAR = 0
+SIGMA  = 0.05
+
+# Ionic relaxation
+IBRION = 2
+NSW    = 100
+EDIFFG = -0.01
+ISIF   = 2
+
+# vdW correction
+IVDW   = 11
+
+# Output
+LWAVE  = .FALSE.
+LCHARG = .TRUE.
+LORBIT = 11
+```
+
+**KPOINTS for 2D hexagonal lattice:**
+
+```
+Automatic
+0
+Gamma
+12 12 1
+0  0  0
+```
+
+**POSCAR for MoS₂ monolayer (example):**
+
+```
+MoS2 monolayer
+1.0
+3.184  0.000  0.000
+-1.592  2.757  0.000
+0.000  0.000  25.000
+Mo S
+1 2
+Direct
+0.333333 0.666667 0.500000
+0.666667 0.333333 0.593290
+0.666667 0.333333 0.406710
+```
+
+### Example
+
+**Full VASP bash script — relaxation on SLURM cluster:**
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=MoS2_relax
+#SBATCH --nodes=1
+#SBATCH --ntasks=32
+#SBATCH --time=12:00:00
+#SBATCH --partition=regular
+#SBATCH --output=vasp_%j.out
+#SBATCH --error=vasp_%j.err
+
+module load vasp/6.3.2
+module load intel-mpi/2021.5
+
+# Run VASP
+mpirun -np $SLURM_NTASKS vasp_std > vasp.log
+
+# Check convergence
+if grep -q "reached required accuracy" OUTCAR; then
+    echo "Relaxation converged."
+else
+    echo "WARNING: relaxation did NOT converge. Check OUTCAR."
+    exit 1
+fi
+```
+
+**Post-processing: extract total energy**
+
+```bash
+grep "TOTEN" OUTCAR | tail -1 | awk '{print $5}'
+```
+
+**Post-processing: extract band gap from DOSCAR**
+
+```python
+import numpy as np
+
+def read_doscar(fname="DOSCAR"):
+    with open(fname) as f:
+        for _ in range(5):
+            f.readline()
+        header = f.readline().split()
+        emax, emin, nedos, efermi = float(header[0]), float(header[1]), int(header[2]), float(header[3])
+        energies, dos = [], []
+        for _ in range(nedos):
+            line = f.readline().split()
+            energies.append(float(line[0]) - efermi)
+            dos.append(float(line[1]))
+    return np.array(energies), np.array(dos)
+
+energies, dos = read_doscar()
+threshold = 0.01
+vbm = energies[dos > threshold][energies[dos > threshold] < 0].max()
+cbm = energies[dos > threshold][energies[dos > threshold] > 0].min()
+print(f"Band gap: {cbm - vbm:.3f} eV")
+```
+
+### Bug Reports and Warnings
+
+::: {.callout-warning}
+**Dipole correction for asymmetric slabs.** If your slab is not symmetric about the $z$-midplane (e.g. adsorption on one side), add `LDIPOL=.TRUE.` and `IDIPOL=3` to the INCAR. Omitting this can shift the electrostatic potential and give wrong work functions and band alignments.
+:::
+
+::: {.callout-warning}
+**ISMEAR for semiconductors.** Use `ISMEAR=0` (Gaussian) with a small `SIGMA=0.05` for 2D semiconductors. Using `ISMEAR=1` (Methfessel-Paxton) intended for metals will give wrong occupations and a non-converging SCF.
+:::
+
+::: {.callout-note}
+**VASP license.** The POTCAR files are licensed and must not be distributed publicly. Store the POTCAR library on the group cluster only, not in the public GitHub repo.
+:::
+
+Known issues:
+
+- VASP 6.x changed the default for `ALGO`; set `ALGO=Fast` explicitly to avoid unexpected behavior on some systems.
+- Very thin vacuum (< 12 Å) causes image-interaction errors in charged calculations; always use ≥ 20 Å for charged 2D slabs.
+
+### Additional Resources
+
+- [VASP Wiki — 2D materials](https://www.vasp.at/wiki/index.php/2D_systems) — official documentation on slab setups
+- [vdW-DF functionals in VASP](https://www.vasp.at/wiki/index.php/DFT-D3) — IVDW options and references
+- Kresse & Furthmüller, *Phys. Rev. B* **54**, 11169 (1996) — original VASP paper
+- Perdew, Burke, Ernzerhof, *PRL* **77**, 3865 (1996) — PBE functional
+- Grimme et al., *J. Chem. Phys.* **132**, 154104 (2010) — DFT-D3
+
+---
+
+## Section 2 — ML Running Tutorial (Machine-Learning Interatomic Potentials)
+
+### Introduction
+
+Machine-learning interatomic potentials (MLIPs) trained on DFT data allow large-scale molecular dynamics (MD) at near-DFT accuracy but at a fraction of the cost. This section covers how to train and run MLIPs — specifically using **MACE** (the group's current preferred model) — starting from a DFT dataset generated by VASP.
+
+### Physics
+
+MLIPs learn the Born-Oppenheimer potential energy surface $E(\{R_i\})$ from DFT-labeled structures. The key idea is to represent the local chemical environment of each atom using **equivariant descriptors** that respect rotational, translational, and permutation symmetry.
+
+The total energy is decomposed as a sum of atomic contributions:
+
+$$
+E_\text{tot} = \sum_i \epsilon_i(\{R_j : |R_j - R_i| < r_\text{cut}\})
+$$
+
+Forces and stresses follow analytically:
+
+$$
+F_i = -\nabla_{R_i} E_\text{tot}
+$$
+
+MACE uses an **equivariant message-passing** architecture (irreducible representations of $O(3)$). The loss function during training is:
+
+$$
+\mathcal{L} = w_E \|E_\text{pred} - E_\text{DFT}\|^2 + w_F \|F_\text{pred} - F_\text{DFT}\|^2 + w_S \|\sigma_\text{pred} - \sigma_\text{DFT}\|^2
+$$
+
+Typical weights: $w_E = 1$, $w_F = 10$, $w_S = 1$.
+
+### Usage
+
+**Workflow overview:**
+
+1. Generate a training dataset of DFT-labeled structures (AIMD snapshots or active learning).
+2. Convert VASP outputs to the `extxyz` format understood by MACE.
+3. Train the MACE model.
+4. Validate the model on a held-out test set.
+5. Run MD with the trained potential using ASE or LAMMPS.
+
+**Prerequisites:**
+
+```bash
+pip install mace-torch ase
+```
+
+### Code
+
+**Step 1 — Convert VASP OUTCAR/vasprun.xml to extxyz:**
+
+```python
+from ase.io import read, write
+
+# Read all ionic steps from a vasprun.xml (includes forces and energies)
+traj = read("vasprun.xml", index=":")
+
+# Write to extxyz format for MACE
+write("dataset.xyz", traj)
+print(f"Wrote {len(traj)} frames to dataset.xyz")
+```
+
+**Step 2 — Train MACE model (bash script):**
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=mace_train
+#SBATCH --gres=gpu:1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --time=24:00:00
+#SBATCH --output=mace_%j.out
+
+module load cuda/12.1
+source activate mace-env
+
+mace_run_train \
+    --name="MoS2_mace" \
+    --train_file="train.xyz" \
+    --valid_file="val.xyz" \
+    --test_file="test.xyz" \
+    --config_type_weights='{"Default":1.0}' \
+    --E0s="average" \
+    --model="MACE" \
+    --r_max=5.0 \
+    --num_radial_basis=8 \
+    --num_cutoff_basis=5 \
+    --interaction_cls_first="RealAgnosticResidualInteractionBlock" \
+    --num_interactions=2 \
+    --num_channels=128 \
+    --max_ell=3 \
+    --correlation=3 \
+    --max_num_epochs=500 \
+    --batch_size=10 \
+    --valid_batch_size=10 \
+    --lr=0.01 \
+    --energy_weight=1.0 \
+    --forces_weight=10.0 \
+    --stress_weight=1.0 \
+    --device=cuda \
+    --seed=42
+```
+
+**Step 3 — Run MD with trained MACE model:**
+
+```python
+from mace.calculators import MACECalculator
+from ase.io import read
+from ase.md.langevin import Langevin
+from ase import units
+from ase.io.trajectory import Trajectory
+
+# Load structure and attach MACE calculator
+atoms = read("POSCAR", format="vasp")
+calc = MACECalculator(model_paths="MoS2_mace.model", device="cuda")
+atoms.calc = calc
+
+# Set up Langevin thermostat at 300 K
+dyn = Langevin(atoms, timestep=1.0 * units.fs, temperature_K=300, friction=0.01)
+
+# Attach trajectory logger
+traj = Trajectory("md_300K.traj", "w", atoms)
+dyn.attach(traj.write, interval=10)
+
+# Run 10 ps
+print("Starting MD...")
+dyn.run(10000)
+print("Done.")
+```
+
+### Example
+
+**Active learning loop (bash outline):**
+
+```bash
+# 1. Run short AIMD to generate seed structures
+#    (see VASP INCAR with IBRION=0, NSW=500, TEBEG=300)
+
+# 2. Train initial MACE model on seed set
+mace_run_train --name="iter0" --train_file="seed.xyz" ...
+
+# 3. Run MD with current model; flag uncertain structures
+python select_uncertain.py --traj="md.traj" --threshold=0.1
+
+# 4. Label uncertain structures with VASP single-point calculations
+for d in selected/*/; do cd "$d" && sbatch run_vasp.sh && cd ..; done
+
+# 5. Merge new labels into training set and retrain
+cat seed.xyz new_labels.xyz > train_iter1.xyz
+mace_run_train --name="iter1" --train_file="train_iter1.xyz" ...
+
+# Repeat steps 3-5 until model errors are acceptable
+```
+
+**Evaluating model accuracy:**
+
+```python
+from mace.calculators import MACECalculator
+from ase.io import read
+import numpy as np
+
+calc = MACECalculator(model_paths="MoS2_mace.model", device="cpu")
+test_frames = read("test.xyz", index=":")
+
+e_errors, f_errors = [], []
+for atoms in test_frames:
+    e_dft = atoms.get_potential_energy()
+    f_dft = atoms.get_forces()
+    atoms.calc = calc
+    e_ml = atoms.get_potential_energy()
+    f_ml = atoms.get_forces()
+    e_errors.append(abs(e_dft - e_ml) / len(atoms))
+    f_errors.append(np.sqrt(np.mean((f_dft - f_ml)**2)))
+
+print(f"MAE energy: {np.mean(e_errors)*1000:.2f} meV/atom")
+print(f"RMSE forces: {np.mean(f_errors)*1000:.2f} meV/Å")
+```
+
+### Bug Reports and Warnings
+
+::: {.callout-warning}
+**GPU memory.** MACE training with `max_ell=3` and `num_channels=128` requires ~16 GB of GPU memory for large batches. If you hit OOM errors, reduce `batch_size` or `num_channels`.
+:::
+
+::: {.callout-warning}
+**Isolated atom energies (E0s).** Always set `--E0s="average"` or provide explicit isolated atom energies. Using `E0s=0` inflates the energy error by a constant shift and makes loss curves misleading.
+:::
+
+::: {.callout-note}
+**Train/val/test split.** Randomly shuffle the dataset before splitting. If structures from the same AIMD trajectory end up in both train and test sets, your test errors will be artificially low.
+:::
+
+Known issues:
+
+- MACE does not support mixed-precision training on all GPU architectures; use `--dtype=float64` if you see NaN losses on older GPUs.
+- ASE's `Trajectory` file is binary; use `ase.io.read("md.traj", index=":")` to convert to extxyz for analysis.
+
+### Additional Resources
+
+- [MACE GitHub](https://github.com/ACEsuit/mace) — installation, tutorials, pretrained models
+- Batatia et al., *NeurIPS* 2022 — original MACE paper
+- [ASE documentation](https://wiki.fysik.dtu.dk/ase/) — structure manipulation and MD
+- [VASP AIMD setup](https://www.vasp.at/wiki/index.php/Molecular_dynamics_calculations) — generating DFT training data
+- [Materials Project](https://next-gen.materialsproject.org/) — reference structures and DFT data for 2D materials
+
+---
+
+*Maintained by the DFT/ML team. Add new VASP scripts to `scripts/vasp/` and new training configs to `configs/mace/` in the repo.*

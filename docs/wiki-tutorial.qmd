@@ -1,0 +1,234 @@
+---
+title: "Group Wiki — Setup & Contribution Guide"
+date: last-modified
+author: "Keyu, Claude Code"
+---
+
+This tutorial includes daily wiki page editing and group repo management.
+
+---
+
+## Part 0 — Zero friction start with wiki
+
+For group members who prefer drafting in Notion/Obsidian:
+
+1. Write your content in Notion as usual
+2. When ready, click **Export → Markdown & CSV**
+3. Rename the exported file to something like `your-page.qmd`
+4. Open the file and add a YAML header at the top:
+
+```yaml
+---
+title: "Your Page Title"
+date: last-modified
+author: "Your Name"
+---
+```
+
+5. Clean up any Notion-specific formatting if needed (tables and callouts usually export cleanly; images need to be re-uploaded manually)
+6. Send me the qmd files or push to Github yourself.
+
+---
+
+## Part 1 — GitHub Usage
+
+- Zoe creates the repository
+- The owner invites other members as **collaborators** via Settings → Collaborators
+- Each collaborator uses their own GitHub account to push changes
+- GitHub tracks who made which change by their account
+
+### Step 0 — Setting up the repo (owner only)
+
+Creating the wiki for the first time:
+
+```bash
+# In the quarto-wiki folder you downloaded earlier
+cd quarto-wiki
+git init
+git add .
+git commit -m "initial wiki setup"
+git branch -M main
+git remote add origin https://github.com/YOUR_ORG/wiki.git
+git push -u origin main
+```
+
+Then enable GitHub Pages:
+
+1. Go to your repo on GitHub
+2. Click **Settings → Pages**
+3. Under Source, select **GitHub Actions**
+4. Save
+
+The first deployment starts automatically. Your site will be live at `https://YOUR_ORG.github.io/wiki` within a couple of minutes.
+
+To invite collaborators:
+
+1. Go to **Settings → Collaborators**
+2. Click **Add people**
+3. Enter each person's GitHub username
+
+
+### Step 1 — Install the tools
+
+Install these in order:
+
+**Git**
+```powershell
+winget install --id Git.Git -e --source winget
+```
+Restart PowerShell after this finishes.
+
+**Quarto**
+Download the installer from https://quarto.org/docs/get-started/ and run it.
+
+**VS Code**
+Download from https://code.visualstudio.com and install.
+
+
+If there are jupyter notebook codes:
+
+**Python** 
+```powershell
+winget install Python.Python.3.11
+```
+
+**Jupyter**
+```powershell
+pip install jupyter numpy matplotlib pandas
+```
+
+### Step 2 — Install VS Code extensions
+
+Open VS Code, press `Ctrl+Shift+X` to open Extensions, and search for and install:
+
+- **Quarto** — live preview, syntax highlighting, LaTeX rendering
+- **Python** — Jupyter notebook support
+- **GitHub Pull Requests** — manage branches and PRs without leaving VS Code (optional)
+
+### Step 3 — Configure Git with your identity
+
+Open a terminal in VS Code (`` Ctrl+` ``) and run:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+This is how your name appears next to each commit in the repo history.
+
+### Step 4 — Clone the repo
+
+```bash
+git clone https://github.com/YOUR_ORG/wiki.git
+cd wiki
+```
+
+This downloads the repo to your computer. You only do this once.
+
+---
+
+## Part 2 — Day-to-day editing workflow
+
+### Open the project in VS Code
+
+```bash
+cd wiki
+code .
+```
+
+Or open VS Code and use **File → Open Folder** to select the `wiki` folder.
+
+### Start the live preview
+
+In the VS Code terminal:
+
+```bash
+quarto preview
+```
+
+A browser window opens at `http://localhost:4444`. This is your local preview — it does not affect the live site until you push.
+
+### Edit a page
+
+Open any `.qmd` file in VS Code and start editing. The preview updates on save (`Ctrl+S`).
+
+
+
+### Commit and push your changes
+
+When you are happy with your edits:
+
+```bash
+# See what files you changed
+git status
+
+# Stage all changes
+git add .
+
+# Commit with a short description
+git commit -m "add results section to methods page"
+
+# Push to GitHub
+git push
+```
+
+GitHub Actions picks up the push, rebuilds the site, and deploys it. The live site updates in about 1–2 minutes.
+
+
+---
+
+
+## Part 3 — Quick reference
+
+### Commands you will use every day
+
+| What | Command |
+|---|---|
+| Get latest changes from GitHub | `git pull` |
+| See what you changed | `git status` |
+| Stage all changes | `git add .` |
+| Commit staged changes | `git commit -m "your message"` |
+| Push to GitHub | `git push` |
+| Start live preview | `quarto preview` |
+| Build site locally | `quarto render` |
+
+### Branch commands
+
+| What | Command |
+|---|---|
+| Create and switch to new branch | `git checkout -b name/description` |
+| Switch to an existing branch | `git checkout branch-name` |
+| Switch back to main | `git checkout main` |
+| See all branches | `git branch` |
+| Push a new branch | `git push -u origin branch-name` |
+
+---
+
+## Part 4 — File structure reference
+
+```
+wiki/
+├── _quarto.yml              ← site config, navbar, theme
+├── index.qmd                ← home page
+├── docs/
+│   ├── wiki-tutorial.qmd    ← this file
+│   ├── dft-ml-tutorial.qmd  ← DFT/ML team tutorial
+│   ├── continuum-tutorial.qmd ← Continuum model tutorial
+│   ├── methods.qmd
+│   └── references.qmd
+├── notebooks/
+│   └── analysis.ipynb       ← Jupyter notebooks go here
+└── .github/
+    └── workflows/
+        └── publish.yml      ← do not edit this unless adding Python packages
+```
+
+
+## Useful links
+
+- [Quarto documentation](https://quarto.org/docs/guide/)
+- [GitHub Actions for Quarto](https://quarto.org/docs/publishing/github-pages.html)
+
+---
+
+*This guide can live in your wiki at `docs/wiki-tutorial.qmd` so new group members always have it handy.*

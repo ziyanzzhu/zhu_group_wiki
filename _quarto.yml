@@ -2,6 +2,8 @@ project:
   type: website
   output-dir: _site
 
+bibliography: docs/References.bib
+
 website:
   title: "Group Wiki"
   description: "Our shared research knowledge base"
@@ -9,12 +11,18 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - text: Tutorials
+        menu:
+          - href: docs/wiki-tutorial.qmd
+            text: Wiki Tutorial
+          - href: docs/dft-ml-tutorial.qmd
+            text: DFT/ML Tutorial
+          - href: docs/continuum-tutorial.qmd
+            text: Continuum Model Tutorial
       - href: docs/methods.qmd
         text: Methods
       - href: docs/references.qmd
-        text: References
-      - href: notebooks/analysis.qmd
-        text: Analysis
+        text: References.bib
   sidebar: false
   page-footer:
     center: "Group Wiki · Built with [Quarto](https://quarto.org)"

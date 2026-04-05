@@ -159,17 +159,32 @@ window.Quarto = {
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="./docs/wiki-tutorial.html">
+ <span class="dropdown-text">Wiki Tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./docs/dft-ml-tutorial.html">
+ <span class="dropdown-text">DFT/ML Tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./docs/continuum-tutorial.html">
+ <span class="dropdown-text">Continuum Model Tutorial</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="./docs/methods.html"> 
 <span class="menu-text">Methods</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./docs/references.html"> 
-<span class="menu-text">References</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./notebooks/analysis.html"> 
-<span class="menu-text">Analysis</span></a>
+<span class="menu-text">References.bib</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -187,7 +202,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#quick-links" id="toc-quick-links" class="nav-link active" data-scroll-target="#quick-links">Quick links</a></li>
+  <li><a href="#tutorials" id="toc-tutorials" class="nav-link active" data-scroll-target="#tutorials">Tutorials</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
   <li><a href="#how-to-contribute" id="toc-how-to-contribute" class="nav-link" data-scroll-target="#how-to-contribute">How to contribute</a></li>
   </ul>
 </nav>
@@ -214,9 +230,38 @@ window.Quarto = {
 </header>
 
 
-<p>This is our shared knowledge base for research notes, methods, and analysis.</p>
-<section id="quick-links" class="level2">
-<h2 class="anchored" data-anchor-id="quick-links">Quick links</h2>
+<p>This is our shared knowledge base covering DFT/ML workflows, continuum models, and wiki contribution guides.</p>
+<section id="tutorials" class="level2">
+<h2 class="anchored" data-anchor-id="tutorials">Tutorials</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Team</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./docs/wiki-tutorial.html">Wiki Tutorial</a></td>
+<td>All</td>
+<td>Git, Quarto, and day-to-day contribution workflow</td>
+</tr>
+<tr class="even">
+<td><a href="./docs/dft-tutorial.html">DFT/ML Tutorial</a></td>
+<td>DFT/ML</td>
+<td>DFT setup for 2D materials, VASP scripts, MACE ML potentials</td>
+</tr>
+<tr class="odd">
+<td><a href="./docs/continuum-tutorial.html">Continuum Model Tutorial</a></td>
+<td>Continuum</td>
+<td>TBG and TMD moiré continuum models</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reference" class="level2">
+<h2 class="anchored" data-anchor-id="reference">Reference</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -226,16 +271,8 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="./docs/methods.html">Methods</a></td>
-<td>Protocols and experimental procedures</td>
-</tr>
-<tr class="even">
 <td><a href="./docs/references.html">References</a></td>
 <td>Key papers and resources</td>
-</tr>
-<tr class="odd">
-<td><a href="./notebooks/analysis.html">Analysis</a></td>
-<td>Jupyter notebooks with results</td>
 </tr>
 </tbody>
 </table>
@@ -244,11 +281,11 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="how-to-contribute">How to contribute</h2>
 <ol type="1">
 <li>Clone the repo: <code>git clone https://github.com/YOUR_ORG/wiki.git</code></li>
-<li>Add or edit a <code>.qmd</code> or <code>.ipynb</code> file in the right folder</li>
+<li>Edit or add a <code>.qmd</code> file in <code>docs/</code> following the section template (Introduction → Physics → Usage → Code → Example → Bug Reports → Resources)</li>
 <li>Push to <code>main</code> — the site rebuilds automatically</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>Tip:</strong> Notion users can export pages as Markdown and drop them into <code>docs/</code>.</p>
+<p><strong>Tip:</strong> Notion users can export pages as Markdown, add a YAML header, and drop them into <code>docs/</code>.</p>
 </blockquote>
 
 
@@ -713,23 +750,29 @@ window.Quarto = {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Welcome to the Group Wiki"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>This is our shared knowledge base for research notes, methods, and analysis.</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>This is our shared knowledge base covering DFT/ML workflows, continuum models, and wiki contribution guides.</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quick links</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tutorials</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Section <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Methods</span><span class="co">](docs/methods.qmd)</span> <span class="pp">|</span> Protocols and experimental procedures <span class="pp">|</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">References</span><span class="co">](docs/references.qmd)</span> <span class="pp">|</span> Key papers and resources <span class="pp">|</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Analysis</span><span class="co">](notebooks/analysis.qmd)</span> <span class="pp">|</span> Jupyter notebooks with results <span class="pp">|</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Section <span class="pp">|</span> Team <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Wiki Tutorial</span><span class="co">](docs/wiki-tutorial.qmd)</span> <span class="pp">|</span> All <span class="pp">|</span> Git, Quarto, and day-to-day contribution workflow <span class="pp">|</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">DFT/ML Tutorial</span><span class="co">](docs/dft-tutorial.qmd)</span> <span class="pp">|</span> DFT/ML <span class="pp">|</span> DFT setup for 2D materials, VASP scripts, MACE ML potentials <span class="pp">|</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Continuum Model Tutorial</span><span class="co">](docs/continuum-tutorial.qmd)</span> <span class="pp">|</span> Continuum <span class="pp">|</span> TBG and TMD moiré continuum models <span class="pp">|</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to contribute</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reference</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Clone the repo: <span class="in">`git clone https://github.com/YOUR_ORG/wiki.git`</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Add or edit a <span class="in">`.qmd`</span> or <span class="in">`.ipynb`</span> file in the right folder</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Push to <span class="in">`main`</span> — the site rebuilds automatically</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Section <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">References</span><span class="co">](docs/references.qmd)</span> <span class="pp">|</span> Key papers and resources <span class="pp">|</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Tip:** Notion users can export pages as Markdown and drop them into </span><span class="in">`docs/`</span><span class="at">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to contribute</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Clone the repo: <span class="in">`git clone https://github.com/YOUR_ORG/wiki.git`</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Edit or add a <span class="in">`.qmd`</span> file in <span class="in">`docs/`</span> following the section template (Introduction → Physics → Usage → Code → Example → Bug Reports → Resources)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Push to <span class="in">`main`</span> — the site rebuilds automatically</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; **Tip:** Notion users can export pages as Markdown, add a YAML header, and drop them into </span><span class="in">`docs/`</span><span class="at">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

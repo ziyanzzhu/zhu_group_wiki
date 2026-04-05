@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-03-31">
+<meta name="dcterms.date" content="2026-04-05">
 
 <title>References – Group Wiki</title>
 <style>
@@ -59,7 +59,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -160,17 +179,32 @@ window.Quarto = {
     <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="../docs/wiki-tutorial.html">
+ <span class="dropdown-text">Wiki Tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../docs/dft-ml-tutorial.html">
+ <span class="dropdown-text">DFT/ML Tutorial</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../docs/continuum-tutorial.html">
+ <span class="dropdown-text">Continuum Model Tutorial</span></a>
+  </li>  
+    </ul>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="../docs/methods.html"> 
 <span class="menu-text">Methods</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="../docs/references.html" aria-current="page"> 
-<span class="menu-text">References</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../notebooks/analysis.html"> 
-<span class="menu-text">Analysis</span></a>
+<span class="menu-text">References.bib</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -213,7 +247,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 31, 2026</p>
+      <p class="date">April 5, 2026</p>
     </div>
   </div>
   
@@ -232,20 +266,19 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="citation-example-with-.bib">Citation example (with .bib)</h3>
 <p>To use BibTeX citations, add a <code>references.bib</code> file and reference it in the YAML front matter:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> references.bib</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then cite inline like this: <span class="citation" data-cites="smith2023">[@smith2023]</span>.</p>
+<p>Then cite inline like this: <span class="citation" data-cites="jung_tight-binding_2013">(<a href="#ref-jung_tight-binding_2013" role="doc-biblioref">Jung and MacDonald 2013</a>)</span>.</p>
 </section>
 </section>
 <section id="useful-links" class="level2">
 <h2 class="anchored" data-anchor-id="useful-links">Useful links</h2>
 <ul>
 <li><a href="https://quarto.org/docs/guide/">Quarto documentation</a></li>
-<li><a href="https://www.mathjax.org/">MathJax for LaTeX</a></li>
 <li><a href="https://quarto.org/docs/publishing/github-pages.html">GitHub Actions for Quarto</a></li>
 </ul>
 </section>
 <section id="reading-list" class="level2">
 <h2 class="anchored" data-anchor-id="reading-list">Reading list</h2>
-<table class="caption-top table">
+<table class="caption-top">
 <thead>
 <tr class="header">
 <th>Paper</th>
@@ -254,16 +287,6 @@ window.Quarto = {
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>Smith et al.</td>
-<td>2023</td>
-<td>Key background</td>
-</tr>
-<tr class="even">
-<td>Jones &amp; Lee</td>
-<td>2022</td>
-<td>Methods reference</td>
-</tr>
 </tbody>
 </table>
 
@@ -271,9 +294,14 @@ window.Quarto = {
 
 <!-- -->
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-jung_tight-binding_2013" class="csl-entry" role="listitem">
+Jung, Jeil, and Allan H. MacDonald. 2013. <span>“Tight-Binding Model for Graphene π -Bands from Maximally Localized <span>Wannier</span> Functions.”</span> <em>Physical Review B</em> 87 (19): 195450. <a href="https://doi.org/10.1103/PhysRevB.87.195450">https://doi.org/10.1103/PhysRevB.87.195450</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -732,30 +760,12 @@ window.Quarto = {
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key papers</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>Add your most important references here. You can use plain Markdown or a <span class="in">`.bib`</span> file with Quarto's citation support.</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>To use BibTeX citations, add to <span class="in">`docs/References.bib`</span> file, then cite inline like this: <span class="co">[</span><span class="ot">@jung_tight-binding_2013</span><span class="co">]</span>.</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">### Citation example (with .bib)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading list</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>To use BibTeX citations, add a <span class="in">`references.bib`</span> file and reference it in the YAML front matter:</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> references.bib</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>Then cite inline like this: <span class="co">[</span><span class="ot">@smith2023</span><span class="co">]</span>.</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Useful links</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Quarto documentation</span><span class="co">](https://quarto.org/docs/guide/)</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MathJax for LaTeX</span><span class="co">](https://www.mathjax.org/)</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GitHub Actions for Quarto</span><span class="co">](https://quarto.org/docs/publishing/github-pages.html)</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading list</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Paper <span class="pp">|</span> Year <span class="pp">|</span> Notes <span class="pp">|</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Smith et al. <span class="pp">|</span> 2023 <span class="pp">|</span> Key background <span class="pp">|</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Jones &amp; Lee <span class="pp">|</span> 2022 <span class="pp">|</span> Methods reference <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Paper <span class="pp">|</span> Year <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
