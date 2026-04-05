@@ -18,32 +18,6 @@ quarto-wiki/
         └── publish.yml      ← auto-build on push
 ```
 
-## One-time setup
-
-### 1. Install Quarto locally (optional, for preview)
-Download from https://quarto.org/docs/get-started/
-
-```bash
-quarto preview   # live preview in browser
-quarto render    # build the site locally → _site/
-```
-
-### 2. Push to GitHub
-```bash
-git init
-git add .
-git commit -m "initial wiki"
-git remote add origin https://github.com/YOUR_ORG/wiki.git
-git push -u origin main
-```
-
-### 3. Enable GitHub Pages
-- Go to repo **Settings → Pages**
-- Source: **GitHub Actions**
-- Save — the first deploy triggers automatically
-
-Your site will be live at `https://YOUR_ORG.github.io/wiki`
-
 ## Adding content
 
 ### Option A — write directly
