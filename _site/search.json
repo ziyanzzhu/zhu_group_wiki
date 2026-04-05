@@ -32,7 +32,7 @@
     "href": "index.html#how-to-contribute",
     "title": "Welcome to the Group Wiki",
     "section": "How to contribute",
-    "text": "How to contribute\n\nClone the repo: git clone https://github.com/YOUR_ORG/wiki.git\nEdit or add a .qmd file in docs/ following the section template (Introduction → Physics → Usage → Code → Example → Bug Reports → Resources)\nPush to main — the site rebuilds automatically\n\n\nTip: Notion users can export pages as Markdown, add a YAML header, and drop them into docs/."
+    "text": "How to contribute\n\nClone the repo: git clone https://github.com/YOUR_ORG/wiki.git\nEdit or add a .qmd file in docs/ following the section template\nPush to main — the site rebuilds automatically"
   },
   {
     "objectID": "docs/methods.html",
@@ -417,13 +417,13 @@
     "href": "docs/wiki-tutorial.html#part-3-quick-reference",
     "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 3 — Quick reference",
-    "text": "Part 3 — Quick reference\n\nCommands you will use every day\n\n\n\nWhat\nCommand\n\n\n\n\nGet latest changes from GitHub\ngit pull\n\n\nSee what you changed\ngit status\n\n\nStage all changes\ngit add .\n\n\nCommit staged changes\ngit commit -m \"your message\"\n\n\nPush to GitHub\ngit push\n\n\nStart live preview\nquarto preview\n\n\nBuild site locally\nquarto render\n\n\n\n\n\nBranch commands\n\n\n\nWhat\nCommand\n\n\n\n\nCreate and switch to new branch\ngit checkout -b name/description\n\n\nSwitch to an existing branch\ngit checkout branch-name\n\n\nSwitch back to main\ngit checkout main\n\n\nSee all branches\ngit branch\n\n\nPush a new branch\ngit push -u origin branch-name"
+    "text": "Part 3 — Quick reference\n\nCommands\n\n\n\nWhat\nCommand\n\n\n\n\nGet latest changes from GitHub\ngit pull\n\n\nSee what you changed\ngit status\n\n\nStage all changes\ngit add .\n\n\nCommit staged changes\ngit commit -m \"your message\"\n\n\nPush to GitHub\ngit push\n\n\nStart live preview\nquarto preview\n\n\nBuild site locally\nquarto render"
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-4-file-structure-reference",
     "href": "docs/wiki-tutorial.html#part-4-file-structure-reference",
     "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 4 — File structure reference",
-    "text": "Part 4 — File structure reference\nwiki/\n├── _quarto.yml              ← site config, navbar, theme\n├── index.qmd                ← home page\n├── docs/\n│   ├── wiki-tutorial.qmd    ← this file\n│   ├── dft-ml-tutorial.qmd  ← DFT/ML team tutorial\n│   ├── continuum-tutorial.qmd ← Continuum model tutorial\n│   ├── methods.qmd\n│   └── references.qmd\n├── notebooks/\n│   └── analysis.ipynb       ← Jupyter notebooks go here\n└── .github/\n    └── workflows/\n        └── publish.yml      ← do not edit this unless adding Python packages"
+    "text": "Part 4 — File structure reference\nwiki/\n├── _quarto.yml                     ← site config, navbar, theme\n├── index.qmd                       ← home page\n├── docs/\n│   ├── wiki-tutorial.qmd           ← this file\n│   ├── dft-ml-tutorial.qmd         ← DFT/ML team tutorial\n│   ├── continuum-tutorial.qmd      ← Continuum model tutorial\n│   └── references.qmd\n├── notebooks/\n│   └── analysis.ipynb              ← Jupyter notebooks go here\n└── .github/\n    └── workflows/\n        └── publish.yml             ← do not edit this unless adding Python packages"
   }
 ]

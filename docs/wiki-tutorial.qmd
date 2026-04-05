@@ -202,7 +202,7 @@ wiki/
 ├── index.qmd                       ← home page
 ├── docs/
 │   ├── wiki-tutorial.qmd           ← this file
-│   ├── dft-ml-tutorial.qmd         ← DFT/ML team tutorial
+│   ├── dft-tutorial.qmd         ← DFT/ML team tutorial
 │   ├── continuum-tutorial.qmd      ← Continuum model tutorial
 │   └── references.qmd
 ├── notebooks/

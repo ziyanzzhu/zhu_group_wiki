@@ -15,7 +15,7 @@ website:
         menu:
           - href: docs/wiki-tutorial.qmd
             text: Wiki Tutorial
-          - href: docs/dft-ml-tutorial.qmd
+          - href: docs/dft-tutorial.qmd
             text: DFT/ML Tutorial
           - href: docs/continuum-tutorial.qmd
             text: Continuum Model Tutorial

@@ -31,9 +31,9 @@ This section documents the group's standard setup so that new members can get a 
 
 | Step | INCAR setting | Purpose |
 |---|---|---|
-| Relaxation | `` | Relax atomic positions |
-| Static SCF | `` | Converged charge density |
-| Phonon/band | `` | Non-self-consistent band structure |
+| Relaxation (fixed lattice) | `IBRION=2, NSW=100, ISIF=2` | Relax atomic positions at fixed cell |
+| Static SCF | `IBRION=-1, NSW=0` | Converged charge density |
+| Band/DOS | `ICHARG=11` | Non-self-consistent analysis on converged charge density |
 
 ### Code
 
@@ -41,7 +41,7 @@ This section documents the group's standard setup so that new members can get a 
 ```
 ```
 
-**INCAR template for 2D relaxation:**
+**INCAR template for fixed-cell 2D ionic relaxation:**
 
 ```
 ```
@@ -49,6 +49,11 @@ This section documents the group's standard setup so that new members can get a 
 **KPOINTS for 2D hexagonal lattice:**
 
 ```
+Automatic
+0
+Gamma
+12 12 1
+0 0 0
 ```
 
 
@@ -61,8 +66,7 @@ This section documents the group's standard setup so that new members can get a 
 
 **Post-processing: extract total energy**
 
-```bash
-grep "TOTEN" OUTCAR | tail -1 | awk '{print $5}'
+```
 ```
 
 
@@ -70,15 +74,12 @@ grep "TOTEN" OUTCAR | tail -1 | awk '{print $5}'
 
 
 ::: {.callout-warning}
-**** 
 :::
 
 ::: {.callout-note}
-**** 
 :::
 
 Known issues:
-
 
 
 ### Additional Resources
@@ -101,7 +102,6 @@ Known issues:
 
 - [MACE GitHub](https://github.com/ACEsuit/mace) — installation, tutorials, pretrained models
 - Batatia et al., *NeurIPS* 2022 — original MACE paper
-- [VASP AIMD setup](https://www.vasp.at/wiki/index.php/Molecular_dynamics_calculations) — generating DFT training data
 - [Materials Project](https://next-gen.materialsproject.org/) — reference structures and DFT data for 2D materials
 
 ---

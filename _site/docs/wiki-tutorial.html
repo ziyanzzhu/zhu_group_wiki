@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Keyu, Claude Code">
+<meta name="author" content="Admin">
 <meta name="dcterms.date" content="2026-04-05">
 
 <title>Group Wiki — Setup &amp; Contribution Guide – Group Wiki</title>
@@ -218,8 +218,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#part-3-quick-reference" id="toc-part-3-quick-reference" class="nav-link" data-scroll-target="#part-3-quick-reference">Part 3 — Quick reference</a>
   <ul class="collapse">
-  <li><a href="#commands-you-will-use-every-day" id="toc-commands-you-will-use-every-day" class="nav-link" data-scroll-target="#commands-you-will-use-every-day">Commands you will use every day</a></li>
-  <li><a href="#branch-commands" id="toc-branch-commands" class="nav-link" data-scroll-target="#branch-commands">Branch commands</a></li>
+  <li><a href="#commands" id="toc-commands" class="nav-link" data-scroll-target="#commands">Commands</a></li>
   </ul></li>
   <li><a href="#part-4-file-structure-reference" id="toc-part-4-file-structure-reference" class="nav-link" data-scroll-target="#part-4-file-structure-reference">Part 4 — File structure reference</a></li>
   <li><a href="#useful-links" id="toc-useful-links" class="nav-link" data-scroll-target="#useful-links">Useful links</a></li>
@@ -241,7 +240,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Keyu, Claude Code </p>
+             <p>Admin </p>
           </div>
   </div>
     
@@ -392,8 +391,8 @@ window.Quarto = {
 </section>
 <section id="part-3-quick-reference" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-quick-reference">Part 3 — Quick reference</h2>
-<section id="commands-you-will-use-every-day" class="level3">
-<h3 class="anchored" data-anchor-id="commands-you-will-use-every-day">Commands you will use every day</h3>
+<section id="commands" class="level3">
+<h3 class="anchored" data-anchor-id="commands">Commands</h3>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -432,58 +431,24 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-</section>
-<section id="branch-commands" class="level3">
-<h3 class="anchored" data-anchor-id="branch-commands">Branch commands</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>What</th>
-<th>Command</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Create and switch to new branch</td>
-<td><code>git checkout -b name/description</code></td>
-</tr>
-<tr class="even">
-<td>Switch to an existing branch</td>
-<td><code>git checkout branch-name</code></td>
-</tr>
-<tr class="odd">
-<td>Switch back to main</td>
-<td><code>git checkout main</code></td>
-</tr>
-<tr class="even">
-<td>See all branches</td>
-<td><code>git branch</code></td>
-</tr>
-<tr class="odd">
-<td>Push a new branch</td>
-<td><code>git push -u origin branch-name</code></td>
-</tr>
-</tbody>
-</table>
 <hr>
 </section>
 </section>
 <section id="part-4-file-structure-reference" class="level2">
 <h2 class="anchored" data-anchor-id="part-4-file-structure-reference">Part 4 — File structure reference</h2>
 <pre><code>wiki/
-├── _quarto.yml              ← site config, navbar, theme
-├── index.qmd                ← home page
+├── _quarto.yml                     ← site config, navbar, theme
+├── index.qmd                       ← home page
 ├── docs/
-│   ├── wiki-tutorial.qmd    ← this file
-│   ├── dft-ml-tutorial.qmd  ← DFT/ML team tutorial
-│   ├── continuum-tutorial.qmd ← Continuum model tutorial
-│   ├── methods.qmd
+│   ├── wiki-tutorial.qmd           ← this file
+│   ├── dft-ml-tutorial.qmd         ← DFT/ML team tutorial
+│   ├── continuum-tutorial.qmd      ← Continuum model tutorial
 │   └── references.qmd
 ├── notebooks/
-│   └── analysis.ipynb       ← Jupyter notebooks go here
+│   └── analysis.ipynb              ← Jupyter notebooks go here
 └── .github/
     └── workflows/
-        └── publish.yml      ← do not edit this unless adding Python packages</code></pre>
+        └── publish.yml             ← do not edit this unless adding Python packages</code></pre>
 </section>
 <section id="useful-links" class="level2">
 <h2 class="anchored" data-anchor-id="useful-links">Useful links</h2>
@@ -955,7 +920,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Group Wiki — Setup &amp; Contribution Guide"</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Keyu, Claude Code"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Admin"</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>This tutorial includes daily wiki page editing and group wiki repo management.</span>
@@ -1134,7 +1099,7 @@ window.Quarto = {
 <span id="cb12-180"><a href="#cb12-180" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-181"><a href="#cb12-181" aria-hidden="true" tabindex="-1"></a><span class="fu">## Part 3 — Quick reference</span></span>
 <span id="cb12-182"><a href="#cb12-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Commands you will use every day</span></span>
+<span id="cb12-183"><a href="#cb12-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Commands</span></span>
 <span id="cb12-184"><a href="#cb12-184" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-185"><a href="#cb12-185" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> What <span class="pp">|</span> Command <span class="pp">|</span></span>
 <span id="cb12-186"><a href="#cb12-186" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
@@ -1146,46 +1111,35 @@ window.Quarto = {
 <span id="cb12-192"><a href="#cb12-192" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Start live preview <span class="pp">|</span> <span class="in">`quarto preview`</span> <span class="pp">|</span></span>
 <span id="cb12-193"><a href="#cb12-193" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Build site locally <span class="pp">|</span> <span class="in">`quarto render`</span> <span class="pp">|</span></span>
 <span id="cb12-194"><a href="#cb12-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a><span class="fu">### Branch commands</span></span>
+<span id="cb12-195"><a href="#cb12-195" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb12-196"><a href="#cb12-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> What <span class="pp">|</span> Command <span class="pp">|</span></span>
-<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
-<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Create and switch to new branch <span class="pp">|</span> <span class="in">`git checkout -b name/description`</span> <span class="pp">|</span></span>
-<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Switch to an existing branch <span class="pp">|</span> <span class="in">`git checkout branch-name`</span> <span class="pp">|</span></span>
-<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Switch back to main <span class="pp">|</span> <span class="in">`git checkout main`</span> <span class="pp">|</span></span>
-<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> See all branches <span class="pp">|</span> <span class="in">`git branch`</span> <span class="pp">|</span></span>
-<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Push a new branch <span class="pp">|</span> <span class="in">`git push -u origin branch-name`</span> <span class="pp">|</span></span>
-<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a><span class="fu">## Part 4 — File structure reference</span></span>
-<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a><span class="in">wiki/</span></span>
-<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a><span class="in">├── _quarto.yml              ← site config, navbar, theme</span></span>
-<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a><span class="in">├── index.qmd                ← home page</span></span>
-<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a><span class="in">├── docs/</span></span>
-<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── wiki-tutorial.qmd    ← this file</span></span>
-<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── dft-ml-tutorial.qmd  ← DFT/ML team tutorial</span></span>
-<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── continuum-tutorial.qmd ← Continuum model tutorial</span></span>
-<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── methods.qmd</span></span>
-<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="in">│   └── references.qmd</span></span>
-<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a><span class="in">├── notebooks/</span></span>
-<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a><span class="in">│   └── analysis.ipynb       ← Jupyter notebooks go here</span></span>
-<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a><span class="in">└── .github/</span></span>
-<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a><span class="in">    └── workflows/</span></span>
-<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a><span class="in">        └── publish.yml      ← do not edit this unless adding Python packages</span></span>
-<span id="cb12-224"><a href="#cb12-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb12-225"><a href="#cb12-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-226"><a href="#cb12-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-227"><a href="#cb12-227" aria-hidden="true" tabindex="-1"></a><span class="fu">## Useful links</span></span>
-<span id="cb12-228"><a href="#cb12-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-229"><a href="#cb12-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Quarto documentation</span><span class="co">](https://quarto.org/docs/guide/)</span></span>
-<span id="cb12-230"><a href="#cb12-230" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GitHub Actions for Quarto</span><span class="co">](https://quarto.org/docs/publishing/github-pages.html)</span></span>
-<span id="cb12-231"><a href="#cb12-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-232"><a href="#cb12-232" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb12-233"><a href="#cb12-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-234"><a href="#cb12-234" aria-hidden="true" tabindex="-1"></a>*This guide can live in your wiki at `docs/wiki-tutorial.qmd` so new group members always have it handy.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb12-197"><a href="#cb12-197" aria-hidden="true" tabindex="-1"></a><span class="fu">## Part 4 — File structure reference</span></span>
+<span id="cb12-198"><a href="#cb12-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-199"><a href="#cb12-199" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-200"><a href="#cb12-200" aria-hidden="true" tabindex="-1"></a><span class="in">wiki/</span></span>
+<span id="cb12-201"><a href="#cb12-201" aria-hidden="true" tabindex="-1"></a><span class="in">├── _quarto.yml                     ← site config, navbar, theme</span></span>
+<span id="cb12-202"><a href="#cb12-202" aria-hidden="true" tabindex="-1"></a><span class="in">├── index.qmd                       ← home page</span></span>
+<span id="cb12-203"><a href="#cb12-203" aria-hidden="true" tabindex="-1"></a><span class="in">├── docs/</span></span>
+<span id="cb12-204"><a href="#cb12-204" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── wiki-tutorial.qmd           ← this file</span></span>
+<span id="cb12-205"><a href="#cb12-205" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── dft-ml-tutorial.qmd         ← DFT/ML team tutorial</span></span>
+<span id="cb12-206"><a href="#cb12-206" aria-hidden="true" tabindex="-1"></a><span class="in">│   ├── continuum-tutorial.qmd      ← Continuum model tutorial</span></span>
+<span id="cb12-207"><a href="#cb12-207" aria-hidden="true" tabindex="-1"></a><span class="in">│   └── references.qmd</span></span>
+<span id="cb12-208"><a href="#cb12-208" aria-hidden="true" tabindex="-1"></a><span class="in">├── notebooks/</span></span>
+<span id="cb12-209"><a href="#cb12-209" aria-hidden="true" tabindex="-1"></a><span class="in">│   └── analysis.ipynb              ← Jupyter notebooks go here</span></span>
+<span id="cb12-210"><a href="#cb12-210" aria-hidden="true" tabindex="-1"></a><span class="in">└── .github/</span></span>
+<span id="cb12-211"><a href="#cb12-211" aria-hidden="true" tabindex="-1"></a><span class="in">    └── workflows/</span></span>
+<span id="cb12-212"><a href="#cb12-212" aria-hidden="true" tabindex="-1"></a><span class="in">        └── publish.yml             ← do not edit this unless adding Python packages</span></span>
+<span id="cb12-213"><a href="#cb12-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-214"><a href="#cb12-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-215"><a href="#cb12-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-216"><a href="#cb12-216" aria-hidden="true" tabindex="-1"></a><span class="fu">## Useful links</span></span>
+<span id="cb12-217"><a href="#cb12-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-218"><a href="#cb12-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Quarto documentation</span><span class="co">](https://quarto.org/docs/guide/)</span></span>
+<span id="cb12-219"><a href="#cb12-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">GitHub Actions for Quarto</span><span class="co">](https://quarto.org/docs/publishing/github-pages.html)</span></span>
+<span id="cb12-220"><a href="#cb12-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-221"><a href="#cb12-221" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb12-222"><a href="#cb12-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-223"><a href="#cb12-223" aria-hidden="true" tabindex="-1"></a>*This guide can live in your wiki at `docs/wiki-tutorial.qmd` so new group members always have it handy.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
