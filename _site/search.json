@@ -100,7 +100,7 @@
   {
     "objectID": "docs/wiki-tutorial.html",
     "href": "docs/wiki-tutorial.html",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "",
     "text": "This tutorial includes daily wiki page editing and group repo management."
   },
@@ -275,9 +275,9 @@
   {
     "objectID": "docs/wiki-tutorial.html#part-1-github-usage",
     "href": "docs/wiki-tutorial.html#part-1-github-usage",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 1 — GitHub Usage",
-    "text": "Part 1 — GitHub Usage\n\nOne person creates the repository\nThe owner invites other members as collaborators via Settings → Collaborators\nEach collaborator uses their own GitHub account to push changes\nGitHub tracks who made which change by their account\n\n\nStep 0 — Setting up the repo (owner only)\nIf you are the person creating the wiki for the first time:\n# In the quarto-wiki folder you downloaded earlier\ncd quarto-wiki\ngit init\ngit add .\ngit commit -m \"initial wiki setup\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR_ORG/wiki.git\ngit push -u origin main\nThen enable GitHub Pages:\n\nGo to your repo on GitHub\nClick Settings → Pages\nUnder Source, select GitHub Actions\nSave\n\nThe first deployment starts automatically. Your site will be live at https://YOUR_ORG.github.io/wiki within a couple of minutes.\nTo invite collaborators:\n\nGo to Settings → Collaborators\nClick Add people\nEnter each person’s GitHub username\n\n\n\nStep 1 — Install the tools\nInstall these in order:\nGit\nwinget install --id Git.Git -e --source winget\nRestart PowerShell after this finishes.\nQuarto Download the installer from https://quarto.org/docs/get-started/ and run it.\nVS Code Download from https://code.visualstudio.com and install.\nPython (needed to render notebooks)\nwinget install Python.Python.3.11\nJupyter\npip install jupyter numpy matplotlib pandas\n\n\nStep 2 — Install VS Code extensions\nOpen VS Code, press Ctrl+Shift+X to open Extensions, and search for and install:\n\nQuarto — live preview, syntax highlighting, LaTeX rendering\nPython — Jupyter notebook support\nGitHub Pull Requests — manage branches and PRs without leaving VS Code (optional but useful)\n\n\n\nStep 3 — Configure Git with your identity\nOpen a terminal in VS Code (Ctrl+`) and run:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"\nThis is how your name appears next to each commit in the repo history.\n\n\nStep 4 — Clone the repo\ngit clone https://github.com/YOUR_ORG/wiki.git\ncd wiki\nThis downloads the repo to your computer. You only do this once."
+    "text": "Part 1 — GitHub Usage\n\nZoe creates the repository\nThe owner invites other members as collaborators via Settings → Collaborators\nEach collaborator uses their own GitHub account to push changes\nGitHub tracks who made which change by their account\n\n\nStep 0 — Setting up the repo (owner only)\nCreating the wiki for the first time:\n# In the quarto-wiki folder you downloaded earlier\ncd quarto-wiki\ngit init\ngit add .\ngit commit -m \"initial wiki setup\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR_ORG/wiki.git\ngit push -u origin main\nThen enable GitHub Pages:\n\nGo to your repo on GitHub\nClick Settings → Pages\nUnder Source, select GitHub Actions\nSave\n\nThe first deployment starts automatically. Your site will be live at https://YOUR_ORG.github.io/wiki within a couple of minutes.\nTo invite collaborators:\n\nGo to Settings → Collaborators\nClick Add people\nEnter each person’s GitHub username\n\n\n\nStep 1 — Install the tools\nInstall these in order:\nGit\nwinget install --id Git.Git -e --source winget\nRestart PowerShell after this finishes.\nQuarto Download the installer from https://quarto.org/docs/get-started/ and run it.\nVS Code Download from https://code.visualstudio.com and install.\nIf there are jupyter notebook codes:\nPython\nwinget install Python.Python.3.11\nJupyter\npip install jupyter numpy matplotlib pandas\n\n\nStep 2 — Install VS Code extensions\nOpen VS Code, press Ctrl+Shift+X to open Extensions, and search for and install:\n\nQuarto — live preview, syntax highlighting, LaTeX rendering\nPython — Jupyter notebook support\nGitHub Pull Requests — manage branches and PRs without leaving VS Code (optional)\n\n\n\nStep 3 — Configure Git with your identity\nOpen a terminal in VS Code (Ctrl+`) and run:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"\nThis is how your name appears next to each commit in the repo history.\n\n\nStep 4 — Clone the repo\ngit clone https://github.com/YOUR_ORG/wiki.git\ncd wiki\nThis downloads the repo to your computer. You only do this once."
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-2-setting-up-the-repo-owner-only",
@@ -296,7 +296,7 @@
   {
     "objectID": "docs/wiki-tutorial.html#useful-links",
     "href": "docs/wiki-tutorial.html#useful-links",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Useful links",
     "text": "Useful links\n\nQuarto documentation\nGitHub Actions for Quarto\n\n\nThis guide can live in your wiki at docs/wiki-tutorial.qmd so new group members always have it handy."
   },
@@ -401,28 +401,28 @@
   {
     "objectID": "docs/wiki-tutorial.html#part-0-zero-friction-start-with-wiki",
     "href": "docs/wiki-tutorial.html#part-0-zero-friction-start-with-wiki",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 0 — Zero friction start with wiki",
     "text": "Part 0 — Zero friction start with wiki\nFor group members who prefer drafting in Notion/Obsidian:\n\nWrite your content in Notion as usual\nWhen ready, click Export → Markdown & CSV\nRename the exported file to something like your-page.qmd\nOpen the file and add a YAML header at the top:\n\n---\ntitle: \"Your Page Title\"\ndate: last-modified\nauthor: \"Your Name\"\n---\n\nClean up any Notion-specific formatting if needed (tables and callouts usually export cleanly; images need to be re-uploaded manually)\nSend me the qmd files or push to Github yourself."
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-2-day-to-day-editing-workflow",
     "href": "docs/wiki-tutorial.html#part-2-day-to-day-editing-workflow",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 2 — Day-to-day editing workflow",
-    "text": "Part 2 — Day-to-day editing workflow\n\nOpen the project in VS Code\ncd wiki\ncode .\nOr open VS Code and use File → Open Folder to select the wiki folder.\n\n\nStart the live preview\nIn the VS Code terminal:\nquarto preview\nA browser window opens at http://localhost:4444. Every time you save a file, the browser refreshes automatically. This is your local preview — it does not affect the live site until you push.\n\n\nEdit a page\nOpen any .qmd file in VS Code and start editing. The preview updates on save (Ctrl+S).\nExample — adding a new section to docs/methods.qmd:\n\n\nCommit and push your changes\nWhen you are happy with your edits:\n# See what files you changed\ngit status\n\n# Stage all changes\ngit add .\n\n# Commit with a short description\ngit commit -m \"add results section to methods page\"\n\n# Push to GitHub\ngit push\nGitHub Actions picks up the push, rebuilds the site, and deploys it. The live site updates in about 1–2 minutes."
+    "text": "Part 2 — Day-to-day editing workflow\n\nOpen the project in VS Code\ncd wiki\ncode .\nOr open VS Code and use File → Open Folder to select the wiki folder.\n\n\nStart the live preview\nIn the VS Code terminal:\nquarto preview\nA browser window opens at http://localhost:4444. This is your local preview — it does not affect the live site until you push.\n\n\nEdit a page\nOpen any .qmd file in VS Code and start editing. The preview updates on save (Ctrl+S).\n\n\nCommit and push your changes\nWhen you are happy with your edits:\n# See what files you changed\ngit status\n\n# Stage all changes\ngit add .\n\n# Commit with a short description\ngit commit -m \"add results section to methods page\"\n\n# Push to GitHub\ngit push\nGitHub Actions picks up the push, rebuilds the site, and deploys it. The live site updates in about 1–2 minutes."
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-3-quick-reference",
     "href": "docs/wiki-tutorial.html#part-3-quick-reference",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 3 — Quick reference",
     "text": "Part 3 — Quick reference\n\nCommands you will use every day\n\n\n\nWhat\nCommand\n\n\n\n\nGet latest changes from GitHub\ngit pull\n\n\nSee what you changed\ngit status\n\n\nStage all changes\ngit add .\n\n\nCommit staged changes\ngit commit -m \"your message\"\n\n\nPush to GitHub\ngit push\n\n\nStart live preview\nquarto preview\n\n\nBuild site locally\nquarto render\n\n\n\n\n\nBranch commands\n\n\n\nWhat\nCommand\n\n\n\n\nCreate and switch to new branch\ngit checkout -b name/description\n\n\nSwitch to an existing branch\ngit checkout branch-name\n\n\nSwitch back to main\ngit checkout main\n\n\nSee all branches\ngit branch\n\n\nPush a new branch\ngit push -u origin branch-name"
   },
   {
     "objectID": "docs/wiki-tutorial.html#part-4-file-structure-reference",
     "href": "docs/wiki-tutorial.html#part-4-file-structure-reference",
-    "title": "Group Wiki — Complete Setup & Contribution Guide",
+    "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 4 — File structure reference",
     "text": "Part 4 — File structure reference\nwiki/\n├── _quarto.yml              ← site config, navbar, theme\n├── index.qmd                ← home page\n├── docs/\n│   ├── wiki-tutorial.qmd    ← this file\n│   ├── dft-ml-tutorial.qmd  ← DFT/ML team tutorial\n│   ├── continuum-tutorial.qmd ← Continuum model tutorial\n│   ├── methods.qmd\n│   └── references.qmd\n├── notebooks/\n│   └── analysis.ipynb       ← Jupyter notebooks go here\n└── .github/\n    └── workflows/\n        └── publish.yml      ← do not edit this unless adding Python packages"
   }
