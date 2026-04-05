@@ -5,7 +5,7 @@ date: last-modified
 
 ## Key papers
 
-To use BibTeX citations, add to `docs/References.bib` file, then cite inline like this: [@jung_tight-binding_2013].
+To use BibTeX citations, add to `docs/References.bib` file, then cite inline like this: [@bistritzer_moire_2011].
 
 ## Reading list
 

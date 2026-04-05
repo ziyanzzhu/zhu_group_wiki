@@ -1,7 +1,7 @@
 ---
 title: "Group Wiki — Setup & Contribution Guide"
 date: last-modified
-author: "Keyu, Claude Code"
+author: "Admin"
 ---
 
 This tutorial includes daily wiki page editing and group wiki repo management.
@@ -180,7 +180,7 @@ GitHub Actions picks up the push, rebuilds the site, and deploys it. The live si
 
 ## Part 3 — Quick reference
 
-### Commands you will use every day
+### Commands
 
 | What | Command |
 |---|---|
@@ -192,35 +192,24 @@ GitHub Actions picks up the push, rebuilds the site, and deploys it. The live si
 | Start live preview | `quarto preview` |
 | Build site locally | `quarto render` |
 
-### Branch commands
-
-| What | Command |
-|---|---|
-| Create and switch to new branch | `git checkout -b name/description` |
-| Switch to an existing branch | `git checkout branch-name` |
-| Switch back to main | `git checkout main` |
-| See all branches | `git branch` |
-| Push a new branch | `git push -u origin branch-name` |
-
 ---
 
 ## Part 4 — File structure reference
 
 ```
 wiki/
-├── _quarto.yml              ← site config, navbar, theme
-├── index.qmd                ← home page
+├── _quarto.yml                     ← site config, navbar, theme
+├── index.qmd                       ← home page
 ├── docs/
-│   ├── wiki-tutorial.qmd    ← this file
-│   ├── dft-ml-tutorial.qmd  ← DFT/ML team tutorial
-│   ├── continuum-tutorial.qmd ← Continuum model tutorial
-│   ├── methods.qmd
+│   ├── wiki-tutorial.qmd           ← this file
+│   ├── dft-ml-tutorial.qmd         ← DFT/ML team tutorial
+│   ├── continuum-tutorial.qmd      ← Continuum model tutorial
 │   └── references.qmd
 ├── notebooks/
-│   └── analysis.ipynb       ← Jupyter notebooks go here
+│   └── analysis.ipynb              ← Jupyter notebooks go here
 └── .github/
     └── workflows/
-        └── publish.yml      ← do not edit this unless adding Python packages
+        └── publish.yml             ← do not edit this unless adding Python packages
 ```
 
 

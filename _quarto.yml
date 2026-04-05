@@ -1,11 +1,6 @@
 project:
   type: website
   output-dir: _site
-  render:
-    - "*.qmd"
-    - "docs/*.qmd"
-    - "notebooks/*.qmd"
-    - "notebooks/*.ipynb"
 
 bibliography: docs/References.bib
 
@@ -24,10 +19,8 @@ website:
             text: DFT/ML Tutorial
           - href: docs/continuum-tutorial.qmd
             text: Continuum Model Tutorial
-      - href: docs/methods.qmd
-        text: Methods
       - href: docs/references.qmd
-        text: References.bib
+        text: References
   sidebar: false
   page-footer:
     center: "Group Wiki · Built with [Quarto](https://quarto.org)"

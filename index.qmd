@@ -21,7 +21,5 @@ This is our shared knowledge base covering DFT/ML workflows, continuum models, a
 ## How to contribute
 
 1. Clone the repo: `git clone https://github.com/YOUR_ORG/wiki.git`
-2. Edit or add a `.qmd` file in `docs/` following the section template (Introduction → Physics → Usage → Code → Example → Bug Reports → Resources)
+2. Edit or add a `.qmd` file in `docs/` following the section template
 3. Push to `main` — the site rebuilds automatically
-
-> **Tip:** Notion users can export pages as Markdown, add a YAML header, and drop them into `docs/`.

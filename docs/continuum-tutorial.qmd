@@ -1,10 +1,10 @@
 ---
-title: "Continuum Model Tutorial — TBG and TMD Moiré Systems"
+title: "Continuum Model Tutorial"
 date: last-modified
 author: "Continuum Model Team"
 ---
 
-This tutorial documents the continuum models used by the group for twisted bilayer graphene (TBG) and twisted transition metal dichalcogenides (TMD) moiré systems, including theory, code, and worked examples.
+This tutorial documents the continuum models used in twisted bilayer graphene (TBG) and twisted transition metal dichalcogenides (TMD) moiré systems.
 
 ---
 
@@ -15,35 +15,13 @@ This tutorial documents the continuum models used by the group for twisted bilay
 
 ### Physics
 
-The TBG continuum model (Bistritzer & MacDonald, 2011) treats each graphene layer as a Dirac cone shifted in momentum space by the twist. The Hamiltonian near valley $K$ is:
+The TBG continuum model (@bistritzer_moire_2011) Hamiltonian near valley $K$ is:
 
 $$
 H_K = \begin{pmatrix}
 h_+(\mathbf{k}) & T(\mathbf{r}) \\
 T^\dagger(\mathbf{r}) & h_-(\mathbf{k})
 \end{pmatrix}
-$$
-
-where $h_\pm(\mathbf{k}) = \hbar v_F \boldsymbol{\sigma}_{\pm\theta/2} \cdot \mathbf{k}$ are the Dirac Hamiltonians of the top/bottom layers rotated by $\pm\theta/2$, and:
-
-$$
-T(\mathbf{r}) = \sum_{j=0}^{2} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}
-$$
-
-is the interlayer tunneling with moiré wavevectors $\mathbf{q}_j$ connecting the Dirac cones. The tunneling matrices are:
-
-$$
-T_0 = w \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}, \quad
-T_1 = w \begin{pmatrix} 1 & \omega^{-1} \\ \omega & 1 \end{pmatrix}, \quad
-T_2 = w \begin{pmatrix} 1 & \omega \\ \omega^{-1} & 1 \end{pmatrix}
-$$
-
-where $\omega = e^{2\pi i/3}$ and $w \approx 110$ meV is the tunneling amplitude. The "chiral limit" sets the AA tunneling to zero ($w_{AA} = 0$) and retains only $w_{AB}$.
-
-The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:
-
-$$
-\alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°
 $$
 
 ### Usage
@@ -54,8 +32,6 @@ $$
 | Parameter | Typical value | Description |
 |---|---|---|
 | $\theta$ | 1.05° (magic) | Twist angle |
-| $v_F$ | $10^6$ m/s | Dirac velocity of graphene 
-| $N_k$ | $30\times30$ | k-point mesh in mBZ |
 
 
 ### Code
@@ -69,27 +45,20 @@ from scipy.linalg import eigh
 
 ### Example
 
-**Bandwidth as a function of twist angle (magic angle scan):**
-
 ```python
 ```
 
 ### Bug Reports and Warnings
 
 ::: {.callout-note}
-**Valley and spin degeneracy.** The code above computes one valley ($K$). The $K'$ valley is related by time-reversal: $H_{K'}(\mathbf{k}) = H_K^*(-\mathbf{k})$. The total DOS and transport quantities should include both valleys and both spins (factor of 4).
+
 :::
 
 Known issues:
 
-- The q-vector construction in the code assumes the chiral gauge; if you switch to a different gauge the tunneling matrices `T[nu]` must be updated consistently.
-- At exactly $\theta = 0$ the code is singular (moiré period diverges); use a minimum of $\theta \approx 0.3°$.
 
 ### Additional Resources
 
-- Bistritzer & MacDonald, *PNAS* **108**, 12233 (2011) — original TBG continuum model
-- Tarnopolsky, Kruchkov & Vishwanath, *PRL* **122**, 106405 (2019) — chiral TBG model
-- Song et al., *PRL* **123**, 036401 (2019) — fragile topology of TBG flat bands
 
 ---
 
@@ -97,53 +66,18 @@ Known issues:
 
 ### Introduction
 
-Twisted TMD homobilayers (e.g., MoSe₂/MoSe₂, WSe₂/WSe₂) and heterobilayers (MoSe₂/WSe₂) host moiré flat bands in the valence band at twist angles of 1°–5°. These systems are distinct from TBG because the low-energy carriers live at the $K/K'$ points of a **massive Dirac** (rather than massless Dirac) spectrum, and strong spin-orbit coupling locks spin to the valley. This section documents the group's continuum model for TMD moirés.
 
 ### Physics
 
-The low-energy valence band near valley $K$ of a monolayer TMD is described by a massive Dirac Hamiltonian:
-
-$$
-h_\tau(\mathbf{k}) = \begin{pmatrix}
-\frac{\Delta}{2} & \hbar v_F (\tau k_x - i k_y) \\
-\hbar v_F (\tau k_x + i k_y) & -\frac{\Delta}{2}
-\end{pmatrix} + \tau \frac{\lambda}{2} \sigma_z
-$$
-
-where $\tau = \pm 1$ is the valley index, $\Delta$ is the band gap, $\lambda$ is the SOC splitting, and the valence band maximum is at $K$.
-
-In a twisted TMD bilayer, the moiré potential from the registry variation modulates the on-site energy. Unlike TBG, the tunneling between the two layers is **suppressed** (due to the large momentum mismatch and the massive gap), and the dominant moiré effect is an **intralayer** moiré potential:
-
-$$
-H_\text{moiré}(\mathbf{r}) = V_0 \sum_{j=1}^{6} e^{i \mathbf{G}_j \cdot \mathbf{r}} + \text{h.c.}
-$$
-
-where $\mathbf{G}_j$ are the moiré reciprocal lattice vectors and $V_0$ is the moiré potential amplitude. The effective single-band model for the top-of-valence-band hole (spin-up, valley $K$) is:
-
-$$
-H = -\frac{\hbar^2 \nabla^2}{2 m^*} + V_0 \sum_{j=1}^{6} \cos(\mathbf{G}_j \cdot \mathbf{r} + \phi_j)
-$$
-
-where $m^*$ is the effective mass and $\phi_j$ encodes the local stacking geometry (MM, MX, XX high-symmetry points).
-
-For a heterobilayer, the interlayer tunneling $t_\perp$ is finite and must be included; it hybridizes the two layers and opens a gap at the moiré Brillouin zone boundary.
 
 ### Usage
 
-1. Set the twist angle $\theta$ and material parameters ($m^*$, $V_0$, $\phi$, $t_\perp$).
-2. Build the plane-wave basis for the moiré superlattice.
-3. Diagonalize to get the moiré valence bands.
-4. Calculate DOS, effective mass, and Chern number of the flat bands.
 
 **Key parameters for MoSe₂/MoSe₂ (from literature):**
 
 | Parameter | Value | Description |
 |---|---|---|
-| $m^*$ | $0.62 \, m_e$ | Hole effective mass |
-| $V_0$ | 8–15 meV | Moiré potential amplitude |
-| $\phi$ | $-89°$ (MoSe₂) | Moiré potential phase |
-| $a_0$ | 3.32 Å | MoSe₂ lattice constant |
-| $\theta$ | 1°–5° | Twist angle range of interest |
+
 
 ### Code
 
@@ -157,29 +91,18 @@ from scipy.linalg import eigh
 
 ### Example
 
-**Band structure :**
-
 ```python
-import matplotlib.pyplot as plt
 ```
 
 ### Bug Reports and Warnings
 
 ::: {.callout-note}
-**Valley degeneracy.** The model above is for valley $K$ only. 
 :::
 
 Known issues:
 
 
 ### Additional Resources
-
-- Wu, MacDonald & Martin, *PRL* **121**, 257001 (2018) — first TMD moiré continuum model
-- Zang et al., *PRB* **106**, 115416 (2022) — refined TMD moiré model with SOC
-- Shabani et al., *Nature Physics* **17**, 720 (2021) — experimental MoSe₂/WSe₂ flat bands
-- Li et al., *Nature* **600**, 641 (2021) — correlated states in TMD moiré
-- [MoirePy](https://github.com/twistronics/moirepy) — Python library for moiré continuum models (check for updates)
-- Fukui, Hatsugai & Suzuki, *JPSJ* **74**, 1674 (2005) — discretized Chern number algorithm
 
 ---
 
