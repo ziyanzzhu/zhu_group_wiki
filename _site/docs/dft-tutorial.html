@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="DFT/ML Team">
-<meta name="dcterms.date" content="2026-04-05">
+<meta name="dcterms.date" content="2026-04-22">
 
-<title>DFT/ML Tutorial – Group Wiki</title>
+<title>DFT/ML Tutorial – Zhu Group Wiki</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -148,7 +148,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Group Wiki</span>
+    <span class="navbar-title">Zhu Group Wiki</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -240,7 +240,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 5, 2026</p>
+      <p class="date">April 22, 2026</p>
     </div>
   </div>
   
@@ -289,14 +289,19 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Relaxation</td>
-<td><code>| Relax atomic positions | | Static SCF |</code></td>
-<td>Converged charge density</td>
+<td>Relaxation (fixed lattice)</td>
+<td><code>IBRION=2, NSW=100, ISIF=2</code></td>
+<td>Relax atomic positions at fixed cell</td>
 </tr>
 <tr class="even">
-<td>Phonon/band</td>
-<td>``</td>
-<td>Non-self-consistent band structure</td>
+<td>Static SCF</td>
+<td><code>IBRION=-1, NSW=0</code></td>
+<td>Converged charge density</td>
+</tr>
+<tr class="odd">
+<td>Band/DOS</td>
+<td><code>ICHARG=11</code></td>
+<td>Non-self-consistent analysis on converged charge density</td>
 </tr>
 </tbody>
 </table>
@@ -305,21 +310,25 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="code">Code</h3>
 <p><strong>POSCAR template for 2D relaxation:</strong></p>
 <pre><code></code></pre>
-<p><strong>INCAR template for 2D relaxation:</strong></p>
+<p><strong>INCAR template for fixed-cell 2D ionic relaxation:</strong></p>
 <pre><code></code></pre>
 <p><strong>KPOINTS for 2D hexagonal lattice:</strong></p>
-<pre><code></code></pre>
+<pre><code>Automatic
+0
+Gamma
+12 12 1
+0 0 0</code></pre>
 </section>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
 <p><strong>Full VASP bash script on andromeda2 cluster:</strong></p>
 <pre><code></code></pre>
 <p><strong>Post-processing: extract total energy</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"TOTEN"</span> OUTCAR <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'{print $5}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code></code></pre>
 </section>
 <section id="bug-reports-and-warnings" class="level3">
 <h3 class="anchored" data-anchor-id="bug-reports-and-warnings">Bug Reports and Warnings</h3>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout callout-style-default callout-warning callout-empty-content callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -329,10 +338,10 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<hr>
+
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note callout-empty-content callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -342,7 +351,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<hr>
+
 </div>
 </div>
 <p>Known issues:</p>
@@ -369,7 +378,6 @@ Note
 <ul>
 <li><a href="https://github.com/ACEsuit/mace">MACE GitHub</a> — installation, tutorials, pretrained models</li>
 <li>Batatia et al., <em>NeurIPS</em> 2022 — original MACE paper</li>
-<li><a href="https://www.vasp.at/wiki/index.php/Molecular_dynamics_calculations">VASP AIMD setup</a> — generating DFT training data</li>
 <li><a href="https://next-gen.materialsproject.org/">Materials Project</a> — reference structures and DFT data for 2D materials</li>
 </ul>
 <hr>
@@ -867,9 +875,9 @@ Note
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Step <span class="pp">|</span> INCAR setting <span class="pp">|</span> Purpose <span class="pp">|</span></span>
 <span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Relaxation <span class="pp">|</span> `` <span class="pp">|</span> Relax atomic positions <span class="pp">|</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Static SCF <span class="pp">|</span> `` <span class="pp">|</span> Converged charge density <span class="pp">|</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Phonon/band <span class="pp">|</span> `` <span class="pp">|</span> Non-self-consistent band structure <span class="pp">|</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Relaxation (fixed lattice) <span class="pp">|</span> <span class="in">`IBRION=2, NSW=100, ISIF=2`</span> <span class="pp">|</span> Relax atomic positions at fixed cell <span class="pp">|</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Static SCF <span class="pp">|</span> <span class="in">`IBRION=-1, NSW=0`</span> <span class="pp">|</span> Converged charge density <span class="pp">|</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Band/DOS <span class="pp">|</span> <span class="in">`ICHARG=11`</span> <span class="pp">|</span> Non-self-consistent analysis on converged charge density <span class="pp">|</span></span>
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### Code</span></span>
 <span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
@@ -877,7 +885,7 @@ Note
 <span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>**INCAR template for 2D relaxation:**</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>**INCAR template for fixed-cell 2D ionic relaxation:**</span>
 <span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -885,59 +893,59 @@ Note
 <span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>**KPOINTS for 2D hexagonal lattice:**</span>
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>**Full VASP bash script on andromeda2 cluster:**</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="in">Automatic</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a><span class="in">0</span></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="in">Gamma</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a><span class="in">12 12 1</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a><span class="in">0 0 0</span></span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
 <span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>**Post-processing: extract total energy**</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>**Full VASP bash script on andromeda2 cluster:**</span>
 <span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"TOTEN"</span> OUTCAR <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'{print $5}'</span></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>**Post-processing: extract total energy**</span>
 <span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>**** </span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>**** </span>
-<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>Known issues:</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a>Known issues:</span>
 <span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
-<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">VASP Wiki — 2D materials</span><span class="co">](https://www.vasp.at/wiki/index.php/2D_systems)</span> — official documentation on slab setups</span>
-<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">vdW-DF functionals in VASP</span><span class="co">](https://www.vasp.at/wiki/index.php/DFT-D3)</span> — IVDW options and references</span>
-<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Kresse &amp; Furthmüller, *Phys. Rev. B* **54**, 11169 (1996) — original VASP paper</span>
-<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Perdew, Burke, Ernzerhof, *PRL* **77**, 3865 (1996) — PBE functional</span>
-<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Grimme et al., *J. Chem. Phys.* **132**, 154104 (2010) — DFT-D3</span>
-<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## Section 2 — ML Running Tutorial</span></span>
-<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">VASP Wiki — 2D materials</span><span class="co">](https://www.vasp.at/wiki/index.php/2D_systems)</span> — official documentation on slab setups</span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">vdW-DF functionals in VASP</span><span class="co">](https://www.vasp.at/wiki/index.php/DFT-D3)</span> — IVDW options and references</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Kresse &amp; Furthmüller, *Phys. Rev. B* **54**, 11169 (1996) — original VASP paper</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Perdew, Burke, Ernzerhof, *PRL* **77**, 3865 (1996) — PBE functional</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Grimme et al., *J. Chem. Phys.* **132**, 154104 (2010) — DFT-D3</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="fu">## Section 2 — ML Running Tutorial</span></span>
 <span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
 <span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MACE GitHub</span><span class="co">](https://github.com/ACEsuit/mace)</span> — installation, tutorials, pretrained models</span>
-<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Batatia et al., *NeurIPS* 2022 — original MACE paper</span>
-<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">VASP AIMD setup</span><span class="co">](https://www.vasp.at/wiki/index.php/Molecular_dynamics_calculations)</span> — generating DFT training data</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MACE GitHub</span><span class="co">](https://github.com/ACEsuit/mace)</span> — installation, tutorials, pretrained models</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Batatia et al., *NeurIPS* 2022 — original MACE paper</span>
 <span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Materials Project</span><span class="co">](https://next-gen.materialsproject.org/)</span> — reference structures and DFT data for 2D materials</span>
 <span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a>---</span>

@@ -32,7 +32,7 @@
     "href": "index.html#how-to-contribute",
     "title": "Welcome to the Group Wiki",
     "section": "How to contribute",
-    "text": "How to contribute\n\nClone the repo: git clone https://github.com/YOUR_ORG/wiki.git\nEdit or add a .qmd file in docs/ following the section template\nPush to main — the site rebuilds automatically"
+    "text": "How to contribute\n\nClone the repo: git clone https://github.com/ziyanzzhu/zhu_group_wiki\nEdit or add a .qmd file in docs/ following the section template\nPush to main — the site rebuilds automatically"
   },
   {
     "objectID": "docs/methods.html",
@@ -424,6 +424,6 @@
     "href": "docs/wiki-tutorial.html#part-4-file-structure-reference",
     "title": "Group Wiki — Setup & Contribution Guide",
     "section": "Part 4 — File structure reference",
-    "text": "Part 4 — File structure reference\nwiki/\n├── _quarto.yml                     ← site config, navbar, theme\n├── index.qmd                       ← home page\n├── docs/\n│   ├── wiki-tutorial.qmd           ← this file\n│   ├── dft-ml-tutorial.qmd         ← DFT/ML team tutorial\n│   ├── continuum-tutorial.qmd      ← Continuum model tutorial\n│   └── references.qmd\n├── notebooks/\n│   └── analysis.ipynb              ← Jupyter notebooks go here\n└── .github/\n    └── workflows/\n        └── publish.yml             ← do not edit this unless adding Python packages"
+    "text": "Part 4 — File structure reference\nwiki/\n├── _quarto.yml                     ← site config, navbar, theme\n├── index.qmd                       ← home page\n├── docs/\n│   ├── wiki-tutorial.qmd           ← this file\n│   ├── dft-tutorial.qmd         ← DFT/ML team tutorial\n│   ├── continuum-tutorial.qmd      ← Continuum model tutorial\n│   └── references.qmd\n├── notebooks/\n│   └── analysis.ipynb              ← Jupyter notebooks go here\n└── .github/\n    └── workflows/\n        └── publish.yml             ← do not edit this unless adding Python packages"
   }
 ]
