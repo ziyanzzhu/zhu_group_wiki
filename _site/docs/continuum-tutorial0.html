@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Continuum Model Team">
-<meta name="dcterms.date" content="2026-04-01">
+<meta name="dcterms.date" content="2026-04-29">
 
-<title>Continuum Model Tutorial — TBG and TMD Moiré Systems – Group Wiki</title>
+<title>Continuum Model Tutorial — TBG and TMD Moiré Systems – Zhu Group Wiki</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-a06763021a52c43c40a351ac8b799b8f.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-9cdbd49fb92a4d7f9d8c4f710986121f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -148,7 +148,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Group Wiki</span>
+    <span class="navbar-title">Zhu Group Wiki</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -171,7 +171,7 @@ window.Quarto = {
  <span class="dropdown-text">Wiki Tutorial</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../docs/dft-ml-tutorial.html">
+    <a class="dropdown-item" href="../docs/dft-tutorial.html">
  <span class="dropdown-text">DFT/ML Tutorial</span></a>
   </li>  
         <li>
@@ -180,10 +180,6 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../docs/methods.html"> 
-<span class="menu-text">Methods</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="../docs/references.html"> 
 <span class="menu-text">References</span></a>
@@ -249,7 +245,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 1, 2026</p>
+      <p class="date">April 29, 2026</p>
     </div>
   </div>
   
@@ -284,11 +280,11 @@ T(\mathbf{r}) = \sum_{j=0}^{2} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}
 \]</span></p>
 <p>is the interlayer tunneling with moiré wavevectors <span class="math inline">\(\mathbf{q}_j\)</span> connecting the Dirac cones. The tunneling matrices are:</p>
 <p><span class="math display">\[
-T_0 = w \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}, \quad
-T_1 = w \begin{pmatrix} 1 &amp; \omega^{-1} \\ \omega &amp; 1 \end{pmatrix}, \quad
-T_2 = w \begin{pmatrix} 1 &amp; \omega \\ \omega^{-1} &amp; 1 \end{pmatrix}
+T_0 = \omega_0 \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}, \quad
+T_1 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} \\ \phi &amp; 1 \end{pmatrix}, \quad
+T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
 \]</span></p>
-<p>where <span class="math inline">\(\omega = e^{2\pi i/3}\)</span> and <span class="math inline">\(w \approx 110\)</span> meV is the tunneling amplitude. The “chiral limit” sets the AA tunneling to zero (<span class="math inline">\(w_{AA} = 0\)</span>) and retains only <span class="math inline">\(w_{AB}\)</span>.</p>
+<p>where <span class="math inline">\(\phi = e^{2\pi i/3}\)</span> and <span class="math inline">\(\omega_0 \approx 110\)</span> meV is the tunneling amplitude</p>
 <p>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</p>
 <p><span class="math display">\[
 \alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°
@@ -297,7 +293,7 @@ T_2 = w \begin{pmatrix} 1 &amp; \omega \\ \omega^{-1} &amp; 1 \end{pmatrix}
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
 <ol type="1">
-<li>Set the twist angle <span class="math inline">\(\theta\)</span> and the tunneling parameters <span class="math inline">\(w_{AA}\)</span>, <span class="math inline">\(\w_{AB}\)</span>.</li>
+<li>Set the twist angle <span class="math inline">\(\theta\)</span> and the tunneling parameters <span class="math inline">\(\omega_{AA}\)</span>, <span class="math inline">\(\omega_{AB}\)</span>.</li>
 <li>Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.</li>
 <li>Diagonalize at each <span class="math inline">\(\mathbf{k}\)</span>-point in the moiré Brillouin zone (mBZ).</li>
 <li>Plot band structure, DOS, Berry curvature, or Chern numbers.</li>
@@ -1346,12 +1342,12 @@ Note
 <span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>is the interlayer tunneling with moiré wavevectors $\mathbf{q}_j$ connecting the Dirac cones. The tunneling matrices are:</span>
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>T_0 = w \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>T_1 = w \begin{pmatrix} 1 &amp; \omega^{-1} <span class="sc">\\</span> \omega &amp; 1 \end{pmatrix}, \quad</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>T_2 = w \begin{pmatrix} 1 &amp; \omega <span class="sc">\\</span> \omega^{-1} &amp; 1 \end{pmatrix}</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>T_0 = \omega_0 \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>T_1 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} <span class="sc">\\</span> \phi &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi <span class="sc">\\</span> \phi^{-1} &amp; 1 \end{pmatrix}</span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>where $\omega = e^{2\pi i/3}$ and $w \approx 110$ meV is the tunneling amplitude. The "chiral limit" sets the AA tunneling to zero ($w_{AA} = 0$) and retains only $w_{AB}$.</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the tunneling amplitude</span>
 <span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</span>
 <span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
@@ -1361,7 +1357,7 @@ Note
 <span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
 <span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set the twist angle $\theta$ and the tunneling parameters $w_{AA}$, $\w_{AB}$.</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set the twist angle $\theta$ and the tunneling parameters $\omega_{AA}$, $\omega_{AB}$.</span>
 <span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.</span>
 <span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Diagonalize at each $\mathbf{k}$-point in the moiré Brillouin zone (mBZ).</span>
 <span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Plot band structure, DOS, Berry curvature, or Chern numbers.</span>

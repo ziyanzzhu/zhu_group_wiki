@@ -34,12 +34,12 @@ $$
 is the interlayer tunneling with moiré wavevectors $\mathbf{q}_j$ connecting the Dirac cones. The tunneling matrices are:
 
 $$
-T_0 = w \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}, \quad
-T_1 = w \begin{pmatrix} 1 & \omega^{-1} \\ \omega & 1 \end{pmatrix}, \quad
-T_2 = w \begin{pmatrix} 1 & \omega \\ \omega^{-1} & 1 \end{pmatrix}
+T_0 = \omega_0 \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}, \quad
+T_1 = \omega_0 \begin{pmatrix} 1 & \phi^{-1} \\ \phi & 1 \end{pmatrix}, \quad
+T_2 = \omega_0 \begin{pmatrix} 1 & \phi \\ \phi^{-1} & 1 \end{pmatrix}
 $$
 
-where $\omega = e^{2\pi i/3}$ and $w \approx 110$ meV is the tunneling amplitude. The "chiral limit" sets the AA tunneling to zero ($w_{AA} = 0$) and retains only $w_{AB}$.
+where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the tunneling amplitude
 
 The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:
 
@@ -49,7 +49,7 @@ $$
 
 ### Usage
 
-1. Set the twist angle $\theta$ and the tunneling parameters $w_{AA}$, $\w_{AB}$.
+1. Set the twist angle $\theta$ and the tunneling parameters $\omega_{AA}$, $\omega_{AB}$.
 2. Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.
 3. Diagonalize at each $\mathbf{k}$-point in the moiré Brillouin zone (mBZ).
 4. Plot band structure, DOS, Berry curvature, or Chern numbers.
