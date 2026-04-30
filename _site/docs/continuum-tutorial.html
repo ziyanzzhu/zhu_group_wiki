@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Continuum Model Team">
-<meta name="dcterms.date" content="2026-04-22">
+<meta name="dcterms.date" content="2026-04-29">
 
-<title>Continuum Model Tutorial – Zhu Group Wiki</title>
+<title>Continuum Model Tutorial — TBG and TMD Moiré Systems – Zhu Group Wiki</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -60,26 +60,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -247,7 +228,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Continuum Model Tutorial</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Continuum Model Tutorial — TBG and TMD Moiré Systems</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -264,7 +245,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 22, 2026</p>
+      <p class="date">April 29, 2026</p>
     </div>
   </div>
   
@@ -276,25 +257,47 @@ window.Quarto = {
 </header>
 
 
-<p>This tutorial documents the continuum models used in twisted bilayer graphene (TBG) and twisted transition metal dichalcogenides (TMD) moiré systems.</p>
+<p>This tutorial documents the continuum models used by the group for twisted bilayer graphene (TBG) and twisted transition metal dichalcogenides (TMD) moiré systems, including theory, code, and worked examples.</p>
 <hr>
 <section id="section-1-twisted-bilayer-graphene-tbg-continuum-model" class="level2">
 <h2 class="anchored" data-anchor-id="section-1-twisted-bilayer-graphene-tbg-continuum-model">Section 1 — Twisted Bilayer Graphene (TBG) Continuum Model</h2>
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<p>At the “magic angle” (~1.1°), twisted bilayer graphene hosts nearly flat moiré bands that give rise to correlated insulating states, superconductivity, and orbital magnetism. The continuum (Bistritzer-MacDonald) model captures the low-energy electronic structure without requiring a full DFT calculation of the enormous moiré unit cell (up to ~10,000 atoms). This section documents the group’s implementation and how to use it.</p>
 </section>
 <section id="physics" class="level3">
 <h3 class="anchored" data-anchor-id="physics">Physics</h3>
-<p>The TBG continuum model (<span class="citation" data-cites="bistritzer_moire_2011">Bistritzer and MacDonald (<a href="#ref-bistritzer_moire_2011" role="doc-biblioref">2011</a>)</span>) Hamiltonian near valley <span class="math inline">\(K\)</span> is:</p>
+<p>The TBG continuum model (Bistritzer &amp; MacDonald, 2011) treats each graphene layer as a Dirac cone shifted in momentum space by the twist. The Hamiltonian near a valley <span class="math inline">\(K\)</span> is:</p>
 <p><span class="math display">\[
 H_K = \begin{pmatrix}
 h_+(\mathbf{k}) &amp; T(\mathbf{r}) \\
 T^\dagger(\mathbf{r}) &amp; h_-(\mathbf{k})
 \end{pmatrix}
 \]</span></p>
+<p>where <span class="math inline">\(h_\pm(\mathbf{k}) = \hbar v_F \boldsymbol{\sigma}_{\pm\theta/2} \cdot \mathbf{k}\)</span> are the Dirac Hamiltonians of the top/bottom layers rotated by <span class="math inline">\(\pm\theta/2\)</span>, and:</p>
+<p><span class="math display">\[
+T(\mathbf{r}) = \sum_{j=1}^{3} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}
+\]</span></p>
+<p>is the interlayer tunneling with moiré wavevectors <span class="math inline">\(\mathbf{q}_j\)</span> connecting the Dirac cones. The tunneling matrices are:</p>
+<p><span class="math display">\[
+T_1 = \omega_0 \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}, \quad
+T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} \\ \phi &amp; 1 \end{pmatrix}, \quad
+T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
+\]</span></p>
+<p>where <span class="math inline">\(\phi = e^{2\pi i/3}\)</span> and <span class="math inline">\(\omega_0 \approx 110\)</span> meV is the tunneling amplitude</p>
+<p>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</p>
+<p><span class="math display">\[
+\alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°
+\]</span></p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<ol type="1">
+<li>Set the twist angle <span class="math inline">\(\theta\)</span> and the tunneling parameters <span class="math inline">\(\omega_{AA}\)</span>, <span class="math inline">\(\omega_{AB}\)</span>.</li>
+<li>Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.</li>
+<li>Diagonalize at each <span class="math inline">\(\mathbf{k}\)</span>-point in the moiré Brillouin zone (mBZ).</li>
+<li>Plot band structure, DOS, Berry curvature, or Chern numbers.</li>
+</ol>
 <p><strong>Key parameters:</strong></p>
 <table class="caption-top table">
 <thead>
@@ -310,22 +313,220 @@ T^\dagger(\mathbf{r}) &amp; h_-(\mathbf{k})
 <td>1.05° (magic)</td>
 <td>Twist angle</td>
 </tr>
+<tr class="even">
+<td><span class="math inline">\(v_F\)</span></td>
+<td><span class="math inline">\(10^6\)</span> m/s</td>
+<td>Dirac velocity of graphene</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(w_{AA}\)</span></td>
+<td>0–80 meV</td>
+<td>AA site tunneling considering relaxation</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(w_{AB}\)</span></td>
+<td>110 meV</td>
+<td>AB site tunneling considering relaxation</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(N_\text{shell}\)</span></td>
+<td>3–5</td>
+<td>Number of moiré shells in basis</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(N_k\)</span></td>
+<td><span class="math inline">\(30\times30\)</span></td>
+<td>k-point mesh in mBZ</td>
+</tr>
 </tbody>
 </table>
+<p>Increase <code>N_shell</code> until the flat band bandwidth converges (typically shell 3 is sufficient for the flat bands, shell 5 for remote bands).</p>
 </section>
 <section id="code" class="level3">
 <h3 class="anchored" data-anchor-id="code">Code</h3>
-<p><strong>TBG continuum model</strong></p>
+<p><strong>TBG continuum model — Python implementation:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ── Constants ──────────────────────────────────────────────────────────────────</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>hbar_vF <span class="op">=</span> <span class="fl">2.1354</span>  <span class="co"># eV·Å  (ℏ v_F for graphene)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>a0      <span class="op">=</span> <span class="fl">2.46</span>    <span class="co"># Å     (graphene lattice constant)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tbg_hamiltonian(k, theta_deg, w_AA<span class="op">=</span><span class="fl">0.0797</span>, w_AB<span class="op">=</span><span class="fl">0.1100</span>, n_shell<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Build the TBG continuum Hamiltonian at momentum k (in Å⁻¹).</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    k       : array_like, shape (2,)  — crystal momentum in mBZ</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    theta   : float — twist angle in degrees</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    w_AA    : float — AA tunneling in eV</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    w_AB    : float — AB tunneling in eV</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">    n_shell : int   — number of moiré shells in basis</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">    H : ndarray, shape (4*N, 4*N) — Hermitian Hamiltonian matrix</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.deg2rad(theta_deg)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Moiré reciprocal lattice vectors</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    a_moire <span class="op">=</span> a0 <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_moire)) <span class="op">*</span> np.array([np.sqrt(<span class="dv">3</span>)<span class="op">/</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>])</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_moire)) <span class="op">*</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># q vectors connecting the K points of the two layers</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    q0 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a0)) <span class="op">*</span> np.array([<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a0)) <span class="op">*</span> np.array([np.sqrt(<span class="dv">3</span>)<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    q2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a0)) <span class="op">*</span> np.array([<span class="op">-</span>np.sqrt(<span class="dv">3</span>)<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    qs <span class="op">=</span> [q0, q1, q2]</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tunneling matrices</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    omega <span class="op">=</span> np.exp(<span class="ot">2j</span> <span class="op">*</span> np.pi <span class="op">/</span> <span class="dv">3</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> [</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        np.array([[w_AA, w_AB], [w_AB, w_AA]]),</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        np.array([[w_AA, w_AB <span class="op">*</span> np.conj(omega)], [w_AB <span class="op">*</span> omega, w_AA]]),</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        np.array([[w_AA, w_AB <span class="op">*</span> omega], [w_AB <span class="op">*</span> np.conj(omega), w_AA]]),</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build moiré lattice basis vectors {m*b1 + n*b2}</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    G_list <span class="op">=</span> []</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>            G_list.append(m <span class="op">*</span> b1 <span class="op">+</span> n <span class="op">*</span> b2)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(G_list)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hamiltonian matrix (4N × 4N: layer ⊗ sublattice ⊗ G)</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> np.zeros((<span class="dv">4</span> <span class="op">*</span> N, <span class="dv">4</span> <span class="op">*</span> N), dtype<span class="op">=</span><span class="bu">complex</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> idx(g_idx, layer, sub):</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> g_idx <span class="op">*</span> <span class="dv">4</span> <span class="op">+</span> layer <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> sub</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, G <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Intralayer: Dirac Hamiltonian</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> layer <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>            sign <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> layer <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>            rot <span class="op">=</span> sign <span class="op">*</span> theta <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>            c, s <span class="op">=</span> np.cos(rot), np.sin(rot)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>            kG <span class="op">=</span> k <span class="op">+</span> G <span class="op">+</span> (q0 <span class="cf">if</span> layer <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> np.zeros(<span class="dv">2</span>))</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>            kx, ky <span class="op">=</span> kG</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>            kx_rot <span class="op">=</span> c <span class="op">*</span> kx <span class="op">+</span> s <span class="op">*</span> ky</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>            ky_rot <span class="op">=</span> <span class="op">-</span>s <span class="op">*</span> kx <span class="op">+</span> c <span class="op">*</span> ky</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>            H[idx(i, layer, <span class="dv">0</span>), idx(i, layer, <span class="dv">1</span>)] <span class="op">+=</span> hbar_vF <span class="op">*</span> (kx_rot <span class="op">-</span> <span class="ot">1j</span> <span class="op">*</span> ky_rot)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>            H[idx(i, layer, <span class="dv">1</span>), idx(i, layer, <span class="dv">0</span>)] <span class="op">+=</span> hbar_vF <span class="op">*</span> (kx_rot <span class="op">+</span> <span class="ot">1j</span> <span class="op">*</span> ky_rot)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Interlayer tunneling</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, G2 <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> nu, q <span class="kw">in</span> <span class="bu">enumerate</span>(qs):</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>                dG <span class="op">=</span> G2 <span class="op">-</span> G <span class="op">-</span> q</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> np.linalg.norm(dG) <span class="op">&lt;</span> <span class="fl">1e-6</span>:</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>                            H[idx(i, <span class="dv">0</span>, a), idx(j, <span class="dv">1</span>, b)] <span class="op">+=</span> T[nu][a, b]</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>                            H[idx(j, <span class="dv">1</span>, b), idx(i, <span class="dv">0</span>, a)] <span class="op">+=</span> np.conj(T[nu][a, b])</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> H</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_bands(theta_deg, k_path, <span class="op">**</span>kwargs):</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute eigenvalues along a k-path."""</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    bands <span class="op">=</span> []</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> k_path:</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tbg_hamiltonian(k, theta_deg, <span class="op">**</span>kwargs)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>        eigvals <span class="op">=</span> eigh(H, eigvals_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>        bands.append(eigvals)</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(bands)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Plot band structure along Γ–K–M–Γ:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_kpath(points, n_per_seg<span class="op">=</span><span class="dv">50</span>):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> []</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    dists <span class="op">=</span> [<span class="fl">0.0</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p1, p2 <span class="kw">in</span> <span class="bu">zip</span>(points[:<span class="op">-</span><span class="dv">1</span>], points[<span class="dv">1</span>:]):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        seg <span class="op">=</span> np.linspace(p1, p2, n_per_seg, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        path.extend(seg)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        dists.append(dists[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> np.linalg.norm(np.array(p2) <span class="op">-</span> np.array(p1)))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    path.append(points[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(path), dists</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="fl">1.05</span>   <span class="co"># magic angle</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>a_m <span class="op">=</span> a0 <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(np.deg2rad(theta <span class="op">/</span> <span class="dv">2</span>)))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>K_m <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>M_m <span class="op">=</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">1</span><span class="op">/</span>np.sqrt(<span class="dv">3</span>)])</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>kpts, tick_dists <span class="op">=</span> make_kpath([[<span class="dv">0</span>,<span class="dv">0</span>], K_m, M_m, [<span class="dv">0</span>,<span class="dv">0</span>]])</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>bands <span class="op">=</span> compute_bands(theta, kpts, w_AA<span class="op">=</span><span class="fl">0.0</span>, w_AB<span class="op">=</span><span class="fl">0.110</span>, n_shell<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> band <span class="kw">in</span> bands.T:</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    ax.plot(band, color<span class="op">=</span><span class="st">"steelblue"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Energy (eV)"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(<span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(kpts), <span class="dv">50</span>))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="vs">r"</span><span class="dv">$\G</span><span class="vs">amma</span><span class="dv">$</span><span class="vs">"</span>, <span class="st">"K"</span>, <span class="st">"M"</span>, <span class="vs">r"</span><span class="dv">$\G</span><span class="vs">amma</span><span class="dv">$</span><span class="vs">"</span>])</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="fl">0.5</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"TBG bands — θ = </span><span class="sc">{</span>theta<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"tbg_bands.pdf"</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="example" class="level3">
 <h3 class="anchored" data-anchor-id="example">Example</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Bandwidth as a function of twist angle (magic angle scan):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>angles <span class="op">=</span> np.linspace(<span class="fl">0.5</span>, <span class="fl">2.5</span>, <span class="dv">40</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>bandwidths <span class="op">=</span> []</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> theta <span class="kw">in</span> angles:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sample a few k-points in the mBZ</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    k_samples <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.05</span>, (<span class="dv">20</span>, <span class="dv">2</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    flat_eigs <span class="op">=</span> []</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> k_samples:</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tbg_hamiltonian(k, theta, w_AA<span class="op">=</span><span class="fl">0.0</span>, w_AB<span class="op">=</span><span class="fl">0.110</span>, n_shell<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        eigs <span class="op">=</span> eigh(H, eigvals_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        N4 <span class="op">=</span> <span class="bu">len</span>(eigs) <span class="op">//</span> <span class="dv">4</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        flat_eigs.extend(eigs[N4 <span class="op">-</span> <span class="dv">1</span> : N4 <span class="op">+</span> <span class="dv">1</span>])  <span class="co"># two flat bands near charge neutrality</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    bandwidths.append(np.<span class="bu">max</span>(flat_eigs) <span class="op">-</span> np.<span class="bu">min</span>(flat_eigs))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>ax.plot(angles, np.array(bandwidths) <span class="op">*</span> <span class="dv">1000</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Twist angle (degrees)"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Flat band bandwidth (meV)"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="fl">1.05</span>, color<span class="op">=</span><span class="st">"red"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Magic angle"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"bandwidth_vs_angle.pdf"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="bug-reports-and-warnings" class="level3">
 <h3 class="anchored" data-anchor-id="bug-reports-and-warnings">Bug Reports and Warnings</h3>
-<div class="callout callout-style-default callout-note callout-empty-content callout-titled">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>k-point folding into the mBZ.</strong> Momentum points must be folded into the moiré Brillouin zone before passing to the Hamiltonian. Passing points outside the mBZ does not cause an error but gives incorrect band ordering.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Basis size convergence.</strong> Using <code>n_shell=1</code> (9 G-vectors) is insufficient even for the flat bands at the magic angle; use at least <code>n_shell=3</code>. For remote bands or Berry curvature calculations, use <code>n_shell=5</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -335,13 +536,23 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<p><strong>Valley and spin degeneracy.</strong> The code above computes one valley (<span class="math inline">\(K\)</span>). The <span class="math inline">\(K'\)</span> valley is related by time-reversal: <span class="math inline">\(H_{K'}(\mathbf{k}) = H_K^*(-\mathbf{k})\)</span>. The total DOS and transport quantities should include both valleys and both spins (factor of 4).</p>
 </div>
 </div>
 <p>Known issues:</p>
+<ul>
+<li>The q-vector construction in the code assumes the chiral gauge; if you switch to a different gauge the tunneling matrices <code>T[nu]</code> must be updated consistently.</li>
+<li>At exactly <span class="math inline">\(\theta = 0\)</span> the code is singular (moiré period diverges); use a minimum of <span class="math inline">\(\theta \approx 0.3°\)</span>.</li>
+</ul>
 </section>
 <section id="additional-resources" class="level3">
 <h3 class="anchored" data-anchor-id="additional-resources">Additional Resources</h3>
+<ul>
+<li>Bistritzer &amp; MacDonald, <em>PNAS</em> <strong>108</strong>, 12233 (2011) — original TBG continuum model</li>
+<li>Tarnopolsky, Kruchkov &amp; Vishwanath, <em>PRL</em> <strong>122</strong>, 106405 (2019) — chiral TBG model</li>
+<li><a href="https://github.com/jabirali/twistronics">TwistronicsLab code</a> — open-source reference implementation</li>
+<li>Song et al., <em>PRL</em> <strong>123</strong>, 036401 (2019) — fragile topology of TBG flat bands</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -349,14 +560,39 @@ Note
 <h2 class="anchored" data-anchor-id="section-2-tmd-moiré-continuum-model">Section 2 — TMD Moiré Continuum Model</h2>
 <section id="introduction-1" class="level3">
 <h3 class="anchored" data-anchor-id="introduction-1">Introduction</h3>
+<p>Twisted TMD homobilayers (e.g., MoSe₂/MoSe₂, WSe₂/WSe₂) and heterobilayers (MoSe₂/WSe₂) host moiré flat bands in the valence band at twist angles of 1°–5°. These systems are distinct from TBG because the low-energy carriers live at the <span class="math inline">\(K/K'\)</span> points of a <strong>massive Dirac</strong> (rather than massless Dirac) spectrum, and strong spin-orbit coupling locks spin to the valley. This section documents the group’s continuum model for TMD moirés.</p>
 </section>
 <section id="physics-1" class="level3">
 <h3 class="anchored" data-anchor-id="physics-1">Physics</h3>
+<p>The low-energy valence band near valley <span class="math inline">\(K\)</span> of a monolayer TMD is described by a massive Dirac Hamiltonian:</p>
+<p><span class="math display">\[
+h_\tau(\mathbf{k}) = \begin{pmatrix}
+\frac{\Delta}{2} &amp; \hbar v_F (\tau k_x - i k_y) \\
+\hbar v_F (\tau k_x + i k_y) &amp; -\frac{\Delta}{2}
+\end{pmatrix} + \tau \frac{\lambda}{2} \sigma_z
+\]</span></p>
+<p>where <span class="math inline">\(\tau = \pm 1\)</span> is the valley index, <span class="math inline">\(\Delta\)</span> is the band gap, <span class="math inline">\(\lambda\)</span> is the SOC splitting, and the valence band maximum is at <span class="math inline">\(K\)</span>.</p>
+<p>In a twisted TMD bilayer, the moiré potential from the registry variation modulates the on-site energy. Unlike TBG, the tunneling between the two layers is <strong>suppressed</strong> (due to the large momentum mismatch and the massive gap), and the dominant moiré effect is an <strong>intralayer</strong> moiré potential:</p>
+<p><span class="math display">\[
+H_\text{moiré}(\mathbf{r}) = V_0 \sum_{j=1}^{6} e^{i \mathbf{G}_j \cdot \mathbf{r}} + \text{h.c.}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{G}_j\)</span> are the moiré reciprocal lattice vectors and <span class="math inline">\(V_0\)</span> is the moiré potential amplitude. The effective single-band model for the top-of-valence-band hole (spin-up, valley <span class="math inline">\(K\)</span>) is:</p>
+<p><span class="math display">\[
+H = -\frac{\hbar^2 \nabla^2}{2 m^*} + V_0 \sum_{j=1}^{6} \cos(\mathbf{G}_j \cdot \mathbf{r} + \phi_j)
+\]</span></p>
+<p>where <span class="math inline">\(m^*\)</span> is the effective mass and <span class="math inline">\(\phi_j\)</span> encodes the local stacking geometry (MM, MX, XX high-symmetry points).</p>
+<p>For a heterobilayer, the interlayer tunneling <span class="math inline">\(t_\perp\)</span> is finite and must be included; it hybridizes the two layers and opens a gap at the moiré Brillouin zone boundary.</p>
 </section>
 <section id="usage-1" class="level3">
 <h3 class="anchored" data-anchor-id="usage-1">Usage</h3>
+<ol type="1">
+<li>Set the twist angle <span class="math inline">\(\theta\)</span> and material parameters (<span class="math inline">\(m^*\)</span>, <span class="math inline">\(V_0\)</span>, <span class="math inline">\(\phi\)</span>, <span class="math inline">\(t_\perp\)</span>).</li>
+<li>Build the plane-wave basis for the moiré superlattice.</li>
+<li>Diagonalize to get the moiré valence bands.</li>
+<li>Calculate DOS, effective mass, and Chern number of the flat bands.</li>
+</ol>
 <p><strong>Key parameters for MoSe₂/MoSe₂ (from literature):</strong></p>
-<table class="caption-top">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Parameter</th>
@@ -365,22 +601,208 @@ Note
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td><span class="math inline">\(m^*\)</span></td>
+<td><span class="math inline">\(0.62 \, m_e\)</span></td>
+<td>Hole effective mass</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(V_0\)</span></td>
+<td>8–15 meV</td>
+<td>Moiré potential amplitude</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\phi\)</span></td>
+<td><span class="math inline">\(-89°\)</span> (MoSe₂)</td>
+<td>Moiré potential phase</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(a_0\)</span></td>
+<td>3.32 Å</td>
+<td>MoSe₂ lattice constant</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\theta\)</span></td>
+<td>1°–5°</td>
+<td>Twist angle range of interest</td>
+</tr>
 </tbody>
 </table>
 </section>
 <section id="code-1" class="level3">
 <h3 class="anchored" data-anchor-id="code-1">Code</h3>
 <p><strong>TMD moiré continuum model — single-band approximation:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ── Material parameters (MoSe2/MoSe2) ─────────────────────────────────────────</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>hbar2_over_2m <span class="op">=</span> <span class="fl">3.81</span>      <span class="co"># eV·Å²  (ℏ²/2m_e)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>m_star <span class="op">=</span> <span class="fl">0.62</span>             <span class="co"># in units of m_e</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>K_eff <span class="op">=</span> hbar2_over_2m <span class="op">/</span> m_star  <span class="co"># eV·Å²</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>a0_TMD <span class="op">=</span> <span class="fl">3.32</span>             <span class="co"># Å, monolayer lattice constant</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>V0 <span class="op">=</span> <span class="fl">0.010</span>                <span class="co"># eV, moiré potential amplitude</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> np.deg2rad(<span class="op">-</span><span class="dv">89</span>)     <span class="co"># moiré potential phase (MoSe2)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tmd_hamiltonian(k_vec, theta_deg, n_shell<span class="op">=</span><span class="dv">4</span>):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">    Single-band continuum model for TMD homobilayer moiré.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">    k_vec     : array_like shape (2,) — crystal momentum in mBZ (Å⁻¹)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">    theta_deg : float — twist angle in degrees</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">    n_shell   : int   — number of moiré reciprocal lattice shells</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">    H : ndarray, Hermitian Hamiltonian</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.deg2rad(theta_deg)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    a_m <span class="op">=</span> a0_TMD <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>))  <span class="co"># moiré lattice constant</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Moiré reciprocal lattice vectors (hexagonal)</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="fl">0.5</span>, np.sqrt(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build G-vector basis</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    G_list <span class="op">=</span> []</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            G_list.append(m <span class="op">*</span> b1 <span class="op">+</span> n <span class="op">*</span> b2)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(G_list)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> np.zeros((N, N), dtype<span class="op">=</span><span class="bu">complex</span>)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First-shell moiré reciprocal lattice vectors</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    G1 <span class="op">=</span> b1</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    G2 <span class="op">=</span> b2</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    G3 <span class="op">=</span> b2 <span class="op">-</span> b1</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    G_moire <span class="op">=</span> [G1, G2, G3, <span class="op">-</span>G1, <span class="op">-</span>G2, <span class="op">-</span>G3]</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, Gi <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Kinetic energy (hole: negative sign)</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        kG <span class="op">=</span> np.array(k_vec) <span class="op">+</span> Gi</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>        H[i, i] <span class="op">-=</span> K_eff <span class="op">*</span> np.dot(kG, kG)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Moiré potential: connects G to G ± G_moire</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, Gj <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>            dG <span class="op">=</span> Gi <span class="op">-</span> Gj</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> nu, Gm <span class="kw">in</span> <span class="bu">enumerate</span>(G_moire):</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> np.linalg.norm(dG <span class="op">-</span> Gm) <span class="op">&lt;</span> <span class="fl">1e-6</span>:</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>                    H[i, j] <span class="op">+=</span> V0 <span class="op">*</span> np.exp(<span class="ot">1j</span> <span class="op">*</span> phi <span class="op">*</span> (<span class="dv">1</span> <span class="cf">if</span> nu <span class="op">&lt;</span> <span class="dv">3</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> H</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_tmd_bands(theta_deg, k_path, n_shell<span class="op">=</span><span class="dv">4</span>):</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    bands <span class="op">=</span> []</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> k_path:</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tmd_hamiltonian(k, theta_deg, n_shell<span class="op">=</span>n_shell)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        eigvals <span class="op">=</span> eigh(H, eigvals_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        bands.append(eigvals)</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(bands)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Chern number via Berry curvature (discretized BZ):</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> berry_curvature_chern(theta_deg, n_k<span class="op">=</span><span class="dv">30</span>, band_idx<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute Chern number of a moiré band using the discretized</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">    plaquette method (Fukui-Hatsugai-Suzuki).</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.deg2rad(theta_deg)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    a_m <span class="op">=</span> a0_TMD <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="fl">0.5</span>, np.sqrt(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    kx_arr <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n_k, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    ky_arr <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n_k, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_state(kx_frac, ky_frac):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> kx_frac <span class="op">*</span> b1 <span class="op">+</span> ky_frac <span class="op">*</span> b2</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tmd_hamiltonian(k, theta_deg)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        _, vecs <span class="op">=</span> eigh(H)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> vecs[:, band_idx]</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    F_total <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, kx <span class="kw">in</span> <span class="bu">enumerate</span>(kx_arr):</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, ky <span class="kw">in</span> <span class="bu">enumerate</span>(ky_arr):</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            u00 <span class="op">=</span> get_state(kx, ky)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            u10 <span class="op">=</span> get_state(kx_arr[(i<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k], ky)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            u11 <span class="op">=</span> get_state(kx_arr[(i<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k], ky_arr[(j<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k])</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>            u01 <span class="op">=</span> get_state(kx, ky_arr[(j<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k])</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            link <span class="op">=</span> (np.vdot(u00, u10) <span class="op">*</span> np.vdot(u10, u11) <span class="op">*</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                    np.vdot(u11, u01) <span class="op">*</span> np.vdot(u01, u00))</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>            F_total <span class="op">+=</span> np.angle(link)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(np.<span class="bu">round</span>(F_total <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.pi)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="example-1" class="level3">
 <h3 class="anchored" data-anchor-id="example-1">Example</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Band structure of MoSe₂/MoSe₂ at θ = 3°:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="fl">3.0</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>a_m <span class="op">=</span> a0_TMD <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(np.deg2rad(theta <span class="op">/</span> <span class="dv">2</span>)))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># High-symmetry points of the moiré hexagonal BZ</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="fl">0.5</span>, np.sqrt(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>Gamma <span class="op">=</span> np.array([<span class="fl">0.0</span>, <span class="fl">0.0</span>])</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>K_m   <span class="op">=</span> (b1 <span class="op">+</span> b2) <span class="op">/</span> <span class="dv">3</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>M_m   <span class="op">=</span> b1 <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>kpts <span class="op">=</span> np.concatenate([</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    np.linspace(Gamma, K_m, <span class="dv">50</span>, endpoint<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    np.linspace(K_m,   M_m, <span class="dv">50</span>, endpoint<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    np.linspace(M_m, Gamma, <span class="dv">50</span>, endpoint<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>bands <span class="op">=</span> compute_tmd_bands(theta, kpts, n_shell<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> band <span class="kw">in</span> bands.T[:<span class="dv">6</span>]:      <span class="co"># show 6 lowest hole bands</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    ax.plot(band <span class="op">*</span> <span class="dv">1000</span>, color<span class="op">=</span><span class="st">"steelblue"</span>, lw<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Energy (meV)"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">149</span>])</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">gamma</span><span class="dv">$</span><span class="vs">"</span>, <span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">kappa</span><span class="dv">$</span><span class="vs">"</span>, <span class="vs">r"</span><span class="dv">$\m</span><span class="vs">u</span><span class="dv">$</span><span class="vs">"</span>, <span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">gamma</span><span class="dv">$</span><span class="vs">"</span>])</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"MoSe₂/MoSe₂ moiré bands — θ = </span><span class="sc">{</span>theta<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"tmd_bands.pdf"</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Chern number scan:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>angles <span class="op">=</span> [<span class="fl">1.5</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> theta <span class="kw">in</span> angles:</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> berry_curvature_chern(theta, n_k<span class="op">=</span><span class="dv">20</span>, band_idx<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"θ = </span><span class="sc">{</span>theta<span class="sc">}</span><span class="ss">°  →  Chern number C = </span><span class="sc">{</span>C<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="bug-reports-and-warnings-1" class="level3">
 <h3 class="anchored" data-anchor-id="bug-reports-and-warnings-1">Bug Reports and Warnings</h3>
-<div class="callout callout-style-default callout-note callout-empty-content callout-titled">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Moiré potential phase <span class="math inline">\(\phi\)</span>.</strong> The sign convention for <span class="math inline">\(\phi\)</span> varies between papers. The convention in this code follows Zang et al.&nbsp;(2022). If comparing to Wu et al.&nbsp;(2019), flip the sign of <span class="math inline">\(\phi\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Heterobilayer vs homobilayer.</strong> For heterobilayers (e.g.&nbsp;MoSe₂/WSe₂), you must include both layers explicitly with different <span class="math inline">\(m^*\)</span> and a finite interlayer tunneling <span class="math inline">\(t_\perp\)</span>. The single-band code above is valid only for homobilayers where the two layers are equivalent by symmetry.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -390,13 +812,38 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<p><strong>Chern number convergence.</strong> The Berry curvature calculation requires a fine k-mesh near singular points. Use <code>n_k ≥ 40</code> for production Chern number calculations; <code>n_k=20</code> is only for quick checks.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Valley degeneracy.</strong> The model above is for valley <span class="math inline">\(K\)</span> only. The <span class="math inline">\(K'\)</span> valley contributes an equal and opposite Chern number. The total Hall conductivity from both valleys vanishes in the absence of time-reversal breaking; only one valley contributes under a circularly polarized optical field or in the presence of a magnetic field.</p>
 </div>
 </div>
 <p>Known issues:</p>
+<ul>
+<li>The plane-wave basis treats the moiré as perfectly periodic; strain and disorder are not included. For disorder calculations, a real-space approach is needed.</li>
+<li>The effective mass approximation breaks down for large twist angles (<span class="math inline">\(\theta &gt; 5°\)</span>) where remote bands mix in; use the full two-band massive Dirac model instead.</li>
+</ul>
 </section>
 <section id="additional-resources-1" class="level3">
 <h3 class="anchored" data-anchor-id="additional-resources-1">Additional Resources</h3>
+<ul>
+<li>Wu, MacDonald &amp; Martin, <em>PRL</em> <strong>121</strong>, 257001 (2018) — first TMD moiré continuum model</li>
+<li>Zang et al., <em>PRB</em> <strong>106</strong>, 115416 (2022) — refined TMD moiré model with SOC</li>
+<li>Shabani et al., <em>Nature Physics</em> <strong>17</strong>, 720 (2021) — experimental MoSe₂/WSe₂ flat bands</li>
+<li>Li et al., <em>Nature</em> <strong>600</strong>, 641 (2021) — correlated states in TMD moiré</li>
+<li><a href="https://github.com/twistronics/moirepy">MoirePy</a> — Python library for moiré continuum models (check for updates)</li>
+<li>Fukui, Hatsugai &amp; Suzuki, <em>JPSJ</em> <strong>74</strong>, 1674 (2005) — discretized Chern number algorithm</li>
+</ul>
 <hr>
 <p><em>Maintained by the Continuum Model team. Scripts go in <code>scripts/continuum/</code> and figures in <code>figures/</code>. Add new parameter tables to the relevant section when new materials are calculated.</em></p>
 
@@ -404,15 +851,10 @@ Note
 
 <!-- -->
 
-
 </section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-bistritzer_moire_2011" class="csl-entry" role="listitem">
-Bistritzer, Rafi, and Allan H. MacDonald. 2011. <span>“Moiré Bands in Twisted Double-Layer Graphene.”</span> <em>Proceedings of the National Academy of Sciences of the United States of America</em> 108 (30): 12233–37. <a href="https://doi.org/10.1073/pnas.1108174108">https://doi.org/10.1073/pnas.1108174108</a>.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -864,115 +1306,515 @@ Bistritzer, Rafi, and Allan H. MacDonald. 2011. <span>“Moiré Bands in Twisted
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Continuum Model Tutorial"</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Continuum Model Team"</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>This tutorial documents the continuum models used in twisted bilayer graphene (TBG) and twisted transition metal dichalcogenides (TMD) moiré systems.</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Section 1 — Twisted Bilayer Graphene (TBG) Continuum Model</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">### Physics</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>The TBG continuum model (@bistritzer_moire_2011) Hamiltonian near valley $K$ is:</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>H_K = \begin{pmatrix}</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>h_+(\mathbf{k}) &amp; T(\mathbf{r}) <span class="sc">\\</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>T^\dagger(\mathbf{r}) &amp; h_-(\mathbf{k})</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>**Key parameters:**</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Typical value <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\theta$ <span class="pp">|</span> 1.05° (magic) <span class="pp">|</span> Twist angle <span class="pp">|</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### Code</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>**TBG continuum model**</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>Known issues:</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Section 2 — TMD Moiré Continuum Model</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### Physics</span></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>**Key parameters for MoSe₂/MoSe₂ (from literature):**</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Value <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Code</span></span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>**TMD moiré continuum model — single-band approximation:**</span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>Known issues:</span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>*Maintained by the Continuum Model team. Scripts go in `scripts/continuum/` and figures in `figures/`. Add new parameter tables to the relevant section when new materials are calculated.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Continuum Model Tutorial — TBG and TMD Moiré Systems"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> last-modified</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Continuum Model Team"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>This tutorial documents the continuum models used by the group for twisted bilayer graphene (TBG) and twisted transition metal dichalcogenides (TMD) moiré systems, including theory, code, and worked examples.</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Section 1 — Twisted Bilayer Graphene (TBG) Continuum Model</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>At the "magic angle" (~1.1°), twisted bilayer graphene hosts nearly flat moiré bands that give rise to correlated insulating states, superconductivity, and orbital magnetism. The continuum (Bistritzer-MacDonald) model captures the low-energy electronic structure without requiring a full DFT calculation of the enormous moiré unit cell (up to ~10,000 atoms). This section documents the group's implementation and how to use it.</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### Physics</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>The TBG continuum model (Bistritzer &amp; MacDonald, 2011) treats each graphene layer as a Dirac cone shifted in momentum space by the twist. The Hamiltonian near a valley $K$ is:</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>H_K = \begin{pmatrix}</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>h_+(\mathbf{k}) &amp; T(\mathbf{r}) <span class="sc">\\</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>T^\dagger(\mathbf{r}) &amp; h_-(\mathbf{k})</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>where $h_\pm(\mathbf{k}) = \hbar v_F \boldsymbol{\sigma}_{\pm\theta/2} \cdot \mathbf{k}$ are the Dirac Hamiltonians of the top/bottom layers rotated by $\pm\theta/2$, and:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>T(\mathbf{r}) = \sum_{j=1}^{3} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>is the interlayer tunneling with moiré wavevectors $\mathbf{q}_j$ connecting the Dirac cones. The tunneling matrices are:</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>T_1 = \omega_0 \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} <span class="sc">\\</span> \phi &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi <span class="sc">\\</span> \phi^{-1} &amp; 1 \end{pmatrix}</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the tunneling amplitude</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>\alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set the twist angle $\theta$ and the tunneling parameters $\omega_{AA}$, $\omega_{AB}$.</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Diagonalize at each $\mathbf{k}$-point in the moiré Brillouin zone (mBZ).</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Plot band structure, DOS, Berry curvature, or Chern numbers.</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>**Key parameters:**</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Typical value <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\theta$ <span class="pp">|</span> 1.05° (magic) <span class="pp">|</span> Twist angle <span class="pp">|</span></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $v_F$ <span class="pp">|</span> $10^6$ m/s <span class="pp">|</span> Dirac velocity of graphene <span class="pp">|</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AA}$ <span class="pp">|</span> 0–80 meV <span class="pp">|</span> AA site tunneling considering relaxation <span class="pp">|</span></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AB}$ <span class="pp">|</span> 110 meV <span class="pp">|</span> AB site tunneling considering relaxation <span class="pp">|</span></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_\text{shell}$ <span class="pp">|</span> 3–5 <span class="pp">|</span> Number of moiré shells in basis <span class="pp">|</span></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_k$ <span class="pp">|</span> $30\times30$ <span class="pp">|</span> k-point mesh in mBZ <span class="pp">|</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>Increase <span class="in">`N_shell`</span> until the flat band bandwidth converges (typically shell 3 is sufficient for the flat bands, shell 5 for remote bands).</span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### Code</span></span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>**TBG continuum model — Python implementation:**</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a><span class="co"># ── Constants ──────────────────────────────────────────────────────────────────</span></span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>hbar_vF <span class="op">=</span> <span class="fl">2.1354</span>  <span class="co"># eV·Å  (ℏ v_F for graphene)</span></span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>a0      <span class="op">=</span> <span class="fl">2.46</span>    <span class="co"># Å     (graphene lattice constant)</span></span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tbg_hamiltonian(k, theta_deg, w_AA<span class="op">=</span><span class="fl">0.0797</span>, w_AB<span class="op">=</span><span class="fl">0.1100</span>, n_shell<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a><span class="co">    Build the TBG continuum Hamiltonian at momentum k (in Å⁻¹).</span></span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a><span class="co">    k       : array_like, shape (2,)  — crystal momentum in mBZ</span></span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a><span class="co">    theta   : float — twist angle in degrees</span></span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a><span class="co">    w_AA    : float — AA tunneling in eV</span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a><span class="co">    w_AB    : float — AB tunneling in eV</span></span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a><span class="co">    n_shell : int   — number of moiré shells in basis</span></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a><span class="co">    H : ndarray, shape (4*N, 4*N) — Hermitian Hamiltonian matrix</span></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.deg2rad(theta_deg)</span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Moiré reciprocal lattice vectors</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>    a_moire <span class="op">=</span> a0 <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_moire)) <span class="op">*</span> np.array([np.sqrt(<span class="dv">3</span>)<span class="op">/</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span>])</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>    b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_moire)) <span class="op">*</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>    <span class="co"># q vectors connecting the K points of the two layers</span></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>    q0 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a0)) <span class="op">*</span> np.array([<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>    q1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a0)) <span class="op">*</span> np.array([np.sqrt(<span class="dv">3</span>)<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>    q2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> a0)) <span class="op">*</span> np.array([<span class="op">-</span>np.sqrt(<span class="dv">3</span>)<span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>    qs <span class="op">=</span> [q0, q1, q2]</span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tunneling matrices</span></span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>    omega <span class="op">=</span> np.exp(<span class="ot">2j</span> <span class="op">*</span> np.pi <span class="op">/</span> <span class="dv">3</span>)</span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> [</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>        np.array([[w_AA, w_AB], [w_AB, w_AA]]),</span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>        np.array([[w_AA, w_AB <span class="op">*</span> np.conj(omega)], [w_AB <span class="op">*</span> omega, w_AA]]),</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>        np.array([[w_AA, w_AB <span class="op">*</span> omega], [w_AB <span class="op">*</span> np.conj(omega), w_AA]]),</span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build moiré lattice basis vectors {m*b1 + n*b2}</span></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>    G_list <span class="op">=</span> []</span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>            G_list.append(m <span class="op">*</span> b1 <span class="op">+</span> n <span class="op">*</span> b2)</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(G_list)</span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Hamiltonian matrix (4N × 4N: layer ⊗ sublattice ⊗ G)</span></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> np.zeros((<span class="dv">4</span> <span class="op">*</span> N, <span class="dv">4</span> <span class="op">*</span> N), dtype<span class="op">=</span><span class="bu">complex</span>)</span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> idx(g_idx, layer, sub):</span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> g_idx <span class="op">*</span> <span class="dv">4</span> <span class="op">+</span> layer <span class="op">*</span> <span class="dv">2</span> <span class="op">+</span> sub</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, G <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Intralayer: Dirac Hamiltonian</span></span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> layer <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>            sign <span class="op">=</span> <span class="dv">1</span> <span class="cf">if</span> layer <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>            rot <span class="op">=</span> sign <span class="op">*</span> theta <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>            c, s <span class="op">=</span> np.cos(rot), np.sin(rot)</span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>            kG <span class="op">=</span> k <span class="op">+</span> G <span class="op">+</span> (q0 <span class="cf">if</span> layer <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> np.zeros(<span class="dv">2</span>))</span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>            kx, ky <span class="op">=</span> kG</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>            kx_rot <span class="op">=</span> c <span class="op">*</span> kx <span class="op">+</span> s <span class="op">*</span> ky</span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>            ky_rot <span class="op">=</span> <span class="op">-</span>s <span class="op">*</span> kx <span class="op">+</span> c <span class="op">*</span> ky</span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>            H[idx(i, layer, <span class="dv">0</span>), idx(i, layer, <span class="dv">1</span>)] <span class="op">+=</span> hbar_vF <span class="op">*</span> (kx_rot <span class="op">-</span> <span class="ot">1j</span> <span class="op">*</span> ky_rot)</span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>            H[idx(i, layer, <span class="dv">1</span>), idx(i, layer, <span class="dv">0</span>)] <span class="op">+=</span> hbar_vF <span class="op">*</span> (kx_rot <span class="op">+</span> <span class="ot">1j</span> <span class="op">*</span> ky_rot)</span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Interlayer tunneling</span></span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, G2 <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> nu, q <span class="kw">in</span> <span class="bu">enumerate</span>(qs):</span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a>                dG <span class="op">=</span> G2 <span class="op">-</span> G <span class="op">-</span> q</span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> np.linalg.norm(dG) <span class="op">&lt;</span> <span class="fl">1e-6</span>:</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>                            H[idx(i, <span class="dv">0</span>, a), idx(j, <span class="dv">1</span>, b)] <span class="op">+=</span> T[nu][a, b]</span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a>                            H[idx(j, <span class="dv">1</span>, b), idx(i, <span class="dv">0</span>, a)] <span class="op">+=</span> np.conj(T[nu][a, b])</span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> H</span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_bands(theta_deg, k_path, <span class="op">**</span>kwargs):</span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Compute eigenvalues along a k-path."""</span></span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>    bands <span class="op">=</span> []</span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> k_path:</span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tbg_hamiltonian(k, theta_deg, <span class="op">**</span>kwargs)</span>
+<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a>        eigvals <span class="op">=</span> eigh(H, eigvals_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a>        bands.append(eigvals)</span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(bands)</span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a>**Plot band structure along Γ–K–M–Γ:**</span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_kpath(points, n_per_seg<span class="op">=</span><span class="dv">50</span>):</span>
+<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> []</span>
+<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a>    dists <span class="op">=</span> [<span class="fl">0.0</span>]</span>
+<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> p1, p2 <span class="kw">in</span> <span class="bu">zip</span>(points[:<span class="op">-</span><span class="dv">1</span>], points[<span class="dv">1</span>:]):</span>
+<span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>        seg <span class="op">=</span> np.linspace(p1, p2, n_per_seg, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a>        path.extend(seg)</span>
+<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a>        dists.append(dists[<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> np.linalg.norm(np.array(p2) <span class="op">-</span> np.array(p1)))</span>
+<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a>    path.append(points[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(path), dists</span>
+<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="fl">1.05</span>   <span class="co"># magic angle</span></span>
+<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a>a_m <span class="op">=</span> a0 <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(np.deg2rad(theta <span class="op">/</span> <span class="dv">2</span>)))</span>
+<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>K_m <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a>M_m <span class="op">=</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">1</span><span class="op">/</span>np.sqrt(<span class="dv">3</span>)])</span>
+<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a>kpts, tick_dists <span class="op">=</span> make_kpath([[<span class="dv">0</span>,<span class="dv">0</span>], K_m, M_m, [<span class="dv">0</span>,<span class="dv">0</span>]])</span>
+<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a>bands <span class="op">=</span> compute_bands(theta, kpts, w_AA<span class="op">=</span><span class="fl">0.0</span>, w_AB<span class="op">=</span><span class="fl">0.110</span>, n_shell<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> band <span class="kw">in</span> bands.T:</span>
+<span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a>    ax.plot(band, color<span class="op">=</span><span class="st">"steelblue"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Energy (eV)"</span>)</span>
+<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(<span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(kpts), <span class="dv">50</span>))</span>
+<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="vs">r"</span><span class="dv">$\G</span><span class="vs">amma</span><span class="dv">$</span><span class="vs">"</span>, <span class="st">"K"</span>, <span class="st">"M"</span>, <span class="vs">r"</span><span class="dv">$\G</span><span class="vs">amma</span><span class="dv">$</span><span class="vs">"</span>])</span>
+<span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a>ax.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"k"</span>, lw<span class="op">=</span><span class="fl">0.5</span>, ls<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"TBG bands — θ = </span><span class="sc">{</span>theta<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-201"><a href="#cb8-201" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"tbg_bands.pdf"</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>**Bandwidth as a function of twist angle (magic angle scan):**</span>
+<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a>angles <span class="op">=</span> np.linspace(<span class="fl">0.5</span>, <span class="fl">2.5</span>, <span class="dv">40</span>)</span>
+<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a>bandwidths <span class="op">=</span> []</span>
+<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> theta <span class="kw">in</span> angles:</span>
+<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sample a few k-points in the mBZ</span></span>
+<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a>    k_samples <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.05</span>, (<span class="dv">20</span>, <span class="dv">2</span>))</span>
+<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>    flat_eigs <span class="op">=</span> []</span>
+<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> k_samples:</span>
+<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tbg_hamiltonian(k, theta, w_AA<span class="op">=</span><span class="fl">0.0</span>, w_AB<span class="op">=</span><span class="fl">0.110</span>, n_shell<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>        eigs <span class="op">=</span> eigh(H, eigvals_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>        N4 <span class="op">=</span> <span class="bu">len</span>(eigs) <span class="op">//</span> <span class="dv">4</span></span>
+<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>        flat_eigs.extend(eigs[N4 <span class="op">-</span> <span class="dv">1</span> : N4 <span class="op">+</span> <span class="dv">1</span>])  <span class="co"># two flat bands near charge neutrality</span></span>
+<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>    bandwidths.append(np.<span class="bu">max</span>(flat_eigs) <span class="op">-</span> np.<span class="bu">min</span>(flat_eigs))</span>
+<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>ax.plot(angles, np.array(bandwidths) <span class="op">*</span> <span class="dv">1000</span>)</span>
+<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Twist angle (degrees)"</span>)</span>
+<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Flat band bandwidth (meV)"</span>)</span>
+<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="fl">1.05</span>, color<span class="op">=</span><span class="st">"red"</span>, ls<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"Magic angle"</span>)</span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"bandwidth_vs_angle.pdf"</span>)</span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a>**k-point folding into the mBZ.** Momentum points must be folded into the moiré Brillouin zone before passing to the Hamiltonian. Passing points outside the mBZ does not cause an error but gives incorrect band ordering.</span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a>**Basis size convergence.** Using <span class="in">`n_shell=1`</span> (9 G-vectors) is insufficient even for the flat bands at the magic angle; use at least <span class="in">`n_shell=3`</span>. For remote bands or Berry curvature calculations, use <span class="in">`n_shell=5`</span>.</span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a>**Valley and spin degeneracy.** The code above computes one valley ($K$). The $K'$ valley is related by time-reversal: $H_{K'}(\mathbf{k}) = H_K^*(-\mathbf{k})$. The total DOS and transport quantities should include both valleys and both spins (factor of 4).</span>
+<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a>Known issues:</span>
+<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The q-vector construction in the code assumes the chiral gauge; if you switch to a different gauge the tunneling matrices <span class="in">`T[nu]`</span> must be updated consistently.</span>
+<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>At exactly $\theta = 0$ the code is singular (moiré period diverges); use a minimum of $\theta \approx 0.3°$.</span>
+<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
+<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Bistritzer &amp; MacDonald, *PNAS* **108**, 12233 (2011) — original TBG continuum model</span>
+<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tarnopolsky, Kruchkov &amp; Vishwanath, *PRL* **122**, 106405 (2019) — chiral TBG model</span>
+<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">TwistronicsLab code</span><span class="co">](https://github.com/jabirali/twistronics)</span> — open-source reference implementation</span>
+<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Song et al., *PRL* **123**, 036401 (2019) — fragile topology of TBG flat bands</span>
+<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## Section 2 — TMD Moiré Continuum Model</span></span>
+<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Introduction</span></span>
+<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a>Twisted TMD homobilayers (e.g., MoSe₂/MoSe₂, WSe₂/WSe₂) and heterobilayers (MoSe₂/WSe₂) host moiré flat bands in the valence band at twist angles of 1°–5°. These systems are distinct from TBG because the low-energy carriers live at the $K/K'$ points of a **massive Dirac** (rather than massless Dirac) spectrum, and strong spin-orbit coupling locks spin to the valley. This section documents the group's continuum model for TMD moirés.</span>
+<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="fu">### Physics</span></span>
+<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a>The low-energy valence band near valley $K$ of a monolayer TMD is described by a massive Dirac Hamiltonian:</span>
+<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a>h_\tau(\mathbf{k}) = \begin{pmatrix}</span>
+<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a>\frac{\Delta}{2} &amp; \hbar v_F (\tau k_x - i k_y) <span class="sc">\\</span></span>
+<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a>\hbar v_F (\tau k_x + i k_y) &amp; -\frac{\Delta}{2}</span>
+<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a>\end{pmatrix} + \tau \frac{\lambda}{2} \sigma_z</span>
+<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a>where $\tau = \pm 1$ is the valley index, $\Delta$ is the band gap, $\lambda$ is the SOC splitting, and the valence band maximum is at $K$.</span>
+<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a>In a twisted TMD bilayer, the moiré potential from the registry variation modulates the on-site energy. Unlike TBG, the tunneling between the two layers is **suppressed** (due to the large momentum mismatch and the massive gap), and the dominant moiré effect is an **intralayer** moiré potential:</span>
+<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a>H_\text{moiré}(\mathbf{r}) = V_0 \sum_{j=1}^{6} e^{i \mathbf{G}_j \cdot \mathbf{r}} + \text{h.c.}</span>
+<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>where $\mathbf{G}_j$ are the moiré reciprocal lattice vectors and $V_0$ is the moiré potential amplitude. The effective single-band model for the top-of-valence-band hole (spin-up, valley $K$) is:</span>
+<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a>H = -\frac{\hbar^2 \nabla^2}{2 m^*} + V_0 \sum_{j=1}^{6} \cos(\mathbf{G}_j \cdot \mathbf{r} + \phi_j)</span>
+<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a>where $m^*$ is the effective mass and $\phi_j$ encodes the local stacking geometry (MM, MX, XX high-symmetry points).</span>
+<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a>For a heterobilayer, the interlayer tunneling $t_\perp$ is finite and must be included; it hybridizes the two layers and opens a gap at the moiré Brillouin zone boundary.</span>
+<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
+<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set the twist angle $\theta$ and material parameters ($m^*$, $V_0$, $\phi$, $t_\perp$).</span>
+<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Build the plane-wave basis for the moiré superlattice.</span>
+<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Diagonalize to get the moiré valence bands.</span>
+<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Calculate DOS, effective mass, and Chern number of the flat bands.</span>
+<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a>**Key parameters for MoSe₂/MoSe₂ (from literature):**</span>
+<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Value <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $m^*$ <span class="pp">|</span> $0.62 \, m_e$ <span class="pp">|</span> Hole effective mass <span class="pp">|</span></span>
+<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $V_0$ <span class="pp">|</span> 8–15 meV <span class="pp">|</span> Moiré potential amplitude <span class="pp">|</span></span>
+<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\phi$ <span class="pp">|</span> $-89°$ (MoSe₂) <span class="pp">|</span> Moiré potential phase <span class="pp">|</span></span>
+<span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $a_0$ <span class="pp">|</span> 3.32 Å <span class="pp">|</span> MoSe₂ lattice constant <span class="pp">|</span></span>
+<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\theta$ <span class="pp">|</span> 1°–5° <span class="pp">|</span> Twist angle range of interest <span class="pp">|</span></span>
+<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a><span class="fu">### Code</span></span>
+<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a>**TMD moiré continuum model — single-band approximation:**</span>
+<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> eigh</span>
+<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a><span class="co"># ── Material parameters (MoSe2/MoSe2) ─────────────────────────────────────────</span></span>
+<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a>hbar2_over_2m <span class="op">=</span> <span class="fl">3.81</span>      <span class="co"># eV·Å²  (ℏ²/2m_e)</span></span>
+<span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a>m_star <span class="op">=</span> <span class="fl">0.62</span>             <span class="co"># in units of m_e</span></span>
+<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a>K_eff <span class="op">=</span> hbar2_over_2m <span class="op">/</span> m_star  <span class="co"># eV·Å²</span></span>
+<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a>a0_TMD <span class="op">=</span> <span class="fl">3.32</span>             <span class="co"># Å, monolayer lattice constant</span></span>
+<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a>V0 <span class="op">=</span> <span class="fl">0.010</span>                <span class="co"># eV, moiré potential amplitude</span></span>
+<span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> np.deg2rad(<span class="op">-</span><span class="dv">89</span>)     <span class="co"># moiré potential phase (MoSe2)</span></span>
+<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tmd_hamiltonian(k_vec, theta_deg, n_shell<span class="op">=</span><span class="dv">4</span>):</span>
+<span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a><span class="co">    Single-band continuum model for TMD homobilayer moiré.</span></span>
+<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a><span class="co">    k_vec     : array_like shape (2,) — crystal momentum in mBZ (Å⁻¹)</span></span>
+<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a><span class="co">    theta_deg : float — twist angle in degrees</span></span>
+<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="co">    n_shell   : int   — number of moiré reciprocal lattice shells</span></span>
+<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a><span class="co">    H : ndarray, Hermitian Hamiltonian</span></span>
+<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.deg2rad(theta_deg)</span>
+<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a>    a_m <span class="op">=</span> a0_TMD <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>))  <span class="co"># moiré lattice constant</span></span>
+<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Moiré reciprocal lattice vectors (hexagonal)</span></span>
+<span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a>    b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="fl">0.5</span>, np.sqrt(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build G-vector basis</span></span>
+<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a>    G_list <span class="op">=</span> []</span>
+<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span>n_shell, n_shell <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a>            G_list.append(m <span class="op">*</span> b1 <span class="op">+</span> n <span class="op">*</span> b2)</span>
+<span id="cb8-360"><a href="#cb8-360" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(G_list)</span>
+<span id="cb8-361"><a href="#cb8-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a>    H <span class="op">=</span> np.zeros((N, N), dtype<span class="op">=</span><span class="bu">complex</span>)</span>
+<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a>    <span class="co"># First-shell moiré reciprocal lattice vectors</span></span>
+<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a>    G1 <span class="op">=</span> b1</span>
+<span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a>    G2 <span class="op">=</span> b2</span>
+<span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a>    G3 <span class="op">=</span> b2 <span class="op">-</span> b1</span>
+<span id="cb8-368"><a href="#cb8-368" aria-hidden="true" tabindex="-1"></a>    G_moire <span class="op">=</span> [G1, G2, G3, <span class="op">-</span>G1, <span class="op">-</span>G2, <span class="op">-</span>G3]</span>
+<span id="cb8-369"><a href="#cb8-369" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-370"><a href="#cb8-370" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, Gi <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Kinetic energy (hole: negative sign)</span></span>
+<span id="cb8-372"><a href="#cb8-372" aria-hidden="true" tabindex="-1"></a>        kG <span class="op">=</span> np.array(k_vec) <span class="op">+</span> Gi</span>
+<span id="cb8-373"><a href="#cb8-373" aria-hidden="true" tabindex="-1"></a>        H[i, i] <span class="op">-=</span> K_eff <span class="op">*</span> np.dot(kG, kG)</span>
+<span id="cb8-374"><a href="#cb8-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-375"><a href="#cb8-375" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Moiré potential: connects G to G ± G_moire</span></span>
+<span id="cb8-376"><a href="#cb8-376" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, Gj <span class="kw">in</span> <span class="bu">enumerate</span>(G_list):</span>
+<span id="cb8-377"><a href="#cb8-377" aria-hidden="true" tabindex="-1"></a>            dG <span class="op">=</span> Gi <span class="op">-</span> Gj</span>
+<span id="cb8-378"><a href="#cb8-378" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> nu, Gm <span class="kw">in</span> <span class="bu">enumerate</span>(G_moire):</span>
+<span id="cb8-379"><a href="#cb8-379" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> np.linalg.norm(dG <span class="op">-</span> Gm) <span class="op">&lt;</span> <span class="fl">1e-6</span>:</span>
+<span id="cb8-380"><a href="#cb8-380" aria-hidden="true" tabindex="-1"></a>                    H[i, j] <span class="op">+=</span> V0 <span class="op">*</span> np.exp(<span class="ot">1j</span> <span class="op">*</span> phi <span class="op">*</span> (<span class="dv">1</span> <span class="cf">if</span> nu <span class="op">&lt;</span> <span class="dv">3</span> <span class="cf">else</span> <span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb8-381"><a href="#cb8-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-382"><a href="#cb8-382" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> H</span>
+<span id="cb8-383"><a href="#cb8-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-384"><a href="#cb8-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-385"><a href="#cb8-385" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_tmd_bands(theta_deg, k_path, n_shell<span class="op">=</span><span class="dv">4</span>):</span>
+<span id="cb8-386"><a href="#cb8-386" aria-hidden="true" tabindex="-1"></a>    bands <span class="op">=</span> []</span>
+<span id="cb8-387"><a href="#cb8-387" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> k_path:</span>
+<span id="cb8-388"><a href="#cb8-388" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tmd_hamiltonian(k, theta_deg, n_shell<span class="op">=</span>n_shell)</span>
+<span id="cb8-389"><a href="#cb8-389" aria-hidden="true" tabindex="-1"></a>        eigvals <span class="op">=</span> eigh(H, eigvals_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-390"><a href="#cb8-390" aria-hidden="true" tabindex="-1"></a>        bands.append(eigvals)</span>
+<span id="cb8-391"><a href="#cb8-391" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(bands)</span>
+<span id="cb8-392"><a href="#cb8-392" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-393"><a href="#cb8-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-394"><a href="#cb8-394" aria-hidden="true" tabindex="-1"></a>**Chern number via Berry curvature (discretized BZ):**</span>
+<span id="cb8-395"><a href="#cb8-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-396"><a href="#cb8-396" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-397"><a href="#cb8-397" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> berry_curvature_chern(theta_deg, n_k<span class="op">=</span><span class="dv">30</span>, band_idx<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb8-398"><a href="#cb8-398" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-399"><a href="#cb8-399" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute Chern number of a moiré band using the discretized</span></span>
+<span id="cb8-400"><a href="#cb8-400" aria-hidden="true" tabindex="-1"></a><span class="co">    plaquette method (Fukui-Hatsugai-Suzuki).</span></span>
+<span id="cb8-401"><a href="#cb8-401" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-402"><a href="#cb8-402" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.deg2rad(theta_deg)</span>
+<span id="cb8-403"><a href="#cb8-403" aria-hidden="true" tabindex="-1"></a>    a_m <span class="op">=</span> a0_TMD <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(theta <span class="op">/</span> <span class="dv">2</span>))</span>
+<span id="cb8-404"><a href="#cb8-404" aria-hidden="true" tabindex="-1"></a>    b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb8-405"><a href="#cb8-405" aria-hidden="true" tabindex="-1"></a>    b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="fl">0.5</span>, np.sqrt(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb8-406"><a href="#cb8-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-407"><a href="#cb8-407" aria-hidden="true" tabindex="-1"></a>    kx_arr <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n_k, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-408"><a href="#cb8-408" aria-hidden="true" tabindex="-1"></a>    ky_arr <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n_k, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-409"><a href="#cb8-409" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-410"><a href="#cb8-410" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_state(kx_frac, ky_frac):</span>
+<span id="cb8-411"><a href="#cb8-411" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> kx_frac <span class="op">*</span> b1 <span class="op">+</span> ky_frac <span class="op">*</span> b2</span>
+<span id="cb8-412"><a href="#cb8-412" aria-hidden="true" tabindex="-1"></a>        H <span class="op">=</span> tmd_hamiltonian(k, theta_deg)</span>
+<span id="cb8-413"><a href="#cb8-413" aria-hidden="true" tabindex="-1"></a>        _, vecs <span class="op">=</span> eigh(H)</span>
+<span id="cb8-414"><a href="#cb8-414" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> vecs[:, band_idx]</span>
+<span id="cb8-415"><a href="#cb8-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-416"><a href="#cb8-416" aria-hidden="true" tabindex="-1"></a>    F_total <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb8-417"><a href="#cb8-417" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, kx <span class="kw">in</span> <span class="bu">enumerate</span>(kx_arr):</span>
+<span id="cb8-418"><a href="#cb8-418" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j, ky <span class="kw">in</span> <span class="bu">enumerate</span>(ky_arr):</span>
+<span id="cb8-419"><a href="#cb8-419" aria-hidden="true" tabindex="-1"></a>            u00 <span class="op">=</span> get_state(kx, ky)</span>
+<span id="cb8-420"><a href="#cb8-420" aria-hidden="true" tabindex="-1"></a>            u10 <span class="op">=</span> get_state(kx_arr[(i<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k], ky)</span>
+<span id="cb8-421"><a href="#cb8-421" aria-hidden="true" tabindex="-1"></a>            u11 <span class="op">=</span> get_state(kx_arr[(i<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k], ky_arr[(j<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k])</span>
+<span id="cb8-422"><a href="#cb8-422" aria-hidden="true" tabindex="-1"></a>            u01 <span class="op">=</span> get_state(kx, ky_arr[(j<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> n_k])</span>
+<span id="cb8-423"><a href="#cb8-423" aria-hidden="true" tabindex="-1"></a>            link <span class="op">=</span> (np.vdot(u00, u10) <span class="op">*</span> np.vdot(u10, u11) <span class="op">*</span></span>
+<span id="cb8-424"><a href="#cb8-424" aria-hidden="true" tabindex="-1"></a>                    np.vdot(u11, u01) <span class="op">*</span> np.vdot(u01, u00))</span>
+<span id="cb8-425"><a href="#cb8-425" aria-hidden="true" tabindex="-1"></a>            F_total <span class="op">+=</span> np.angle(link)</span>
+<span id="cb8-426"><a href="#cb8-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-427"><a href="#cb8-427" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(np.<span class="bu">round</span>(F_total <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.pi)))</span>
+<span id="cb8-428"><a href="#cb8-428" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-429"><a href="#cb8-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-430"><a href="#cb8-430" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example</span></span>
+<span id="cb8-431"><a href="#cb8-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-432"><a href="#cb8-432" aria-hidden="true" tabindex="-1"></a>**Band structure of MoSe₂/MoSe₂ at θ = 3°:**</span>
+<span id="cb8-433"><a href="#cb8-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-434"><a href="#cb8-434" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-435"><a href="#cb8-435" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-436"><a href="#cb8-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-437"><a href="#cb8-437" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="fl">3.0</span></span>
+<span id="cb8-438"><a href="#cb8-438" aria-hidden="true" tabindex="-1"></a>a_m <span class="op">=</span> a0_TMD <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> np.sin(np.deg2rad(theta <span class="op">/</span> <span class="dv">2</span>)))</span>
+<span id="cb8-439"><a href="#cb8-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-440"><a href="#cb8-440" aria-hidden="true" tabindex="-1"></a><span class="co"># High-symmetry points of the moiré hexagonal BZ</span></span>
+<span id="cb8-441"><a href="#cb8-441" aria-hidden="true" tabindex="-1"></a>b1 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb8-442"><a href="#cb8-442" aria-hidden="true" tabindex="-1"></a>b2 <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">/</span> (np.sqrt(<span class="dv">3</span>) <span class="op">*</span> a_m)) <span class="op">*</span> np.array([<span class="fl">0.5</span>, np.sqrt(<span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span>])</span>
+<span id="cb8-443"><a href="#cb8-443" aria-hidden="true" tabindex="-1"></a>Gamma <span class="op">=</span> np.array([<span class="fl">0.0</span>, <span class="fl">0.0</span>])</span>
+<span id="cb8-444"><a href="#cb8-444" aria-hidden="true" tabindex="-1"></a>K_m   <span class="op">=</span> (b1 <span class="op">+</span> b2) <span class="op">/</span> <span class="dv">3</span></span>
+<span id="cb8-445"><a href="#cb8-445" aria-hidden="true" tabindex="-1"></a>M_m   <span class="op">=</span> b1 <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb8-446"><a href="#cb8-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-447"><a href="#cb8-447" aria-hidden="true" tabindex="-1"></a>kpts <span class="op">=</span> np.concatenate([</span>
+<span id="cb8-448"><a href="#cb8-448" aria-hidden="true" tabindex="-1"></a>    np.linspace(Gamma, K_m, <span class="dv">50</span>, endpoint<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb8-449"><a href="#cb8-449" aria-hidden="true" tabindex="-1"></a>    np.linspace(K_m,   M_m, <span class="dv">50</span>, endpoint<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb8-450"><a href="#cb8-450" aria-hidden="true" tabindex="-1"></a>    np.linspace(M_m, Gamma, <span class="dv">50</span>, endpoint<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb8-451"><a href="#cb8-451" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb8-452"><a href="#cb8-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-453"><a href="#cb8-453" aria-hidden="true" tabindex="-1"></a>bands <span class="op">=</span> compute_tmd_bands(theta, kpts, n_shell<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb8-454"><a href="#cb8-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-455"><a href="#cb8-455" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb8-456"><a href="#cb8-456" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> band <span class="kw">in</span> bands.T[:<span class="dv">6</span>]:      <span class="co"># show 6 lowest hole bands</span></span>
+<span id="cb8-457"><a href="#cb8-457" aria-hidden="true" tabindex="-1"></a>    ax.plot(band <span class="op">*</span> <span class="dv">1000</span>, color<span class="op">=</span><span class="st">"steelblue"</span>, lw<span class="op">=</span><span class="fl">0.9</span>)</span>
+<span id="cb8-458"><a href="#cb8-458" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Energy (meV)"</span>)</span>
+<span id="cb8-459"><a href="#cb8-459" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">149</span>])</span>
+<span id="cb8-460"><a href="#cb8-460" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">gamma</span><span class="dv">$</span><span class="vs">"</span>, <span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">kappa</span><span class="dv">$</span><span class="vs">"</span>, <span class="vs">r"</span><span class="dv">$\m</span><span class="vs">u</span><span class="dv">$</span><span class="vs">"</span>, <span class="vs">r"</span><span class="dv">$</span><span class="er">\</span><span class="vs">gamma</span><span class="dv">$</span><span class="vs">"</span>])</span>
+<span id="cb8-461"><a href="#cb8-461" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"MoSe₂/MoSe₂ moiré bands — θ = </span><span class="sc">{</span>theta<span class="sc">}</span><span class="ss">°"</span>)</span>
+<span id="cb8-462"><a href="#cb8-462" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-463"><a href="#cb8-463" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"tmd_bands.pdf"</span>, dpi<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb8-464"><a href="#cb8-464" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-465"><a href="#cb8-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-466"><a href="#cb8-466" aria-hidden="true" tabindex="-1"></a>**Chern number scan:**</span>
+<span id="cb8-467"><a href="#cb8-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-468"><a href="#cb8-468" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb8-469"><a href="#cb8-469" aria-hidden="true" tabindex="-1"></a>angles <span class="op">=</span> [<span class="fl">1.5</span>, <span class="fl">2.0</span>, <span class="fl">2.5</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>]</span>
+<span id="cb8-470"><a href="#cb8-470" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> theta <span class="kw">in</span> angles:</span>
+<span id="cb8-471"><a href="#cb8-471" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> berry_curvature_chern(theta, n_k<span class="op">=</span><span class="dv">20</span>, band_idx<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-472"><a href="#cb8-472" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"θ = </span><span class="sc">{</span>theta<span class="sc">}</span><span class="ss">°  →  Chern number C = </span><span class="sc">{</span>C<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-473"><a href="#cb8-473" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-474"><a href="#cb8-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-475"><a href="#cb8-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
+<span id="cb8-476"><a href="#cb8-476" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-477"><a href="#cb8-477" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb8-478"><a href="#cb8-478" aria-hidden="true" tabindex="-1"></a>**Moiré potential phase $\phi$.** The sign convention for $\phi$ varies between papers. The convention in this code follows Zang et al. (2022). If comparing to Wu et al. (2019), flip the sign of $\phi$.</span>
+<span id="cb8-479"><a href="#cb8-479" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-480"><a href="#cb8-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-481"><a href="#cb8-481" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb8-482"><a href="#cb8-482" aria-hidden="true" tabindex="-1"></a>**Heterobilayer vs homobilayer.** For heterobilayers (e.g. MoSe₂/WSe₂), you must include both layers explicitly with different $m^*$ and a finite interlayer tunneling $t_\perp$. The single-band code above is valid only for homobilayers where the two layers are equivalent by symmetry.</span>
+<span id="cb8-483"><a href="#cb8-483" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-484"><a href="#cb8-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-485"><a href="#cb8-485" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb8-486"><a href="#cb8-486" aria-hidden="true" tabindex="-1"></a>**Chern number convergence.** The Berry curvature calculation requires a fine k-mesh near singular points. Use <span class="in">`n_k ≥ 40`</span> for production Chern number calculations; <span class="in">`n_k=20`</span> is only for quick checks.</span>
+<span id="cb8-487"><a href="#cb8-487" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-488"><a href="#cb8-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-489"><a href="#cb8-489" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb8-490"><a href="#cb8-490" aria-hidden="true" tabindex="-1"></a>**Valley degeneracy.** The model above is for valley $K$ only. The $K'$ valley contributes an equal and opposite Chern number. The total Hall conductivity from both valleys vanishes in the absence of time-reversal breaking; only one valley contributes under a circularly polarized optical field or in the presence of a magnetic field.</span>
+<span id="cb8-491"><a href="#cb8-491" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-492"><a href="#cb8-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-493"><a href="#cb8-493" aria-hidden="true" tabindex="-1"></a>Known issues:</span>
+<span id="cb8-494"><a href="#cb8-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-495"><a href="#cb8-495" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The plane-wave basis treats the moiré as perfectly periodic; strain and disorder are not included. For disorder calculations, a real-space approach is needed.</span>
+<span id="cb8-496"><a href="#cb8-496" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The effective mass approximation breaks down for large twist angles ($\theta &gt; 5°$) where remote bands mix in; use the full two-band massive Dirac model instead.</span>
+<span id="cb8-497"><a href="#cb8-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-498"><a href="#cb8-498" aria-hidden="true" tabindex="-1"></a><span class="fu">### Additional Resources</span></span>
+<span id="cb8-499"><a href="#cb8-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-500"><a href="#cb8-500" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Wu, MacDonald &amp; Martin, *PRL* **121**, 257001 (2018) — first TMD moiré continuum model</span>
+<span id="cb8-501"><a href="#cb8-501" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Zang et al., *PRB* **106**, 115416 (2022) — refined TMD moiré model with SOC</span>
+<span id="cb8-502"><a href="#cb8-502" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Shabani et al., *Nature Physics* **17**, 720 (2021) — experimental MoSe₂/WSe₂ flat bands</span>
+<span id="cb8-503"><a href="#cb8-503" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Li et al., *Nature* **600**, 641 (2021) — correlated states in TMD moiré</span>
+<span id="cb8-504"><a href="#cb8-504" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">MoirePy</span><span class="co">](https://github.com/twistronics/moirepy)</span> — Python library for moiré continuum models (check for updates)</span>
+<span id="cb8-505"><a href="#cb8-505" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fukui, Hatsugai &amp; Suzuki, *JPSJ* **74**, 1674 (2005) — discretized Chern number algorithm</span>
+<span id="cb8-506"><a href="#cb8-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-507"><a href="#cb8-507" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb8-508"><a href="#cb8-508" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-509"><a href="#cb8-509" aria-hidden="true" tabindex="-1"></a>*Maintained by the Continuum Model team. Scripts go in `scripts/continuum/` and figures in `figures/`. Add new parameter tables to the relevant section when new materials are calculated.*</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">

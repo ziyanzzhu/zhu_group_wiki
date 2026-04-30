@@ -10,7 +10,7 @@ This is our shared knowledge base covering DFT/ML workflows, continuum models, a
 |---|---|---|
 | [Wiki Tutorial](docs/wiki-tutorial.qmd) | All | Git, Quarto, and day-to-day contribution workflow |
 | [DFT/ML Tutorial](docs/dft-tutorial.qmd) | DFT/ML | DFT setup for 2D materials, VASP scripts, MACE ML potentials |
-| [Continuum Model Tutorial](docs/continuum-tutorial0.qmd) | Continuum | TBG and TMD moiré continuum models |
+| [Continuum Model Tutorial](docs/continuum-tutorial.qmd) | Continuum | TBG and TMD moiré continuum models |
 
 ## Reference
 

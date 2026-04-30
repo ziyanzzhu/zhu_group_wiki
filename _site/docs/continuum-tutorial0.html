@@ -276,13 +276,13 @@ T^\dagger(\mathbf{r}) &amp; h_-(\mathbf{k})
 \]</span></p>
 <p>where <span class="math inline">\(h_\pm(\mathbf{k}) = \hbar v_F \boldsymbol{\sigma}_{\pm\theta/2} \cdot \mathbf{k}\)</span> are the Dirac Hamiltonians of the top/bottom layers rotated by <span class="math inline">\(\pm\theta/2\)</span>, and:</p>
 <p><span class="math display">\[
-T(\mathbf{r}) = \sum_{j=0}^{2} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}
+T(\mathbf{r}) = \sum_{j=1}^{3} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}
 \]</span></p>
 <p>is the interlayer tunneling with moiré wavevectors <span class="math inline">\(\mathbf{q}_j\)</span> connecting the Dirac cones. The tunneling matrices are:</p>
 <p><span class="math display">\[
-T_0 = \omega_0 \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}, \quad
-T_1 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} \\ \phi &amp; 1 \end{pmatrix}, \quad
-T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
+T_1 = \omega_0 \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 1 \end{pmatrix}, \quad
+T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} \\ \phi &amp; 1 \end{pmatrix}, \quad
+T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
 \]</span></p>
 <p>where <span class="math inline">\(\phi = e^{2\pi i/3}\)</span> and <span class="math inline">\(\omega_0 \approx 110\)</span> meV is the tunneling amplitude</p>
 <p>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</p>
@@ -1324,7 +1324,7 @@ Note
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### Physics</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>The TBG continuum model (Bistritzer &amp; MacDonald, 2011) treats each graphene layer as a Dirac cone shifted in momentum space by the twist. The Hamiltonian near valley $K$ is:</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>The TBG continuum model (Bistritzer &amp; MacDonald, 2011) treats each graphene layer as a Dirac cone shifted in momentum space by the twist. The Hamiltonian near a valley $K$ is:</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>H_K = \begin{pmatrix}</span>
@@ -1336,15 +1336,15 @@ Note
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>where $h_\pm(\mathbf{k}) = \hbar v_F \boldsymbol{\sigma}_{\pm\theta/2} \cdot \mathbf{k}$ are the Dirac Hamiltonians of the top/bottom layers rotated by $\pm\theta/2$, and:</span>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>T(\mathbf{r}) = \sum_{j=0}^{2} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>T(\mathbf{r}) = \sum_{j=1}^{3} T_j \, e^{i \mathbf{q}_j \cdot \mathbf{r}}</span>
 <span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>is the interlayer tunneling with moiré wavevectors $\mathbf{q}_j$ connecting the Dirac cones. The tunneling matrices are:</span>
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>T_0 = \omega_0 \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>T_1 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} <span class="sc">\\</span> \phi &amp; 1 \end{pmatrix}, \quad</span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi <span class="sc">\\</span> \phi^{-1} &amp; 1 \end{pmatrix}</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>T_1 = \omega_0 \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} <span class="sc">\\</span> \phi &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi <span class="sc">\\</span> \phi^{-1} &amp; 1 \end{pmatrix}</span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the tunneling amplitude</span>
@@ -1368,8 +1368,8 @@ Note
 <span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
 <span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\theta$ <span class="pp">|</span> 1.05° (magic) <span class="pp">|</span> Twist angle <span class="pp">|</span></span>
 <span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $v_F$ <span class="pp">|</span> $10^6$ m/s <span class="pp">|</span> Dirac velocity of graphene <span class="pp">|</span></span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AA}$ <span class="pp">|</span> 0–80 meV <span class="pp">|</span> AA site tunneling <span class="pp">|</span></span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AB}$ <span class="pp">|</span> 110 meV <span class="pp">|</span> AB site tunneling <span class="pp">|</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AA}$ <span class="pp">|</span> 0–80 meV <span class="pp">|</span> AA site tunneling considering relaxation <span class="pp">|</span></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AB}$ <span class="pp">|</span> 110 meV <span class="pp">|</span> AB site tunneling considering relaxation <span class="pp">|</span></span>
 <span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_\text{shell}$ <span class="pp">|</span> 3–5 <span class="pp">|</span> Number of moiré shells in basis <span class="pp">|</span></span>
 <span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_k$ <span class="pp">|</span> $30\times30$ <span class="pp">|</span> k-point mesh in mBZ <span class="pp">|</span></span>
 <span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
