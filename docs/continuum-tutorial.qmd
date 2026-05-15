@@ -12,9 +12,9 @@ This tutorial documents the continuum models used by the group for twisted bilay
 
 ### Introduction
 
-At the "magic angle" (~1.1°), twisted bilayer graphene hosts nearly flat moiré bands that give rise to correlated insulating states, superconductivity, and orbital magnetism. The continuum (Bistritzer-MacDonald) model captures the low-energy electronic structure without requiring a full DFT calculation of the enormous moiré unit cell (up to ~10,000 atoms). This section documents the group's implementation and how to use it.
+At the "magic angle" (~1.1°), twisted bilayer graphene hosts nearly flat moiré bands that give rise to correlated insulating states, superconductivity, and orbital magnetism. The continuum (Bistritzer-MacDonald) model captures the low-energy electronic structure without requiring a full DFT calculation of the enormous moiré unit cell (up to ~10,000 atoms). This section documents the group's implementation and how to use it. First, there is a summary of the theory followed by a more in-depth guide.
 
-### Physics
+### Summary
 
 The TBG continuum model (Bistritzer & MacDonald, 2011) treats each graphene layer as a Dirac cone shifted in momentum space by the twist. The Hamiltonian near a valley $K$ is:
 
@@ -47,6 +47,142 @@ $$
 \alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°
 $$
 
+### Geometry
+
+Single layer graphene features a honeycomb structure defined by two superimposed and offset triangular sublattices, often labeled A and B. We will begin with the real-space basis given by:
+
+$$
+\begin{aligned}
+\mathbf{a}_1 &= a \left( \frac{1}{2}, \frac{\sqrt{3}}{2} \right) \\
+\mathbf{a}_2 &= a \left( -\frac{1}{2}, \frac{\sqrt{3}}{2} \right)
+\end{aligned}
+$$
+
+where $a$ is the lattice constant. The sublattices, often denoted A and B, share the same basis vectors, but are offset by a single basis vector 30° clockwise and scaled by $\frac{1}{\sqrt3}$. These two sublattices make up the single layer graphene real space lattice.
+
+Now, we duplicate this lattice for layer 2, and rotate the former by $\frac{\theta}{2}$ and the latter by $-\frac{\theta}{2}$. For small twist angles, we can look at reciprocal space and define
+
+$$
+\begin{aligned}
+\mathbf{b}^m_1 &= \mathbf{b}_{1,1} - \mathbf{b}_{2,1} \\
+\mathbf{b}^m_2 &= \mathbf{b}_{1,2} - \mathbf{b}_{2,2}
+\end{aligned}
+$$
+
+These are the moiré basis vectors. In our low-energy expansion, we will zoom in on this moiré scale, and these K/K' points will form the basis for our Hamiltonian.  
+
+![Left: Rotated first Brillouin zone with moiré scale depicted by the small hexagons, Right: Zoomed in image of the smaller hexagons. Within this moiré unit cell is where we will eventually evaluate our Hamiltonian](images/Catarina%20unit%20cell.jpg)
+
+### The Generalized Umklapp Derivation
+
+In this section, we aim to motivate our choice of the moiré basis, as well as to specify how to populate our final Hamiltonian. We will prove that hopping events can only occur between two $K$ points that are separated by a **moiré** reciprocal lattice vector. This derivation follows entirely from Catarina 2019 [eq. 59-71].
+
+We begin the derivation of the moiré interlayer coupling by expressing the interlayer Hamiltonian in the basis of atomic-like localized states $|l, R_l, \alpha \rangle$ for each layer:
+$$
+V_{12} = \sum_{R_1, \alpha, R_2, \beta} c_{1,\alpha}^\dagger(R_1) t_{12}^{\alpha\beta}(R_1, R_2) c_{2,\beta}(R_2)
+$$
+
+where $t_{12}^{\alpha\beta}(R_1, R_2) = \langle 1, R_1, \alpha | H_{\perp} | 2, R_2, \beta \rangle$ represents the interlayer hopping in the tight-binding basis. In the spirit of a **two-center approximation**, we assume the hopping $t_{12}^{\alpha\beta}(R_1, R_2)$ depends only on the relative separation between the centers of the two orbitals:
+
+$$
+t_{12}^{\alpha\beta}(R_1, R_2) = t_{12}^{\alpha\beta}(R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta})
+$$
+
+This hopping potential can be expressed via a 2D Fourier transform $t_{12}^{\alpha\beta}(p)$:
+
+$$
+t_{12}^{\alpha\beta}(R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta}) = \int_{\mathbb{R}^2} \frac{d^2p}{(2\pi)^2} e^{ip \cdot (R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta})} t_{12}^{\alpha\beta}(p)
+$$
+
+To transform this into momentum space, we write the operators in terms of Bloch waves for the individual layers:
+
+$$
+c_{l,\alpha}^\dagger(R_l) = \frac{1}{\sqrt{N_l}} \sum_{k_l} e^{-ik_l \cdot (R_l + \tau_{l,\alpha})} c_{l,\alpha}^\dagger(k_l)
+$$
+
+Substituting these expressions into the interlayer matrix element $T_{12}^{\alpha\beta}(k_1, k_2)$, we obtain:
+
+$$
+T_{12}^{\alpha\beta}(k_1, k_2) = \frac{1}{\sqrt{N_1 N_2}} \int_{\mathbb{R}^2} \frac{d^2p}{(2\pi)^2} \sum_{R_1} e^{-i(k_1 - p) \cdot (R_1 + \tau_{1,\alpha})} t_{12}^{\alpha\beta}(p) \sum_{R_2} e^{i(k_2 - p) \cdot (R_2 + \tau_{2,\beta})}
+$$
+
+By applying the lattice sum rule $\sum_{R_l} e^{ik \cdot R_l} = N_l \sum_{G_l} \delta_{k, G_l}$ and evaluating the integral over $p$, the expression simplifies to:
+
+$$
+T_{12}^{\alpha\beta}(k_1, k_2) = \frac{1}{\sqrt{A_{u.c.1} A_{u.c.2}}} \sum_{G_1, G_2} e^{-iG_1 \cdot \tau_{1,\alpha}} t_{12}^{\alpha\beta}(k_1 + G_1) e^{-iG_2 \cdot \tau_{2,\beta}} \delta_{k_1 + G_1, k_2 + G_2}
+$$
+
+where $A_{u.c.l}$ is the area of the unit cell of layer $l$. The presence of the Kronecker delta implies that two states of layer 1 and 2 with respective crystal-momentum $k_1$ and $k_2$ are only coupled if reciprocal lattice vectors $G_1$ and $G_2$ of each layer exist such that:
+
+$$
+k_1 + G_1 = k_2 + G_2
+$$
+
+This condition is fundamentally known as the **generalized umklapp condition**. Notice this can also be written as the following:
+
+$$
+k_1 - k_2 = b_{n}^{m}
+$$
+
+### Intralayer Hamiltonian
+
+The intralayer Hamiltonians can be written in compact form as:
+
+$$
+H_{l}^{\pm K}(\mathbf{q}) = v_F \hbar \mathbf{q} \cdot (\pm \sigma_x^{\theta_l}, \sigma_y^{\theta_l})
+$$
+
+with $\theta_l$ given by $\pm\frac{\theta}{2}$ and the rotated Pauli matrices defined as:
+
+$$
+\begin{aligned}
+\sigma_x^{\theta_l} &= \sigma_x \cos \theta_l - \sigma_y \sin \theta_l \\
+\sigma_y^{\theta_l} &= \sigma_x \sin \theta_l + \sigma_y \cos \theta_l
+\end{aligned}
+$$
+
+$q$ is the "center" of the Hamiltonian, or which momentum in reciprocal space the Hamiltonian is being evaluated at.
+
+### Interlayer Hamiltonian
+
+Hopping can occur between adjacent sites of opposite layers. The interlayer hopping matrices are:
+
+$$
+T_1 = \omega_0 \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}, \quad
+T_2 = \omega_0 \begin{pmatrix} 1 & \phi^{-1} \\ \phi & 1 \end{pmatrix}, \quad
+T_3 = \omega_0 \begin{pmatrix} 1 & \phi \\ \phi^{-1} & 1 \end{pmatrix}
+$$
+
+where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the hopping amplitude. **To include atomic relaxations, set:**
+
+$$ 
+\omega_0 = 
+\begin
+{pmatrix}\omega_{AA} & \omega_{AB} \\
+\omega_{AB} & \omega_{AA}
+\end{pmatrix}
+$$
+
+$T_n$ correspond to moiré lattice sites separated by $q_n$. There are 3 possible directions for hopping, each separated by 120° or $\frac{2\pi}{3}$, hence the 3 unique matrices. They are pictorally shown below.
+
+![](images/HoppingDiagram.jpg){fig-width=8}
+
+### Populating the Hamiltonian
+
+Each dirac cone is described by a 2x2 matrix. Thus our full Hamiltonian will be a 2N x 2N matrix with each 2x2 in our basis corresponding to one K/K' point, or moiré lattice site. The basis of moiré sites should be determined by a cutoff radius in k space. 
+
+For now, consider for a second each moiré lattice site to be an ordinary 1x1 matrix element. Diagonal terms for the Hamiltonian will consist of intralayer Hamiltonians. Off-diagonal terms will consist of interlayer Hamiltonians, or between moiré sites. If the corresponding moiré lattice sites are not coupled the interlayer term will be zero. Returning back to the 2x2 representation, here is a sample image of proper Hamiltonian filling. 
+
+![The diagonal 2x2 matrices are populated by intralayer Hamiltonians, which are a function of q, so they have different values. The blue off-diagonal 2x2 matrices are the interlayer Hamiltonians, which do not depend on q](images/MatrixHeatmap.jpg)
+
+Some quick visual checks:
+
+* Hermiticity (Symmetric in absolute value, check with "ishermitian" in MATLAB)
+* Maximum 3 other moiré sites coupled to any single one
+* Off-diagonal terms should sit on one half of the matrix if the basis is ordered by layer. Layer 1 points cannot couple to other layer 1 points.
+
+Interlayer population must realize coupled basis points and populate the off-diagonal with the hopping matrix that corresponds to the reciprocal space separation.
+
 ### Usage
 
 1. Set the twist angle $\theta$ and the tunneling parameters $\omega_{AA}$, $\omega_{AB}$.
@@ -58,180 +194,13 @@ $$
 
 | Parameter | Typical value | Description |
 |---|---|---|
+| $a$ | 2.46 $\mathring{A}$ | Lattice constant of graphene |
 | $\theta$ | 1.05° (magic) | Twist angle |
 | $v_F$ | $10^6$ m/s | Dirac velocity of graphene |
 | $w_{AA}$ | 0–80 meV | AA site tunneling considering relaxation |
 | $w_{AB}$ | 110 meV | AB site tunneling considering relaxation |
 | $N_\text{shell}$ | 3–5 | Number of moiré shells in basis |
 | $N_k$ | $30\times30$ | k-point mesh in mBZ |
-
-Increase `N_shell` until the flat band bandwidth converges (typically shell 3 is sufficient for the flat bands, shell 5 for remote bands).
-
-### Code
-
-**TBG continuum model — Python implementation:**
-
-```python
-import numpy as np
-from scipy.linalg import eigh
-
-# ── Constants ──────────────────────────────────────────────────────────────────
-hbar_vF = 2.1354  # eV·Å  (ℏ v_F for graphene)
-a0      = 2.46    # Å     (graphene lattice constant)
-
-def tbg_hamiltonian(k, theta_deg, w_AA=0.0797, w_AB=0.1100, n_shell=3):
-    """
-    Build the TBG continuum Hamiltonian at momentum k (in Å⁻¹).
-
-    Parameters
-    ----------
-    k       : array_like, shape (2,)  — crystal momentum in mBZ
-    theta   : float — twist angle in degrees
-    w_AA    : float — AA tunneling in eV
-    w_AB    : float — AB tunneling in eV
-    n_shell : int   — number of moiré shells in basis
-
-    Returns
-    -------
-    H : ndarray, shape (4*N, 4*N) — Hermitian Hamiltonian matrix
-    """
-    theta = np.deg2rad(theta_deg)
-
-    # Moiré reciprocal lattice vectors
-    a_moire = a0 / (2 * np.sin(theta / 2))
-    b1 = (4 * np.pi / (np.sqrt(3) * a_moire)) * np.array([np.sqrt(3)/2, -1/2])
-    b2 = (4 * np.pi / (np.sqrt(3) * a_moire)) * np.array([0, 1])
-
-    # q vectors connecting the K points of the two layers
-    q0 = (4 * np.pi / (3 * a0)) * np.array([0, -1]) * 2 * np.sin(theta / 2)
-    q1 = (4 * np.pi / (3 * a0)) * np.array([np.sqrt(3)/2, 1/2]) * 2 * np.sin(theta / 2)
-    q2 = (4 * np.pi / (3 * a0)) * np.array([-np.sqrt(3)/2, 1/2]) * 2 * np.sin(theta / 2)
-    qs = [q0, q1, q2]
-
-    # Tunneling matrices
-    omega = np.exp(2j * np.pi / 3)
-    T = [
-        np.array([[w_AA, w_AB], [w_AB, w_AA]]),
-        np.array([[w_AA, w_AB * np.conj(omega)], [w_AB * omega, w_AA]]),
-        np.array([[w_AA, w_AB * omega], [w_AB * np.conj(omega), w_AA]]),
-    ]
-
-    # Build moiré lattice basis vectors {m*b1 + n*b2}
-    G_list = []
-    for m in range(-n_shell, n_shell + 1):
-        for n in range(-n_shell, n_shell + 1):
-            G_list.append(m * b1 + n * b2)
-    N = len(G_list)
-
-    # Hamiltonian matrix (4N × 4N: layer ⊗ sublattice ⊗ G)
-    H = np.zeros((4 * N, 4 * N), dtype=complex)
-
-    def idx(g_idx, layer, sub):
-        return g_idx * 4 + layer * 2 + sub
-
-    for i, G in enumerate(G_list):
-        # Intralayer: Dirac Hamiltonian
-        for layer in range(2):
-            sign = 1 if layer == 0 else -1
-            rot = sign * theta / 2
-            c, s = np.cos(rot), np.sin(rot)
-            kG = k + G + (q0 if layer == 0 else np.zeros(2))
-            kx, ky = kG
-            kx_rot = c * kx + s * ky
-            ky_rot = -s * kx + c * ky
-            H[idx(i, layer, 0), idx(i, layer, 1)] += hbar_vF * (kx_rot - 1j * ky_rot)
-            H[idx(i, layer, 1), idx(i, layer, 0)] += hbar_vF * (kx_rot + 1j * ky_rot)
-
-        # Interlayer tunneling
-        for j, G2 in enumerate(G_list):
-            for nu, q in enumerate(qs):
-                dG = G2 - G - q
-                if np.linalg.norm(dG) < 1e-6:
-                    for a in range(2):
-                        for b in range(2):
-                            H[idx(i, 0, a), idx(j, 1, b)] += T[nu][a, b]
-                            H[idx(j, 1, b), idx(i, 0, a)] += np.conj(T[nu][a, b])
-
-    return H
-
-
-def compute_bands(theta_deg, k_path, **kwargs):
-    """Compute eigenvalues along a k-path."""
-    bands = []
-    for k in k_path:
-        H = tbg_hamiltonian(k, theta_deg, **kwargs)
-        eigvals = eigh(H, eigvals_only=True)
-        bands.append(eigvals)
-    return np.array(bands)
-```
-
-**Plot band structure along Γ–K–M–Γ:**
-
-```python
-import matplotlib.pyplot as plt
-
-def make_kpath(points, n_per_seg=50):
-    path = []
-    dists = [0.0]
-    for p1, p2 in zip(points[:-1], points[1:]):
-        seg = np.linspace(p1, p2, n_per_seg, endpoint=False)
-        path.extend(seg)
-        dists.append(dists[-1] + np.linalg.norm(np.array(p2) - np.array(p1)))
-    path.append(points[-1])
-    return np.array(path), dists
-
-theta = 1.05   # magic angle
-a_m = a0 / (2 * np.sin(np.deg2rad(theta / 2)))
-K_m = 4 * np.pi / (3 * np.sqrt(3) * a_m) * np.array([1, 0])
-M_m = np.pi / (np.sqrt(3) * a_m) * np.array([1, 1/np.sqrt(3)])
-
-kpts, tick_dists = make_kpath([[0,0], K_m, M_m, [0,0]])
-bands = compute_bands(theta, kpts, w_AA=0.0, w_AB=0.110, n_shell=3)
-
-fig, ax = plt.subplots(figsize=(5, 6))
-for band in bands.T:
-    ax.plot(band, color="steelblue", lw=0.8)
-ax.set_ylim(-0.1, 0.1)
-ax.set_ylabel("Energy (eV)")
-ax.set_xticks(range(0, len(kpts), 50))
-ax.set_xticklabels([r"$\Gamma$", "K", "M", r"$\Gamma$"])
-ax.axhline(0, color="k", lw=0.5, ls="--")
-ax.set_title(f"TBG bands — θ = {theta}°")
-plt.tight_layout()
-plt.savefig("tbg_bands.pdf", dpi=200)
-```
-
-### Example
-
-**Bandwidth as a function of twist angle (magic angle scan):**
-
-```python
-from scipy.linalg import eigh
-import numpy as np
-import matplotlib.pyplot as plt
-
-angles = np.linspace(0.5, 2.5, 40)
-bandwidths = []
-
-for theta in angles:
-    # Sample a few k-points in the mBZ
-    k_samples = np.random.uniform(-0.05, 0.05, (20, 2))
-    flat_eigs = []
-    for k in k_samples:
-        H = tbg_hamiltonian(k, theta, w_AA=0.0, w_AB=0.110, n_shell=3)
-        eigs = eigh(H, eigvals_only=True)
-        N4 = len(eigs) // 4
-        flat_eigs.extend(eigs[N4 - 1 : N4 + 1])  # two flat bands near charge neutrality
-    bandwidths.append(np.max(flat_eigs) - np.min(flat_eigs))
-
-fig, ax = plt.subplots()
-ax.plot(angles, np.array(bandwidths) * 1000)
-ax.set_xlabel("Twist angle (degrees)")
-ax.set_ylabel("Flat band bandwidth (meV)")
-ax.axvline(1.05, color="red", ls="--", label="Magic angle")
-ax.legend()
-plt.savefig("bandwidth_vs_angle.pdf")
-```
 
 ### Bug Reports and Warnings
 
