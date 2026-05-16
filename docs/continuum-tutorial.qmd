@@ -157,7 +157,7 @@ $$
 \end{pmatrix}
 $$
 
-$T_n$ correspond to moiré lattice sites separated by $q_n$. There are 3 possible directions for hopping, each separated by 120° or $\frac{2\pi}{3}$, hence the 3 unique matrices. They are pictorally shown below.
+$T_n$ correspond to moiré lattice sites separated by $q_n$. There are 3 possible directions for hopping, each separated by 120° or $\frac{2\pi}{3}$, hence the 3 unique matrices. They are shown below.
 
 ![](images/HoppingDiagram.jpg){fig-width=8}
 
