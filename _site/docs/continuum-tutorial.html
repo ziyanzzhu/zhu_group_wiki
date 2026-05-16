@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Continuum Model Team">
-<meta name="dcterms.date" content="2026-05-15">
+<meta name="dcterms.date" content="2026-05-16">
 
 <title>Continuum Model Tutorial — TBG and TMD Moiré Systems – Zhu Group Wiki</title>
 <style>
@@ -210,6 +210,7 @@ window.Quarto = {
   <li><a href="#interlayer-hamiltonian" id="toc-interlayer-hamiltonian" class="nav-link" data-scroll-target="#interlayer-hamiltonian">Interlayer Hamiltonian</a></li>
   <li><a href="#populating-the-hamiltonian" id="toc-populating-the-hamiltonian" class="nav-link" data-scroll-target="#populating-the-hamiltonian">Populating the Hamiltonian</a></li>
   <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#sample-data" id="toc-sample-data" class="nav-link" data-scroll-target="#sample-data">Sample Data</a></li>
   <li><a href="#bug-reports-and-warnings" id="toc-bug-reports-and-warnings" class="nav-link" data-scroll-target="#bug-reports-and-warnings">Bug Reports and Warnings</a></li>
   <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
   </ul></li>
@@ -248,7 +249,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 15, 2026</p>
+      <p class="date">May 16, 2026</p>
     </div>
   </div>
   
@@ -288,10 +289,6 @@ T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} \\ \phi &amp; 1 \end{pmatrix}, 
 T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
 \]</span></p>
 <p>where <span class="math inline">\(\phi = e^{2\pi i/3}\)</span> and <span class="math inline">\(\omega_0 \approx 110\)</span> meV is the tunneling amplitude</p>
-<p>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</p>
-<p><span class="math display">\[
-\alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°
-\]</span></p>
 </section>
 <section id="geometry" class="level3">
 <h3 class="anchored" data-anchor-id="geometry">Geometry</h3>
@@ -402,8 +399,9 @@ T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
 <li>Hermiticity (Symmetric in absolute value, check with “ishermitian” in MATLAB)</li>
 <li>Maximum 3 other moiré sites coupled to any single one</li>
 <li>Off-diagonal terms should sit on one half of the matrix if the basis is ordered by layer. Layer 1 points cannot couple to other layer 1 points.</li>
+<li>Same number of basis sites in layers 1 and 2</li>
 </ul>
-<p>Interlayer population must realize coupled basis points and populate the off-diagonal with the hopping matrix that corresponds to the reciprocal space separation.</p>
+<p>Interlayer population must realize which basis points are coupled and populate the off-diagonal with one of the 3 hopping matrices that corresponds to the correct direction of separation.</p>
 </section>
 <section id="usage" class="level3">
 <h3 class="anchored" data-anchor-id="usage">Usage</h3>
@@ -453,13 +451,18 @@ T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi \\ \phi^{-1} &amp; 1 \end{pmatrix}
 <td>3–5</td>
 <td>Number of moiré shells in basis</td>
 </tr>
-<tr class="odd">
-<td><span class="math inline">\(N_k\)</span></td>
-<td><span class="math inline">\(30\times30\)</span></td>
-<td>k-point mesh in mBZ</td>
-</tr>
 </tbody>
 </table>
+</section>
+<section id="sample-data" class="level3">
+<h3 class="anchored" data-anchor-id="sample-data">Sample Data</h3>
+<p>The following data and plots used the parameters above with a 6 shell basis</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/TBG continuum plots.jpg" class="img-fluid figure-img"></p>
+<figcaption>Left: Intralayer only band structure, Center: Band structure including coupling, Right: “Moiré basis” with 6 shells, cyan line shows the scan used for the plots</figcaption>
+</figure>
+</div>
 </section>
 <section id="bug-reports-and-warnings" class="level3">
 <h3 class="anchored" data-anchor-id="bug-reports-and-warnings">Bug Reports and Warnings</h3>
@@ -1312,166 +1315,166 @@ Note
 <span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the tunneling amplitude</span>
 <span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Geometry</span></span>
 <span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>\alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>Single layer graphene features a honeycomb structure defined by two superimposed and offset triangular sublattices, often labeled A and B. We will begin with the real-space basis given by:</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Geometry</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>Single layer graphene features a honeycomb structure defined by two superimposed and offset triangular sublattices, often labeled A and B. We will begin with the real-space basis given by:</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>\mathbf{a}_1 &amp;= a \left( \frac{1}{2}, \frac{\sqrt{3}}{2} \right) <span class="sc">\\</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>\mathbf{a}_2 &amp;= a \left( -\frac{1}{2}, \frac{\sqrt{3}}{2} \right)</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>\mathbf{a}_1 &amp;= a \left( \frac{1}{2}, \frac{\sqrt{3}}{2} \right) <span class="sc">\\</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>\mathbf{a}_2 &amp;= a \left( -\frac{1}{2}, \frac{\sqrt{3}}{2} \right)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>where $a$ is the lattice constant. The sublattices, often denoted A and B, share the same basis vectors, but are offset by a single basis vector 30° clockwise and scaled by $\frac{1}{\sqrt3}$. These two sublattices make up the single layer graphene real space lattice.</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>Now, we duplicate this lattice for layer 2, and rotate the former by $\frac{\theta}{2}$ and the latter by $-\frac{\theta}{2}$. For small twist angles, we can look at reciprocal space and define</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>where $a$ is the lattice constant. The sublattices, often denoted A and B, share the same basis vectors, but are offset by a single basis vector 30° clockwise and scaled by $\frac{1}{\sqrt3}$. These two sublattices make up the single layer graphene real space lattice.</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>Now, we duplicate this lattice for layer 2, and rotate the former by $\frac{\theta}{2}$ and the latter by $-\frac{\theta}{2}$. For small twist angles, we can look at reciprocal space and define</span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>\mathbf{b}^m_1 &amp;= \mathbf{b}_{1,1} - \mathbf{b}_{2,1} <span class="sc">\\</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>\mathbf{b}^m_2 &amp;= \mathbf{b}_{1,2} - \mathbf{b}_{2,2}</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>\mathbf{b}^m_1 &amp;= \mathbf{b}_{1,1} - \mathbf{b}_{2,1} <span class="sc">\\</span></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>\mathbf{b}^m_2 &amp;= \mathbf{b}_{1,2} - \mathbf{b}_{2,2}</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>These are the moiré basis vectors. In our low-energy expansion, we will zoom in on this moiré scale, and these K/K' points will form the basis for our Hamiltonian.  </span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="al">![Left: Rotated first Brillouin zone with moiré scale depicted by the small hexagons, Right: Zoomed in image of the smaller hexagons. Within this moiré unit cell is where we will eventually evaluate our Hamiltonian](images/Catarina%20unit%20cell.jpg)</span></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Generalized Umklapp Derivation</span></span>
 <span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>These are the moiré basis vectors. In our low-energy expansion, we will zoom in on this moiré scale, and these K/K' points will form the basis for our Hamiltonian.  </span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>In this section, we aim to motivate our choice of the moiré basis, as well as to specify how to populate our final Hamiltonian. We will prove that hopping events can only occur between two $K$ points that are separated by a **moiré** reciprocal lattice vector. This derivation follows entirely from Catarina 2019 <span class="co">[</span><span class="ot">eq. 59-71</span><span class="co">]</span>.</span>
 <span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="al">![Left: Rotated first Brillouin zone with moiré scale depicted by the small hexagons, Right: Zoomed in image of the smaller hexagons. Within this moiré unit cell is where we will eventually evaluate our Hamiltonian](images/Catarina%20unit%20cell.jpg)</span></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Generalized Umklapp Derivation</span></span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>In this section, we aim to motivate our choice of the moiré basis, as well as to specify how to populate our final Hamiltonian. We will prove that hopping events can only occur between two $K$ points that are separated by a **moiré** reciprocal lattice vector. This derivation follows entirely from Catarina 2019 <span class="co">[</span><span class="ot">eq. 59-71</span><span class="co">]</span>.</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>We begin the derivation of the moiré interlayer coupling by expressing the interlayer Hamiltonian in the basis of atomic-like localized states $|l, R_l, \alpha \rangle$ for each layer:</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>We begin the derivation of the moiré interlayer coupling by expressing the interlayer Hamiltonian in the basis of atomic-like localized states $|l, R_l, \alpha \rangle$ for each layer:</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>V_{12} = \sum_{R_1, \alpha, R_2, \beta} c_{1,\alpha}^\dagger(R_1) t_{12}^{\alpha\beta}(R_1, R_2) c_{2,\beta}(R_2)</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>where $t_{12}^{\alpha\beta}(R_1, R_2) = \langle 1, R_1, \alpha | H_{\perp} | 2, R_2, \beta \rangle$ represents the interlayer hopping in the tight-binding basis. In the spirit of a **two-center approximation**, we assume the hopping $t_{12}^{\alpha\beta}(R_1, R_2)$ depends only on the relative separation between the centers of the two orbitals:</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>V_{12} = \sum_{R_1, \alpha, R_2, \beta} c_{1,\alpha}^\dagger(R_1) t_{12}^{\alpha\beta}(R_1, R_2) c_{2,\beta}(R_2)</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>t_{12}^{\alpha\beta}(R_1, R_2) = t_{12}^{\alpha\beta}(R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta})</span>
 <span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>where $t_{12}^{\alpha\beta}(R_1, R_2) = \langle 1, R_1, \alpha | H_{\perp} | 2, R_2, \beta \rangle$ represents the interlayer hopping in the tight-binding basis. In the spirit of a **two-center approximation**, we assume the hopping $t_{12}^{\alpha\beta}(R_1, R_2)$ depends only on the relative separation between the centers of the two orbitals:</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>This hopping potential can be expressed via a 2D Fourier transform $t_{12}^{\alpha\beta}(p)$:</span>
 <span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>t_{12}^{\alpha\beta}(R_1, R_2) = t_{12}^{\alpha\beta}(R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta})</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>t_{12}^{\alpha\beta}(R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta}) = \int_{\mathbb{R}^2} \frac{d^2p}{(2\pi)^2} e^{ip \cdot (R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta})} t_{12}^{\alpha\beta}(p)</span>
 <span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>This hopping potential can be expressed via a 2D Fourier transform $t_{12}^{\alpha\beta}(p)$:</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>To transform this into momentum space, we write the operators in terms of Bloch waves for the individual layers:</span>
 <span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>t_{12}^{\alpha\beta}(R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta}) = \int_{\mathbb{R}^2} \frac{d^2p}{(2\pi)^2} e^{ip \cdot (R_1 + \tau_{1,\alpha} - R_2 - \tau_{2,\beta})} t_{12}^{\alpha\beta}(p)</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>c_{l,\alpha}^\dagger(R_l) = \frac{1}{\sqrt{N_l}} \sum_{k_l} e^{-ik_l \cdot (R_l + \tau_{l,\alpha})} c_{l,\alpha}^\dagger(k_l)</span>
 <span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>To transform this into momentum space, we write the operators in terms of Bloch waves for the individual layers:</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>Substituting these expressions into the interlayer matrix element $T_{12}^{\alpha\beta}(k_1, k_2)$, we obtain:</span>
 <span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>c_{l,\alpha}^\dagger(R_l) = \frac{1}{\sqrt{N_l}} \sum_{k_l} e^{-ik_l \cdot (R_l + \tau_{l,\alpha})} c_{l,\alpha}^\dagger(k_l)</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>T_{12}^{\alpha\beta}(k_1, k_2) = \frac{1}{\sqrt{N_1 N_2}} \int_{\mathbb{R}^2} \frac{d^2p}{(2\pi)^2} \sum_{R_1} e^{-i(k_1 - p) \cdot (R_1 + \tau_{1,\alpha})} t_{12}^{\alpha\beta}(p) \sum_{R_2} e^{i(k_2 - p) \cdot (R_2 + \tau_{2,\beta})}</span>
 <span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>Substituting these expressions into the interlayer matrix element $T_{12}^{\alpha\beta}(k_1, k_2)$, we obtain:</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>By applying the lattice sum rule $\sum_{R_l} e^{ik \cdot R_l} = N_l \sum_{G_l} \delta_{k, G_l}$ and evaluating the integral over $p$, the expression simplifies to:</span>
 <span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>T_{12}^{\alpha\beta}(k_1, k_2) = \frac{1}{\sqrt{N_1 N_2}} \int_{\mathbb{R}^2} \frac{d^2p}{(2\pi)^2} \sum_{R_1} e^{-i(k_1 - p) \cdot (R_1 + \tau_{1,\alpha})} t_{12}^{\alpha\beta}(p) \sum_{R_2} e^{i(k_2 - p) \cdot (R_2 + \tau_{2,\beta})}</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>T_{12}^{\alpha\beta}(k_1, k_2) = \frac{1}{\sqrt{A_{u.c.1} A_{u.c.2}}} \sum_{G_1, G_2} e^{-iG_1 \cdot \tau_{1,\alpha}} t_{12}^{\alpha\beta}(k_1 + G_1) e^{-iG_2 \cdot \tau_{2,\beta}} \delta_{k_1 + G_1, k_2 + G_2}</span>
 <span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>By applying the lattice sum rule $\sum_{R_l} e^{ik \cdot R_l} = N_l \sum_{G_l} \delta_{k, G_l}$ and evaluating the integral over $p$, the expression simplifies to:</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>where $A_{u.c.l}$ is the area of the unit cell of layer $l$. The presence of the Kronecker delta implies that two states of layer 1 and 2 with respective crystal-momentum $k_1$ and $k_2$ are only coupled if reciprocal lattice vectors $G_1$ and $G_2$ of each layer exist such that:</span>
 <span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>T_{12}^{\alpha\beta}(k_1, k_2) = \frac{1}{\sqrt{A_{u.c.1} A_{u.c.2}}} \sum_{G_1, G_2} e^{-iG_1 \cdot \tau_{1,\alpha}} t_{12}^{\alpha\beta}(k_1 + G_1) e^{-iG_2 \cdot \tau_{2,\beta}} \delta_{k_1 + G_1, k_2 + G_2}</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>k_1 + G_1 = k_2 + G_2</span>
 <span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>where $A_{u.c.l}$ is the area of the unit cell of layer $l$. The presence of the Kronecker delta implies that two states of layer 1 and 2 with respective crystal-momentum $k_1$ and $k_2$ are only coupled if reciprocal lattice vectors $G_1$ and $G_2$ of each layer exist such that:</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>This condition is fundamentally known as the **generalized umklapp condition**. Notice this can also be written as the following:</span>
 <span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>k_1 + G_1 = k_2 + G_2</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>k_1 - k_2 = b_{n}^{m}</span>
 <span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>This condition is fundamentally known as the **generalized umklapp condition**. Notice this can also be written as the following:</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a><span class="fu">### Intralayer Hamiltonian</span></span>
 <span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>k_1 - k_2 = b_{n}^{m}</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>The intralayer Hamiltonians can be written in compact form as:</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### Intralayer Hamiltonian</span></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>H_{l}^{\pm K}(\mathbf{q}) = v_F \hbar \mathbf{q} \cdot (\pm \sigma_x^{\theta_l}, \sigma_y^{\theta_l})</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>The intralayer Hamiltonians can be written in compact form as:</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>with $\theta_l$ given by $\pm\frac{\theta}{2}$ and the rotated Pauli matrices defined as:</span>
 <span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>H_{l}^{\pm K}(\mathbf{q}) = v_F \hbar \mathbf{q} \cdot (\pm \sigma_x^{\theta_l}, \sigma_y^{\theta_l})</span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>with $\theta_l$ given by $\pm\frac{\theta}{2}$ and the rotated Pauli matrices defined as:</span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>\sigma_x^{\theta_l} &amp;= \sigma_x \cos \theta_l - \sigma_y \sin \theta_l <span class="sc">\\</span></span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>\sigma_y^{\theta_l} &amp;= \sigma_x \sin \theta_l + \sigma_y \cos \theta_l</span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>\sigma_x^{\theta_l} &amp;= \sigma_x \cos \theta_l - \sigma_y \sin \theta_l <span class="sc">\\</span></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>\sigma_y^{\theta_l} &amp;= \sigma_x \sin \theta_l + \sigma_y \cos \theta_l</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>$q$ is the "center" of the Hamiltonian, or which momentum in reciprocal space the Hamiltonian is being evaluated at.</span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interlayer Hamiltonian</span></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>Hopping can occur between adjacent sites of opposite layers. The interlayer hopping matrices are:</span>
 <span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>$q$ is the "center" of the Hamiltonian, or which momentum in reciprocal space the Hamiltonian is being evaluated at.</span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interlayer Hamiltonian</span></span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>Hopping can occur between adjacent sites of opposite layers. The interlayer hopping matrices are:</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>T_1 = \omega_0 \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} <span class="sc">\\</span> \phi &amp; 1 \end{pmatrix}, \quad</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi <span class="sc">\\</span> \phi^{-1} &amp; 1 \end{pmatrix}</span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>T_1 = \omega_0 \begin{pmatrix} 1 &amp; 1 <span class="sc">\\</span> 1 &amp; 1 \end{pmatrix}, \quad</span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>T_2 = \omega_0 \begin{pmatrix} 1 &amp; \phi^{-1} <span class="sc">\\</span> \phi &amp; 1 \end{pmatrix}, \quad</span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>T_3 = \omega_0 \begin{pmatrix} 1 &amp; \phi <span class="sc">\\</span> \phi^{-1} &amp; 1 \end{pmatrix}</span>
-<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the hopping amplitude. **To include atomic relaxations, set:**</span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>$$ </span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>\omega_0 = </span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>\begin</span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>{pmatrix}\omega_{AA} &amp; \omega_{AB} <span class="sc">\\</span></span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>\omega_{AB} &amp; \omega_{AA}</span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a>where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the hopping amplitude. **To include atomic relaxations, set:**</span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>\omega_0 = </span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>\begin</span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a>{pmatrix}\omega_{AA} &amp; \omega_{AB} <span class="sc">\\</span></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>\omega_{AB} &amp; \omega_{AA}</span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>\end{pmatrix}</span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>$T_n$ correspond to moiré lattice sites separated by $q_n$. There are 3 possible directions for hopping, each separated by 120° or $\frac{2\pi}{3}$, hence the 3 unique matrices. They are pictorally shown below.</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/HoppingDiagram.jpg)</span>{fig-width=8}</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Populating the Hamiltonian</span></span>
 <span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>$T_n$ correspond to moiré lattice sites separated by $q_n$. There are 3 possible directions for hopping, each separated by 120° or $\frac{2\pi}{3}$, hence the 3 unique matrices. They are pictorally shown below.</span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>Each dirac cone is described by a 2x2 matrix. Thus our full Hamiltonian will be a 2N x 2N matrix with each 2x2 in our basis corresponding to one K/K' point, or moiré lattice site. The basis of moiré sites should be determined by a cutoff radius in k space. </span>
 <span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/HoppingDiagram.jpg)</span>{fig-width=8}</span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>For now, consider for a second each moiré lattice site to be an ordinary 1x1 matrix element. Diagonal terms for the Hamiltonian will consist of intralayer Hamiltonians. Off-diagonal terms will consist of interlayer Hamiltonians, or between moiré sites. If the corresponding moiré lattice sites are not coupled the interlayer term will be zero. Returning back to the 2x2 representation, here is a sample image of proper Hamiltonian filling. </span>
 <span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="fu">### Populating the Hamiltonian</span></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a><span class="al">![The diagonal 2x2 matrices are populated by intralayer Hamiltonians, which are a function of q, so they have different values. The blue off-diagonal 2x2 matrices are the interlayer Hamiltonians, which do not depend on q](images/MatrixHeatmap.jpg)</span></span>
 <span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>Each dirac cone is described by a 2x2 matrix. Thus our full Hamiltonian will be a 2N x 2N matrix with each 2x2 in our basis corresponding to one K/K' point, or moiré lattice site. The basis of moiré sites should be determined by a cutoff radius in k space. </span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>Some quick visual checks:</span>
 <span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>For now, consider for a second each moiré lattice site to be an ordinary 1x1 matrix element. Diagonal terms for the Hamiltonian will consist of intralayer Hamiltonians. Off-diagonal terms will consist of interlayer Hamiltonians, or between moiré sites. If the corresponding moiré lattice sites are not coupled the interlayer term will be zero. Returning back to the 2x2 representation, here is a sample image of proper Hamiltonian filling. </span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a><span class="al">![The diagonal 2x2 matrices are populated by intralayer Hamiltonians, which are a function of q, so they have different values. The blue off-diagonal 2x2 matrices are the interlayer Hamiltonians, which do not depend on q](images/MatrixHeatmap.jpg)</span></span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>Some quick visual checks:</span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Hermiticity (Symmetric in absolute value, check with "ishermitian" in MATLAB)</span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Maximum 3 other moiré sites coupled to any single one</span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Off-diagonal terms should sit on one half of the matrix if the basis is ordered by layer. Layer 1 points cannot couple to other layer 1 points.</span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>Interlayer population must realize coupled basis points and populate the off-diagonal with the hopping matrix that corresponds to the reciprocal space separation.</span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Hermiticity (Symmetric in absolute value, check with "ishermitian" in MATLAB)</span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Maximum 3 other moiré sites coupled to any single one</span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Off-diagonal terms should sit on one half of the matrix if the basis is ordered by layer. Layer 1 points cannot couple to other layer 1 points.</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Same number of basis sites in layers 1 and 2</span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>Interlayer population must realize which basis points are coupled and populate the off-diagonal with one of the 3 hopping matrices that corresponds to the correct direction of separation.</span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="fu">### Usage</span></span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set the twist angle $\theta$ and the tunneling parameters $\omega_{AA}$, $\omega_{AB}$.</span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.</span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Diagonalize at each $\mathbf{k}$-point in the moiré Brillouin zone (mBZ).</span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Plot band structure, DOS, Berry curvature, or Chern numbers.</span>
 <span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set the twist angle $\theta$ and the tunneling parameters $\omega_{AA}$, $\omega_{AB}$.</span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Build the Hamiltonian in momentum space by expanding in the moiré reciprocal lattice.</span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Diagonalize at each $\mathbf{k}$-point in the moiré Brillouin zone (mBZ).</span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Plot band structure, DOS, Berry curvature, or Chern numbers.</span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a>**Key parameters:**</span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Typical value <span class="pp">|</span> Description <span class="pp">|</span></span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $a$ <span class="pp">|</span> 2.46 $\mathring{A}$ <span class="pp">|</span> Lattice constant of graphene <span class="pp">|</span></span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\theta$ <span class="pp">|</span> 1.05° (magic) <span class="pp">|</span> Twist angle <span class="pp">|</span></span>
-<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $v_F$ <span class="pp">|</span> $10^6$ m/s <span class="pp">|</span> Dirac velocity of graphene <span class="pp">|</span></span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AA}$ <span class="pp">|</span> 0–80 meV <span class="pp">|</span> AA site tunneling considering relaxation <span class="pp">|</span></span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AB}$ <span class="pp">|</span> 110 meV <span class="pp">|</span> AB site tunneling considering relaxation <span class="pp">|</span></span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_\text{shell}$ <span class="pp">|</span> 3–5 <span class="pp">|</span> Number of moiré shells in basis <span class="pp">|</span></span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_k$ <span class="pp">|</span> $30\times30$ <span class="pp">|</span> k-point mesh in mBZ <span class="pp">|</span></span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>**Key parameters:**</span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Parameter <span class="pp">|</span> Typical value <span class="pp">|</span> Description <span class="pp">|</span></span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|</span></span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $a$ <span class="pp">|</span> 2.46 $\mathring{A}$ <span class="pp">|</span> Lattice constant of graphene <span class="pp">|</span></span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $\theta$ <span class="pp">|</span> 1.05° (magic) <span class="pp">|</span> Twist angle <span class="pp">|</span></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $v_F$ <span class="pp">|</span> $10^6$ m/s <span class="pp">|</span> Dirac velocity of graphene <span class="pp">|</span></span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AA}$ <span class="pp">|</span> 0–80 meV <span class="pp">|</span> AA site tunneling considering relaxation <span class="pp">|</span></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $w_{AB}$ <span class="pp">|</span> 110 meV <span class="pp">|</span> AB site tunneling considering relaxation <span class="pp">|</span></span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> $N_\text{shell}$ <span class="pp">|</span> 3–5 <span class="pp">|</span> Number of moiré shells in basis <span class="pp">|</span></span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="fu">### Sample Data</span></span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a>The following data and plots used the parameters above with a 6 shell basis</span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a><span class="al">![Left: Intralayer only band structure, Center: Band structure including coupling, Right: "Moiré basis" with 6 shells, cyan line shows the scan used for the plots](images/TBG%20continuum%20plots.jpg)</span></span>
 <span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### Bug Reports and Warnings</span></span>
 <span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a></span>

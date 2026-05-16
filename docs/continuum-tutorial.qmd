@@ -41,12 +41,6 @@ $$
 
 where $\phi = e^{2\pi i/3}$ and $\omega_0 \approx 110$ meV is the tunneling amplitude
 
-The magic angle is where the lowest moiré band bandwidth vanishes and the density of states (DOS) diverges. For the chiral model:
-
-$$
-\alpha = \frac{w}{v_F |\mathbf{q}|}, \quad \theta_\text{magic} \approx 1.05°
-$$
-
 ### Geometry
 
 Single layer graphene features a honeycomb structure defined by two superimposed and offset triangular sublattices, often labeled A and B. We will begin with the real-space basis given by:
@@ -180,8 +174,9 @@ Some quick visual checks:
 * Hermiticity (Symmetric in absolute value, check with "ishermitian" in MATLAB)
 * Maximum 3 other moiré sites coupled to any single one
 * Off-diagonal terms should sit on one half of the matrix if the basis is ordered by layer. Layer 1 points cannot couple to other layer 1 points.
+* Same number of basis sites in layers 1 and 2
 
-Interlayer population must realize coupled basis points and populate the off-diagonal with the hopping matrix that corresponds to the reciprocal space separation.
+Interlayer population must realize which basis points are coupled and populate the off-diagonal with one of the 3 hopping matrices that corresponds to the correct direction of separation.
 
 ### Usage
 
@@ -200,7 +195,12 @@ Interlayer population must realize coupled basis points and populate the off-dia
 | $w_{AA}$ | 0–80 meV | AA site tunneling considering relaxation |
 | $w_{AB}$ | 110 meV | AB site tunneling considering relaxation |
 | $N_\text{shell}$ | 3–5 | Number of moiré shells in basis |
-| $N_k$ | $30\times30$ | k-point mesh in mBZ |
+
+### Sample Data
+
+The following data and plots used the parameters above with a 6 shell basis
+
+![Left: Intralayer only band structure, Center: Band structure including coupling, Right: "Moiré basis" with 6 shells, cyan line shows the scan used for the plots](images/TBG%20continuum%20plots.jpg)
 
 ### Bug Reports and Warnings
 
